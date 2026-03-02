@@ -10,21 +10,22 @@
 
 import { scrapeItems } from "./items";
 import { scrapeMissions } from "./missions";
+import { scrapePokemon } from "./pokemon";
+import { scrapeTrainers } from "./trainers";
+import { scrapeProgression } from "./wiki-progression";
 
 interface ScraperEntry {
   name: string;
   run: () => Promise<void>;
 }
 
-// Register all available scrapers in the order they should execute.
-// Add new scrapers here as they are implemented.
 const scrapers: ScraperEntry[] = [
-  // { name: "pokemon",     run: scrapePokemon },
+  { name: "pokemon", run: scrapePokemon },
   // { name: "locations",   run: scrapeLocations },
-  // { name: "trainers",    run: scrapeTrainers },
+  { name: "trainers", run: scrapeTrainers },
   { name: "items", run: scrapeItems },
   { name: "missions", run: scrapeMissions },
-  // { name: "progression", run: scrapeProgression },
+  { name: "progression", run: scrapeProgression },
 ];
 
 async function runAllScrapers(): Promise<void> {
