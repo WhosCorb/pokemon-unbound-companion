@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme {
+  /* GBA Retro Color Palette */
+  --color-gba-bg: #0F0F2D;
+  --color-gba-panel: #1A1A3E;
+  --color-gba-border: #2A2A5E;
+  --color-gba-border-light: #3A3A7E;
+  --color-gba-text: #E0E0FF;
+  --color-gba-text-dim: #8888BB;
+  --color-gba-green: #00FF41;
+  --color-gba-blue: #00D4FF;
+  --color-gba-yellow: #FFD700;
+  --color-gba-red: #FF4444;
+  --color-gba-cyan: #00FFFF;
+
+  /* Pokemon Type Colors */
+  --color-type-normal: #A8A878;
+  --color-type-fire: #F08030;
+  --color-type-water: #6890F0;
+  --color-type-electric: #F8D030;
+  --color-type-grass: #78C850;
+  --color-type-ice: #98D8D8;
+  --color-type-fighting: #C03028;
+  --color-type-poison: #A040A0;
+  --color-type-ground: #E0C068;
+  --color-type-flying: #A890F0;
+  --color-type-psychic: #F85888;
+  --color-type-bug: #A8B820;
+  --color-type-rock: #B8A038;
+  --color-type-ghost: #705898;
+  --color-type-dragon: #7038F8;
+  --color-type-dark: #705848;
+  --color-type-steel: #B8B8D0;
+  --color-type-fairy: #EE99AC;
+
+  --font-pixel: "Press Start 2P", monospace;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* Scanline overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+/* Pixel font rendering */
+.font-pixel {
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  image-rendering: pixelated;
+}
+
+/* HP Bar styles */
+.hp-bar {
+  height: 6px;
+  border-radius: 1px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+.hp-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.hp-green {
+  background: linear-gradient(to right, #00AA00, #00FF41);
+}
+
+.hp-yellow {
+  background: linear-gradient(to right, #CCAA00, #FFD700);
+}
+
+.hp-red {
+  background: linear-gradient(to right, #CC0000, #FF4444);
+}
+
+/* GBA Panel styles */
+.gba-panel {
+  background: var(--color-gba-panel);
+  border: 3px solid var(--color-gba-border);
+  border-radius: 2px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.05),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.gba-panel-header {
+  padding: 6px 10px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--color-gba-border);
+}
+
+/* Type badge */
+.type-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gba-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gba-border);
+  border-radius: 1px;
+}
+
+/* Selection arrow animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}

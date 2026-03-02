@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pokemon Unbound Companion - Type-Accent Vibrant</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Righteous&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    background: #0F0F1A;
+  }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #1A1A2E;
+    color: #E2E2F0;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== TYPE COLOR VARIABLES ===== */
+  :root {
+    --fire: #FF6B35;
+    --water: #3B82F6;
+    --grass: #22C55E;
+    --electric: #FACC15;
+    --psychic: #EC4899;
+    --fairy: #F472B6;
+    --fighting: #C2410C;
+    --ground: #D97706;
+    --steel: #94A3B8;
+    --flying: #7DD3FC;
+    --poison: #A855F7;
+    --dragon: #6366F1;
+    --ghost: #7C3AED;
+    --dark: #57534E;
+    --ice: #22D3EE;
+    --bug: #84CC16;
+    --rock: #A8A29E;
+    --normal: #D4D4D8;
+
+    --surface: #252547;
+    --surface-raised: #2D2D56;
+    --bg: #1A1A2E;
+    --text-primary: #F0F0FF;
+    --text-secondary: #9898B8;
+    --text-muted: #6B6B8A;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes pillPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.25); }
+  }
+
+  @keyframes pillShimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes progressFill {
+    from { stroke-dashoffset: 157; }
+  }
+
+  @keyframes barFill {
+    from { width: 0; }
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.7; }
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    padding: 20px 20px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -20px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .app-title {
+    font-family: 'Righteous', cursive;
+    font-size: 26px;
+    background: linear-gradient(135deg, #FF6B35, #FACC15, #FF6B35);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 4s ease infinite;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  .difficulty-badge {
+    background: linear-gradient(135deg, #C2410C, #FF6B35);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
+  }
+
+  .location-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .location-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--ground), var(--grass));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .location-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .location-text span {
+    color: var(--grass);
+    font-weight: 700;
+  }
+
+  /* ===== SECTION HEADING STYLE ===== */
+  .section-heading {
+    font-family: 'Righteous', cursive;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    position: relative;
+    display: inline-block;
+  }
+
+  /* ===== TEAM SECTION ===== */
+  .team-section {
+    padding: 0 16px 20px;
+    animation: fadeInUp 0.5s ease both;
+    animation-delay: 0.1s;
+  }
+
+  .team-card-wrapper {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 20px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-card-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--fire), var(--psychic), var(--water), var(--ground), var(--fairy), var(--grass));
+    background-size: 200% auto;
+    animation: gradientFlow 6s linear infinite;
+  }
+
+  .team-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .team-heading {
+    font-family: 'Righteous', cursive;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--text-primary);
+    position: relative;
+    padding-bottom: 8px;
+  }
+
+  .team-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--fire), var(--psychic), var(--water), var(--ground), var(--fairy), var(--grass));
+    background-size: 200% auto;
+    animation: gradientFlow 5s linear infinite;
+  }
+
+  .team-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .team-count strong {
+    color: var(--text-primary);
+    font-size: 14px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* ===== POKEMON CARD ===== */
+  .pokemon-card {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 12px;
+    border-left: 5px solid;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pokemon-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .pokemon-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .pokemon-card[data-type="fire"] { border-left-color: var(--fire); }
+  .pokemon-card[data-type="fire"]::after { background: var(--fire); }
+  .pokemon-card[data-type="psychic"] { border-left-color: var(--psychic); }
+  .pokemon-card[data-type="psychic"]::after { background: var(--psychic); }
+  .pokemon-card[data-type="water"] { border-left-color: var(--water); }
+  .pokemon-card[data-type="water"]::after { background: var(--water); }
+  .pokemon-card[data-type="ground"] { border-left-color: var(--ground); }
+  .pokemon-card[data-type="ground"]::after { background: var(--ground); }
+  .pokemon-card[data-type="fairy"] { border-left-color: var(--fairy); }
+  .pokemon-card[data-type="fairy"]::after { background: var(--fairy); }
+  .pokemon-card[data-type="grass"] { border-left-color: var(--grass); }
+  .pokemon-card[data-type="grass"]::after { background: var(--grass); }
+
+  .poke-top-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .poke-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .poke-avatar-inner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .poke-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .poke-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .poke-level {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  .poke-types {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  /* ===== TYPE PILLS ===== */
+  .type-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    line-height: 1;
+    transition: filter 0.2s ease, transform 0.15s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-pill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .type-pill:hover::before {
+    left: 150%;
+  }
+
+  .type-pill:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+  }
+
+  .type-pill:active {
+    transform: scale(0.97);
+  }
+
+  .type-pill.fire { background: var(--fire); }
+  .type-pill.water { background: var(--water); }
+  .type-pill.grass { background: var(--grass); }
+  .type-pill.electric { background: var(--electric); color: #1A1A2E; }
+  .type-pill.psychic { background: var(--psychic); }
+  .type-pill.fairy { background: var(--fairy); }
+  .type-pill.fighting { background: var(--fighting); }
+  .type-pill.ground { background: var(--ground); }
+  .type-pill.steel { background: var(--steel); color: #1A1A2E; }
+  .type-pill.flying { background: var(--flying); color: #1A1A2E; }
+  .type-pill.poison { background: var(--poison); }
+  .type-pill.dragon { background: var(--dragon); }
+  .type-pill.ghost { background: var(--ghost); }
+  .type-pill.dark { background: var(--dark); }
+  .type-pill.ice { background: var(--ice); color: #1A1A2E; }
+  .type-pill.bug { background: var(--bug); color: #1A1A2E; }
+  .type-pill.rock { background: var(--rock); color: #1A1A2E; }
+  .type-pill.normal { background: var(--normal); color: #1A1A2E; }
+
+  /* ===== GYM SECTION ===== */
+  .gym-section {
+    padding: 0 16px 20px;
+    animation: fadeInUp 0.5s ease both;
+    animation-delay: 0.2s;
+  }
+
+  .gym-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 18px 16px;
+    border-left: 6px solid var(--fairy);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gym-card::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(244, 114, 182, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .gym-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .gym-title {
+    font-family: 'Righteous', cursive;
+    font-size: 17px;
+    color: var(--fairy);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .gym-badge-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--fairy), var(--psychic));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(244, 114, 182, 0.4);
+  }
+
+  .gym-badge-inner {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.15);
+  }
+
+  .gym-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gym-team-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .gym-pokemon-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .gym-pokemon-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--bg);
+    border-radius: 10px;
+    transition: background 0.2s ease;
+  }
+
+  .gym-pokemon-row:hover {
+    background: rgba(26, 26, 46, 0.8);
+  }
+
+  .gym-poke-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .gym-poke-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .gym-poke-level {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+
+  .gym-poke-types {
+    display: flex;
+    gap: 4px;
+    margin-right: 6px;
+  }
+
+  .gym-poke-types .type-pill {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+
+  .matchup-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .matchup-good {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--grass);
+    border: 1.5px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .matchup-bad {
+    background: rgba(255, 107, 53, 0.15);
+    color: var(--fire);
+    border: 1.5px solid rgba(255, 107, 53, 0.3);
+  }
+
+  .matchup-neutral {
+    background: rgba(152, 152, 184, 0.1);
+    color: var(--text-muted);
+    border: 1.5px solid rgba(152, 152, 184, 0.15);
+  }
+
+  /* ===== WILD POKEMON SECTION ===== */
+  .wild-section {
+    padding: 0 16px 20px;
+    animation: fadeInUp 0.5s ease both;
+    animation-delay: 0.3s;
+  }
+
+  .wild-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 18px 16px;
+    border-left: 6px solid var(--grass);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wild-card::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .wild-title {
+    font-family: 'Righteous', cursive;
+    font-size: 15px;
+    color: var(--grass);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .wild-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .wild-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wild-poke-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .wild-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .wild-types {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .wild-types .type-pill {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+
+  .wild-rate-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .wild-rate-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .wild-rate-fill {
+    height: 100%;
+    border-radius: 3px;
+    animation: barFill 1s ease both;
+    animation-delay: 0.6s;
+  }
+
+  .wild-rate-pct {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ===== PROGRESS STATS ===== */
+  .progress-section {
+    padding: 0 16px 24px;
+    animation: fadeInUp 0.5s ease both;
+    animation-delay: 0.4s;
+  }
+
+  .progress-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .progress-card {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 16px 10px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .progress-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .progress-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .progress-card.missions::before { background: var(--water); }
+  .progress-card.items::before { background: var(--electric); }
+  .progress-card.pokedex::before { background: var(--fire); }
+
+  .progress-ring-container {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 10px;
+    position: relative;
+  }
+
+  .progress-ring {
+    transform: rotate(-90deg);
+    width: 56px;
+    height: 56px;
+  }
+
+  .progress-ring-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.06);
+    stroke-width: 5;
+  }
+
+  .progress-ring-fill {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 138.23;
+    transition: stroke-dashoffset 1s ease;
+  }
+
+  .progress-ring-fill.missions {
+    stroke: var(--water);
+    stroke-dashoffset: 103.67;
+    animation: progressFill 1.2s ease both;
+    animation-delay: 0.6s;
+  }
+
+  .progress-ring-fill.items {
+    stroke: var(--electric);
+    stroke-dashoffset: 82.94;
+    animation: progressFill 1.2s ease both;
+    animation-delay: 0.7s;
+  }
+
+  .progress-ring-fill.pokedex {
+    stroke: var(--fire);
+    stroke-dashoffset: 55.29;
+    animation: progressFill 1.2s ease both;
+    animation-delay: 0.8s;
+  }
+
+  .progress-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .progress-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 2px;
+  }
+
+  .progress-sublabel {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-secondary);
+  }
+
+  .progress-card.missions .progress-sublabel { color: var(--water); }
+  .progress-card.items .progress-sublabel { color: var(--electric); }
+  .progress-card.pokedex .progress-sublabel { color: var(--fire); }
+
+  /* ===== BOTTOM NAVIGATION ===== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: #16162E;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 12px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .nav-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  /* CSS-only icons */
+  .nav-icon-home, .nav-icon-team, .nav-icon-dex, .nav-icon-map, .nav-icon-more {
+    width: 20px;
+    height: 20px;
+    position: relative;
+  }
+
+  .nav-icon-home {
+    border-left: 2.5px solid currentColor;
+    border-right: 2.5px solid currentColor;
+    border-bottom: 2.5px solid currentColor;
+    border-radius: 0 0 3px 3px;
+    height: 14px;
+    margin-top: 6px;
+  }
+
+  .nav-icon-home::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    width: 0;
+    height: 0;
+    border-left: 12.5px solid transparent;
+    border-right: 12.5px solid transparent;
+    border-bottom: 8px solid currentColor;
+  }
+
+  .nav-icon-team::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid currentColor;
+    border-radius: 50%;
+  }
+
+  .nav-icon-team::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 2.5px;
+    background: currentColor;
+    border-radius: 1px;
+  }
+
+  .nav-icon-dex {
+    border: 2.5px solid currentColor;
+    border-radius: 3px;
+    height: 16px;
+    width: 14px;
+    margin: 1px auto;
+  }
+
+  .nav-icon-dex::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    box-shadow: 0 4px 0 currentColor, 0 8px 0 currentColor;
+  }
+
+  .nav-icon-map {
+    border: 2.5px solid currentColor;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin: 0 auto;
+  }
+
+  .nav-icon-map::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    border-radius: 50% 50% 50% 0;
+    transform-origin: center;
+    rotate: -45deg;
+  }
+
+  .nav-icon-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 20px;
+  }
+
+  .nav-icon-more span {
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-item.active .nav-icon {
+    color: transparent;
+  }
+
+  .nav-item.active .nav-icon-home,
+  .nav-item.active .nav-icon-team,
+  .nav-item.active .nav-icon-dex,
+  .nav-item.active .nav-icon-map {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  /* Active nav - using gradient text simulation via colored element */
+  .nav-item.active .nav-icon {
+    color: var(--fire);
+  }
+
+  .nav-item.active .nav-icon-home {
+    border-color: var(--fire);
+  }
+  .nav-item.active .nav-icon-home::before {
+    border-bottom-color: var(--fire);
+  }
+
+  .nav-item.active .nav-label {
+    background: linear-gradient(135deg, var(--fire), var(--electric));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-active-dot {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--fire), var(--electric));
+    animation: dotPulse 2s ease infinite;
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header class="header">
+  <div class="header-top">
+    <h1 class="app-title">Pokemon Unbound</h1>
+    <span class="difficulty-badge">Expert</span>
+  </div>
+  <div class="location-row">
+    <div class="location-icon">R</div>
+    <p class="location-text">Currently at <span>Route 3</span></p>
+  </div>
+</header>
+
+<!-- ====== TEAM SECTION ====== -->
+<section class="team-section">
+  <div class="team-card-wrapper">
+    <div class="team-heading-row">
+      <h2 class="team-heading">Your Team</h2>
+      <span class="team-count"><strong>6</strong> / 6</span>
+    </div>
+    <div class="team-grid">
+
+      <!-- Blaziken -->
+      <div class="pokemon-card" data-type="fire">
+        <div class="poke-top-row">
+          <div class="poke-avatar" style="background: linear-gradient(135deg, var(--fire), var(--fighting));">
+            <div class="poke-avatar-inner"></div>
+          </div>
+          <div class="poke-info">
+            <div class="poke-name">Blaziken</div>
+            <div class="poke-level">Lv 42</div>
+          </div>
+        </div>
+        <div class="poke-types">
+          <span class="type-pill fire">Fire</span>
+          <span class="type-pill fighting">Fighting</span>
+        </div>
+      </div>
+
+      <!-- Gardevoir -->
+      <div class="pokemon-card" data-type="psychic">
+        <div class="poke-top-row">
+          <div class="poke-avatar" style="background: linear-gradient(135deg, var(--psychic), var(--fairy));">
+            <div class="poke-avatar-inner"></div>
+          </div>
+          <div class="poke-info">
+            <div class="poke-name">Gardevoir</div>
+            <div class="poke-level">Lv 40</div>
+          </div>
+        </div>
+        <div class="poke-types">
+          <span class="type-pill psychic">Psychic</span>
+          <span class="type-pill fairy">Fairy</span>
+        </div>
+      </div>
+
+      <!-- Gyarados -->
+      <div class="pokemon-card" data-type="water">
+        <div class="poke-top-row">
+          <div class="poke-avatar" style="background: linear-gradient(135deg, var(--water), var(--flying));">
+            <div class="poke-avatar-inner"></div>
+          </div>
+          <div class="poke-info">
+            <div class="poke-name">Gyarados</div>
+            <div class="poke-level">Lv 41</div>
+          </div>
+        </div>
+        <div class="poke-types">
+          <span class="type-pill water">Water</span>
+          <span class="type-pill flying">Flying</span>
+        </div>
+      </div>
+
+      <!-- Excadrill -->
+      <div class="pokemon-card" data-type="ground">
+        <div class="poke-top-row">
+          <div class="poke-avatar" style="background: linear-gradient(135deg, var(--ground), var(--steel));">
+            <div class="poke-avatar-inner"></div>
+          </div>
+          <div class="poke-info">
+            <div class="poke-name">Excadrill</div>
+            <div class="poke-level">Lv 39</div>
+          </div>
+        </div>
+        <div class="poke-types">
+          <span class="type-pill ground">Ground</span>
+          <span class="type-pill steel">Steel</span>
+        </div>
+      </div>
+
+      <!-- Togekiss -->
+      <div class="pokemon-card" data-type="fairy">
+        <div class="poke-top-row">
+          <div class="poke-avatar" style="background: linear-gradient(135deg, var(--fairy), var(--flying));">
+            <div class="poke-avatar-inner"></div>
+          </div>
+          <div class="poke-info">
+            <div class="poke-name">Togekiss</div>
+            <div class="poke-level">Lv 38</div>
+          </div>
+        </div>
+        <div class="poke-types">
+          <span class="type-pill fairy">Fairy</span>
+          <span class="type-pill flying">Flying</span>
+        </div>
+      </div>
+
+      <!-- Roserade -->
+      <div class="pokemon-card" data-type="grass">
+        <div class="poke-top-row">
+          <div class="poke-avatar" style="background: linear-gradient(135deg, var(--grass), var(--poison));">
+            <div class="poke-avatar-inner"></div>
+          </div>
+          <div class="poke-info">
+            <div class="poke-name">Roserade</div>
+            <div class="poke-level">Lv 37</div>
+          </div>
+        </div>
+        <div class="poke-types">
+          <span class="type-pill grass">Grass</span>
+          <span class="type-pill poison">Poison</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== NEXT GYM SECTION ====== -->
+<section class="gym-section">
+  <div class="gym-card">
+    <div class="gym-header-row">
+      <h2 class="gym-title">Gym 5: Miriam</h2>
+      <div class="gym-badge-icon">
+        <div class="gym-badge-inner"></div>
+      </div>
+    </div>
+    <div class="gym-subtitle">
+      <span class="type-pill fairy" style="font-size: 10px; padding: 3px 10px;">Fairy</span>
+      <span>Specialist</span>
+    </div>
+
+    <div class="gym-team-label">Her Team</div>
+    <div class="gym-pokemon-list">
+
+      <!-- Clefable -->
+      <div class="gym-pokemon-row">
+        <div class="gym-poke-dot" style="background: var(--fairy);"></div>
+        <span class="gym-poke-name">Clefable</span>
+        <span class="gym-poke-level">Lv 43</span>
+        <div class="gym-poke-types">
+          <span class="type-pill fairy">Fairy</span>
+        </div>
+        <div class="matchup-indicator matchup-good" title="Excadrill resists">&#10003;</div>
+      </div>
+
+      <!-- Mimikyu -->
+      <div class="gym-pokemon-row">
+        <div class="gym-poke-dot" style="background: var(--ghost);"></div>
+        <span class="gym-poke-name">Mimikyu</span>
+        <span class="gym-poke-level">Lv 43</span>
+        <div class="gym-poke-types">
+          <span class="type-pill ghost">Ghost</span>
+          <span class="type-pill fairy">Fairy</span>
+        </div>
+        <div class="matchup-indicator matchup-bad" title="Difficult matchup">&#10007;</div>
+      </div>
+
+      <!-- Florges -->
+      <div class="gym-pokemon-row">
+        <div class="gym-poke-dot" style="background: var(--fairy);"></div>
+        <span class="gym-poke-name">Florges</span>
+        <span class="gym-poke-level">Lv 44</span>
+        <div class="gym-poke-types">
+          <span class="type-pill fairy">Fairy</span>
+        </div>
+        <div class="matchup-indicator matchup-good" title="Excadrill resists">&#10003;</div>
+      </div>
+
+      <!-- Togekiss -->
+      <div class="gym-pokemon-row">
+        <div class="gym-poke-dot" style="background: var(--fairy);"></div>
+        <span class="gym-poke-name">Togekiss</span>
+        <span class="gym-poke-level">Lv 44</span>
+        <div class="gym-poke-types">
+          <span class="type-pill fairy">Fairy</span>
+          <span class="type-pill flying">Flying</span>
+        </div>
+        <div class="matchup-indicator matchup-neutral" title="Neutral matchup">&#8212;</div>
+      </div>
+
+      <!-- Mega Mawile (Ace) -->
+      <div class="gym-pokemon-row">
+        <div class="gym-poke-dot" style="background: linear-gradient(135deg, var(--steel), var(--fairy));"></div>
+        <span class="gym-poke-name" style="color: var(--fairy);">M-Mawile</span>
+        <span class="gym-poke-level">Lv 45</span>
+        <div class="gym-poke-types">
+          <span class="type-pill steel">Steel</span>
+          <span class="type-pill fairy">Fairy</span>
+        </div>
+        <div class="matchup-indicator matchup-good" title="Blaziken super effective">&#10003;</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== WILD POKEMON SECTION ====== -->
+<section class="wild-section">
+  <div class="wild-card">
+    <h2 class="wild-title">Route 3 Encounters</h2>
+    <div class="wild-list">
+
+      <!-- Oddish -->
+      <div class="wild-row">
+        <div class="wild-poke-dot" style="background: var(--grass);"></div>
+        <span class="wild-name">Oddish</span>
+        <div class="wild-types">
+          <span class="type-pill grass">Grass</span>
+          <span class="type-pill poison">Poison</span>
+        </div>
+        <div class="wild-rate-container">
+          <div class="wild-rate-bar">
+            <div class="wild-rate-fill" style="width: 30%; background: linear-gradient(90deg, var(--grass), var(--poison));"></div>
+          </div>
+          <span class="wild-rate-pct">30%</span>
+        </div>
+      </div>
+
+      <!-- Fletchinder -->
+      <div class="wild-row">
+        <div class="wild-poke-dot" style="background: var(--fire);"></div>
+        <span class="wild-name">Fletchinder</span>
+        <div class="wild-types">
+          <span class="type-pill fire">Fire</span>
+          <span class="type-pill flying">Flying</span>
+        </div>
+        <div class="wild-rate-container">
+          <div class="wild-rate-bar">
+            <div class="wild-rate-fill" style="width: 20%; background: linear-gradient(90deg, var(--fire), var(--flying));"></div>
+          </div>
+          <span class="wild-rate-pct">20%</span>
+        </div>
+      </div>
+
+      <!-- Sandile -->
+      <div class="wild-row">
+        <div class="wild-poke-dot" style="background: var(--ground);"></div>
+        <span class="wild-name">Sandile</span>
+        <div class="wild-types">
+          <span class="type-pill ground">Ground</span>
+          <span class="type-pill dark">Dark</span>
+        </div>
+        <div class="wild-rate-container">
+          <div class="wild-rate-bar">
+            <div class="wild-rate-fill" style="width: 20%; background: linear-gradient(90deg, var(--ground), var(--dark));"></div>
+          </div>
+          <span class="wild-rate-pct">20%</span>
+        </div>
+      </div>
+
+      <!-- Nidoran -->
+      <div class="wild-row">
+        <div class="wild-poke-dot" style="background: var(--poison);"></div>
+        <span class="wild-name">Nidoran</span>
+        <div class="wild-types">
+          <span class="type-pill poison">Poison</span>
+        </div>
+        <div class="wild-rate-container">
+          <div class="wild-rate-bar">
+            <div class="wild-rate-fill" style="width: 15%; background: var(--poison);"></div>
+          </div>
+          <span class="wild-rate-pct">15%</span>
+        </div>
+      </div>
+
+      <!-- Helioptile -->
+      <div class="wild-row">
+        <div class="wild-poke-dot" style="background: var(--electric);"></div>
+        <span class="wild-name">Helioptile</span>
+        <div class="wild-types">
+          <span class="type-pill electric">Elec</span>
+          <span class="type-pill normal">Normal</span>
+        </div>
+        <div class="wild-rate-container">
+          <div class="wild-rate-bar">
+            <div class="wild-rate-fill" style="width: 10%; background: linear-gradient(90deg, var(--electric), var(--normal));"></div>
+          </div>
+          <span class="wild-rate-pct">10%</span>
+        </div>
+      </div>
+
+      <!-- Riolu -->
+      <div class="wild-row">
+        <div class="wild-poke-dot" style="background: var(--fighting);"></div>
+        <span class="wild-name">Riolu</span>
+        <div class="wild-types">
+          <span class="type-pill fighting">Fight</span>
+        </div>
+        <div class="wild-rate-container">
+          <div class="wild-rate-bar">
+            <div class="wild-rate-fill" style="width: 5%; background: var(--fighting);"></div>
+          </div>
+          <span class="wild-rate-pct">5%</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== PROGRESS STATS ====== -->
+<section class="progress-section">
+  <div class="progress-grid">
+
+    <!-- Missions -->
+    <div class="progress-card missions">
+      <div class="progress-ring-container">
+        <svg class="progress-ring" viewBox="0 0 56 56">
+          <circle class="progress-ring-bg" cx="28" cy="28" r="22"/>
+          <circle class="progress-ring-fill missions" cx="28" cy="28" r="22"/>
+        </svg>
+        <span class="progress-value">4</span>
+      </div>
+      <div class="progress-label">Missions</div>
+      <div class="progress-sublabel">Available</div>
+    </div>
+
+    <!-- Items -->
+    <div class="progress-card items">
+      <div class="progress-ring-container">
+        <svg class="progress-ring" viewBox="0 0 56 56">
+          <circle class="progress-ring-bg" cx="28" cy="28" r="22"/>
+          <circle class="progress-ring-fill items" cx="28" cy="28" r="22"/>
+        </svg>
+        <span class="progress-value">12</span>
+      </div>
+      <div class="progress-label">Items</div>
+      <div class="progress-sublabel">Found</div>
+    </div>
+
+    <!-- Pokedex -->
+    <div class="progress-card pokedex">
+      <div class="progress-ring-container">
+        <svg class="progress-ring" viewBox="0 0 56 56">
+          <circle class="progress-ring-bg" cx="28" cy="28" r="22"/>
+          <circle class="progress-ring-fill pokedex" cx="28" cy="28" r="22"/>
+        </svg>
+        <span class="progress-value">86</span>
+      </div>
+      <div class="progress-label">Pokedex</div>
+      <div class="progress-sublabel">Caught</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== BOTTOM NAVIGATION ====== -->
+<nav class="bottom-nav">
+
+  <div class="nav-item active">
+    <div class="nav-icon">
+      <div class="nav-icon-home"></div>
+    </div>
+    <span class="nav-label">Home</span>
+    <div class="nav-active-dot"></div>
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">
+      <div class="nav-icon-team"></div>
+    </div>
+    <span class="nav-label">Team</span>
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">
+      <div class="nav-icon-dex"></div>
+    </div>
+    <span class="nav-label">Dex</span>
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">
+      <div class="nav-icon-map"></div>
+    </div>
+    <span class="nav-label">Map</span>
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">
+      <div class="nav-icon-more">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <span class="nav-label">More</span>
+  </div>
+
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokemon Unbound Companion -- Clean Cards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #E8E6E1;
+      color: #1A1A1A;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 0;
+    }
+
+    /* ========================================
+       DEVICE FRAME
+       ======================================== */
+    .device-frame {
+      width: 430px;
+      max-width: 430px;
+      min-height: 932px;
+      background: #F5F3EE;
+      position: relative;
+      border-radius: 44px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.04),
+        0 25px 50px -12px rgba(0, 0, 0, 0.15),
+        0 12px 24px -8px rgba(0, 0, 0, 0.1),
+        0 0 0 12px #1A1A1A;
+    }
+
+    /* Subtle paper texture overlay */
+    .device-frame::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Dynamic island notch */
+    .notch {
+      width: 126px;
+      height: 36px;
+      background: #1A1A1A;
+      border-radius: 20px;
+      margin: 0 auto;
+      position: relative;
+      top: 10px;
+      z-index: 10;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 28px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-bar .time { font-weight: 700; font-size: 15px; }
+    .status-bar .icons { display: flex; gap: 6px; align-items: center; font-size: 13px; }
+
+    /* ========================================
+       SCROLLABLE CONTENT
+       ======================================== */
+    .screen-content {
+      padding: 16px 20px 100px;
+      position: relative;
+      z-index: 2;
+      overflow-y: auto;
+    }
+
+    /* ========================================
+       HEADER
+       ======================================== */
+    .header {
+      padding: 20px 0 8px;
+    }
+
+    .header-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #1A1A1A;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-location {
+      background: rgba(45, 159, 147, 0.1);
+      color: #2D9F93;
+    }
+
+    .badge-location::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #2D9F93;
+      border-radius: 50%;
+    }
+
+    .badge-difficulty {
+      background: rgba(176, 98, 57, 0.1);
+      color: #B0623A;
+    }
+
+    /* ========================================
+       CARD BASE STYLES
+       ======================================== */
+    .card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 14px;
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 4px 8px rgba(0, 0, 0, 0.04),
+        0 12px 32px rgba(0, 0, 0, 0.06);
+      position: relative;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9B9690;
+      margin-bottom: 12px;
+    }
+
+    .card-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 16px;
+      letter-spacing: -0.2px;
+    }
+
+    /* ========================================
+       TYPE COLOR SYSTEM
+       ======================================== */
+    .type-fire      { --type-color: #F08030; --type-bg: rgba(240, 128, 48, 0.12); }
+    .type-fighting  { --type-color: #C03028; --type-bg: rgba(192, 48, 40, 0.10); }
+    .type-psychic   { --type-color: #C56FC5; --type-bg: rgba(197, 111, 197, 0.12); }
+    .type-fairy     { --type-color: #E88EAD; --type-bg: rgba(232, 142, 173, 0.14); }
+    .type-water     { --type-color: #6890F0; --type-bg: rgba(104, 144, 240, 0.12); }
+    .type-flying    { --type-color: #A890F0; --type-bg: rgba(168, 144, 240, 0.12); }
+    .type-ground    { --type-color: #C8A84E; --type-bg: rgba(200, 168, 78, 0.12); }
+    .type-steel     { --type-color: #9EAAB5; --type-bg: rgba(158, 170, 181, 0.15); }
+    .type-grass     { --type-color: #5DAE42; --type-bg: rgba(93, 174, 66, 0.12); }
+    .type-poison    { --type-color: #9B69D9; --type-bg: rgba(155, 105, 217, 0.12); }
+    .type-normal    { --type-color: #A8A07A; --type-bg: rgba(168, 160, 122, 0.12); }
+    .type-bug       { --type-color: #8DB52E; --type-bg: rgba(141, 181, 46, 0.12); }
+    .type-electric  { --type-color: #D4A017; --type-bg: rgba(212, 160, 23, 0.12); }
+    .type-dark      { --type-color: #6B5A4B; --type-bg: rgba(107, 90, 75, 0.12); }
+
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--type-color);
+      background: var(--type-bg);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       TEAM OVERVIEW CARD
+       ======================================== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .team-slot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #FAFAF8;
+      border-radius: 14px;
+      transition: background 0.15s ease;
+    }
+
+    .pokemon-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Inner glow for avatars */
+    .pokemon-avatar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      box-shadow: inset 0 -8px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .pokemon-avatar .avatar-inner {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .team-info {
+      min-width: 0;
+    }
+
+    .team-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1A1A1A;
+      line-height: 1.3;
+    }
+
+    .team-level {
+      font-size: 11px;
+      color: #9B9690;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .team-types {
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+    }
+
+    .team-types .type-pill {
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 5px;
+    }
+
+    /* ========================================
+       OBJECTIVE CARD
+       ======================================== */
+    .objective-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .objective-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #E88EAD 0%, #C56FC5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow:
+        0 2px 8px rgba(232, 142, 173, 0.3),
+        0 4px 16px rgba(232, 142, 173, 0.15);
+    }
+
+    .objective-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .objective-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1A1A1A;
+      letter-spacing: -0.2px;
+    }
+
+    .objective-subtitle {
+      font-size: 13px;
+      color: #9B9690;
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    .leader-team-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #B5B0A8;
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+
+    .leader-team-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .leader-pokemon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #FAFAF8;
+      border-radius: 10px;
+    }
+
+    .leader-pokemon-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .leader-pokemon-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .leader-pokemon-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1A1A1A;
+    }
+
+    .leader-pokemon-types {
+      display: flex;
+      gap: 3px;
+    }
+
+    .leader-pokemon-types .type-pill {
+      font-size: 9px;
+      padding: 1px 6px;
+    }
+
+    .matchup-bar {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(45, 159, 147, 0.06) 0%, rgba(45, 159, 147, 0.02) 100%);
+      border-radius: 10px;
+      border: 1px solid rgba(45, 159, 147, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .matchup-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2D9F93;
+    }
+
+    .matchup-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .matchup-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2D9F93;
+    }
+
+    .matchup-dot.empty {
+      background: rgba(45, 159, 147, 0.15);
+    }
+
+    /* ========================================
+       ENCOUNTER CARD
+       ======================================== */
+    .encounter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .encounter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .encounter-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .encounter-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .encounter-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .encounter-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1A1A1A;
+    }
+
+    .encounter-types {
+      display: flex;
+      gap: 4px;
+      margin-left: 6px;
+    }
+
+    .encounter-rate {
+      font-size: 13px;
+      font-weight: 600;
+      color: #9B9690;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .encounter-rate-high { color: #2D9F93; }
+    .encounter-rate-mid  { color: #C8A84E; }
+    .encounter-rate-low  { color: #B5B0A8; }
+
+    /* ========================================
+       QUICK STATS ROW
+       ======================================== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.03),
+        0 4px 8px rgba(0, 0, 0, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-value {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #1A1A1A;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9B9690;
+      margin-top: 2px;
+      letter-spacing: 0.01em;
+    }
+
+    .stat-accent { color: #2D9F93; }
+
+    /* ========================================
+       BOTTOM NAVIGATION
+       ======================================== */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 84px;
+      background: rgba(255, 255, 255, 0.88);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+      padding: 8px 16px 0;
+      z-index: 20;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.8;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-item.active .nav-label {
+      color: #2D9F93;
+    }
+
+    .nav-item.active .nav-icon svg {
+      stroke: #2D9F93;
+      fill: none;
+    }
+
+    .nav-item:not(.active) .nav-label {
+      color: #B5B0A8;
+    }
+
+    .nav-item:not(.active) .nav-icon svg {
+      stroke: #B5B0A8;
+      fill: none;
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3px;
+      background: #2D9F93;
+      border-radius: 2px;
+    }
+
+    /* ========================================
+       DIVIDER
+       ======================================== */
+    .section-divider {
+      height: 1px;
+      background: transparent;
+      margin: 4px 0;
+    }
+
+    /* ========================================
+       RESPONSIVE (for viewing in desktop browser)
+       ======================================== */
+    @media (max-width: 460px) {
+      body {
+        padding: 0;
+        background: #F5F3EE;
+      }
+      .device-frame {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+      }
+      .notch {
+        top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="device-frame">
+
+    <!-- Dynamic Island -->
+    <div class="notch"></div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span class="icons">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1A1A1A"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1A1A1A"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#1A1A1A"/><rect x="13" y="0" width="3" height="12" rx="1" fill="#C8C8C8"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 3C10.7 3 13.1 4.1 14.8 5.9L16 4.7C14 2.6 11.2 1.3 8 1.3C4.8 1.3 2 2.6 0 4.7L1.2 5.9C2.9 4.1 5.3 3 8 3Z" fill="#1A1A1A"/><path d="M8 6.5C9.8 6.5 11.4 7.2 12.6 8.3L13.8 7.1C12.3 5.7 10.3 4.8 8 4.8C5.7 4.8 3.7 5.7 2.2 7.1L3.4 8.3C4.6 7.2 6.2 6.5 8 6.5Z" fill="#1A1A1A"/><circle cx="8" cy="11" r="1.5" fill="#1A1A1A"/></svg>
+        <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" stroke="#1A1A1A" stroke-opacity="0.35"/><rect x="2" y="2" width="17" height="9" rx="2" fill="#1A1A1A"/><path d="M24 5V9C24.8 8.6 25.5 7.5 25.5 7C25.5 6.5 24.8 5.4 24 5Z" fill="#1A1A1A" opacity="0.4"/></svg>
+      </span>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="screen-content">
+
+      <!-- HEADER -->
+      <div class="header">
+        <h1 class="header-title">Pokemon Unbound</h1>
+        <div class="header-meta">
+          <span class="badge badge-location">Route 3</span>
+          <span class="badge badge-difficulty">Expert</span>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- TEAM OVERVIEW -->
+      <div class="card">
+        <div class="card-label">Your Team</div>
+        <div class="team-grid">
+
+          <!-- Blaziken -->
+          <div class="team-slot">
+            <div class="pokemon-avatar" style="background: linear-gradient(135deg, #F08030 0%, #E86030 100%);">
+              <div class="avatar-inner"></div>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Blaziken</div>
+              <div class="team-level">Lv 42</div>
+              <div class="team-types">
+                <span class="type-pill type-fire">Fire</span>
+                <span class="type-pill type-fighting">Fight</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gardevoir -->
+          <div class="team-slot">
+            <div class="pokemon-avatar" style="background: linear-gradient(135deg, #C56FC5 0%, #A858C8 100%);">
+              <div class="avatar-inner"></div>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Gardevoir</div>
+              <div class="team-level">Lv 40</div>
+              <div class="team-types">
+                <span class="type-pill type-psychic">Psych</span>
+                <span class="type-pill type-fairy">Fairy</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gyarados -->
+          <div class="team-slot">
+            <div class="pokemon-avatar" style="background: linear-gradient(135deg, #6890F0 0%, #5078D8 100%);">
+              <div class="avatar-inner"></div>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Gyarados</div>
+              <div class="team-level">Lv 41</div>
+              <div class="team-types">
+                <span class="type-pill type-water">Water</span>
+                <span class="type-pill type-flying">Fly</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Excadrill -->
+          <div class="team-slot">
+            <div class="pokemon-avatar" style="background: linear-gradient(135deg, #C8A84E 0%, #B89838 100%);">
+              <div class="avatar-inner"></div>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Excadrill</div>
+              <div class="team-level">Lv 39</div>
+              <div class="team-types">
+                <span class="type-pill type-ground">Grnd</span>
+                <span class="type-pill type-steel">Steel</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Togekiss -->
+          <div class="team-slot">
+            <div class="pokemon-avatar" style="background: linear-gradient(135deg, #E88EAD 0%, #D478A0 100%);">
+              <div class="avatar-inner"></div>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Togekiss</div>
+              <div class="team-level">Lv 38</div>
+              <div class="team-types">
+                <span class="type-pill type-fairy">Fairy</span>
+                <span class="type-pill type-flying">Fly</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Roserade -->
+          <div class="team-slot">
+            <div class="pokemon-avatar" style="background: linear-gradient(135deg, #5DAE42 0%, #4A9832 100%);">
+              <div class="avatar-inner"></div>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Roserade</div>
+              <div class="team-level">Lv 37</div>
+              <div class="team-types">
+                <span class="type-pill type-grass">Grass</span>
+                <span class="type-pill type-poison">Pois</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- NEXT OBJECTIVE -->
+      <div class="card">
+        <div class="card-label">Next Objective</div>
+        <div class="objective-header">
+          <div class="objective-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="objective-title">Gym 5 -- Serenity</div>
+            <div class="objective-subtitle">Leader Miriam -- Fairy Type</div>
+          </div>
+        </div>
+
+        <div class="leader-team-label">Leader's Team</div>
+        <div class="leader-team-list">
+
+          <div class="leader-pokemon">
+            <div class="leader-pokemon-left">
+              <div class="leader-pokemon-dot" style="background: #E88EAD;"></div>
+              <span class="leader-pokemon-name">Grimmsnarl</span>
+            </div>
+            <div class="leader-pokemon-types">
+              <span class="type-pill type-dark">Dark</span>
+              <span class="type-pill type-fairy">Fairy</span>
+            </div>
+          </div>
+
+          <div class="leader-pokemon">
+            <div class="leader-pokemon-left">
+              <div class="leader-pokemon-dot" style="background: #E88EAD;"></div>
+              <span class="leader-pokemon-name">Togekiss</span>
+            </div>
+            <div class="leader-pokemon-types">
+              <span class="type-pill type-fairy">Fairy</span>
+              <span class="type-pill type-flying">Fly</span>
+            </div>
+          </div>
+
+          <div class="leader-pokemon">
+            <div class="leader-pokemon-left">
+              <div class="leader-pokemon-dot" style="background: #E88EAD;"></div>
+              <span class="leader-pokemon-name">Hatterene</span>
+            </div>
+            <div class="leader-pokemon-types">
+              <span class="type-pill type-psychic">Psych</span>
+              <span class="type-pill type-fairy">Fairy</span>
+            </div>
+          </div>
+
+          <div class="leader-pokemon">
+            <div class="leader-pokemon-left">
+              <div class="leader-pokemon-dot" style="background: #E88EAD;"></div>
+              <span class="leader-pokemon-name">Sylveon</span>
+            </div>
+            <div class="leader-pokemon-types">
+              <span class="type-pill type-fairy">Fairy</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="matchup-bar">
+          <span class="matchup-label">Team Matchup</span>
+          <div class="matchup-dots">
+            <div class="matchup-dot"></div>
+            <div class="matchup-dot"></div>
+            <div class="matchup-dot"></div>
+            <div class="matchup-dot empty"></div>
+            <div class="matchup-dot empty"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CURRENT LOCATION -->
+      <div class="card">
+        <div class="card-label">Current Location</div>
+        <div class="card-heading">Route 3 -- Available Pokemon</div>
+        <div class="encounter-list">
+
+          <div class="encounter-row">
+            <div class="encounter-left">
+              <div class="encounter-dot" style="background: #A8A07A;"></div>
+              <span class="encounter-name">Rattata</span>
+              <div class="encounter-types">
+                <span class="type-pill type-normal">Norm</span>
+              </div>
+            </div>
+            <span class="encounter-rate encounter-rate-high">30%</span>
+          </div>
+
+          <div class="encounter-row">
+            <div class="encounter-left">
+              <div class="encounter-dot" style="background: #8DB52E;"></div>
+              <span class="encounter-name">Caterpie</span>
+              <div class="encounter-types">
+                <span class="type-pill type-bug">Bug</span>
+              </div>
+            </div>
+            <span class="encounter-rate encounter-rate-high">25%</span>
+          </div>
+
+          <div class="encounter-row">
+            <div class="encounter-left">
+              <div class="encounter-dot" style="background: #D4A017;"></div>
+              <span class="encounter-name">Pikachu</span>
+              <div class="encounter-types">
+                <span class="type-pill type-electric">Elec</span>
+              </div>
+            </div>
+            <span class="encounter-rate encounter-rate-mid">15%</span>
+          </div>
+
+          <div class="encounter-row">
+            <div class="encounter-left">
+              <div class="encounter-dot" style="background: #5DAE42;"></div>
+              <span class="encounter-name">Oddish</span>
+              <div class="encounter-types">
+                <span class="type-pill type-grass">Grass</span>
+                <span class="type-pill type-poison">Pois</span>
+              </div>
+            </div>
+            <span class="encounter-rate encounter-rate-mid">20%</span>
+          </div>
+
+          <div class="encounter-row">
+            <div class="encounter-left">
+              <div class="encounter-dot" style="background: #9B69D9;"></div>
+              <span class="encounter-name">Abra</span>
+              <div class="encounter-types">
+                <span class="type-pill type-psychic">Psych</span>
+              </div>
+            </div>
+            <span class="encounter-rate encounter-rate-low">10%</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- QUICK STATS ROW -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value stat-accent">4</div>
+          <div class="stat-label">Missions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Items Found</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">86<span style="font-size: 13px; color: #B5B0A8; font-family: 'DM Sans', sans-serif; font-weight: 500;">/967</span></div>
+          <div class="stat-label">Pokedex</div>
+        </div>
+      </div>
+
+      <!-- Spacer for bottom nav -->
+      <div style="height: 20px;"></div>
+
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+
+      <!-- Home (Active) -->
+      <div class="nav-item active">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+            <polyline points="9 21 9 14 15 14 15 21"/>
+          </svg>
+        </div>
+        <span class="nav-label">Home</span>
+      </div>
+
+      <!-- Team -->
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+        <span class="nav-label">Team</span>
+      </div>
+
+      <!-- Dex -->
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M3 12h18"/>
+            <path d="M12 3v18"/>
+          </svg>
+        </div>
+        <span class="nav-label">Dex</span>
+      </div>
+
+      <!-- Map -->
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+            <line x1="8" y1="2" x2="8" y2="18"/>
+            <line x1="16" y1="6" x2="16" y2="22"/>
+          </svg>
+        </div>
+        <span class="nav-label">Map</span>
+      </div>
+
+      <!-- More -->
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="5" r="1.5"/>
+            <circle cx="12" cy="12" r="1.5"/>
+            <circle cx="12" cy="19" r="1.5"/>
+          </svg>
+        </div>
+        <span class="nav-label">More</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

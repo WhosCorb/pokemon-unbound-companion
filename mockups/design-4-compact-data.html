@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PKM UNBOUND -- Compact Data Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ── BASE ── */
+    body {
+      background: #010409;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 12px 0;
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    }
+
+    .device {
+      width: 100%;
+      max-width: 430px;
+      min-height: 932px;
+      background: #0D1117;
+      color: #C9D1D9;
+      font-size: 12px;
+      line-height: 1.4;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #21262D;
+    }
+
+    /* ── UTILITY ── */
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .label {
+      font-family: 'IBM Plex Sans', sans-serif;
+      color: #484F58;
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .c-green { color: #3FB950; }
+    .c-amber { color: #D29922; }
+    .c-red   { color: #F85149; }
+    .c-blue  { color: #58A6FF; }
+    .c-muted { color: #484F58; }
+    .c-dim   { color: #6E7681; }
+    .c-bright { color: #F0F6FC; }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #21262D;
+      background: #0D1117;
+    }
+
+    .header-brand {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: #F0F6FC;
+      letter-spacing: 0.05em;
+    }
+
+    .header-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #6E7681;
+    }
+
+    .header-status .val {
+      color: #C9D1D9;
+    }
+
+    /* ── CONTENT AREA ── */
+    .content {
+      padding: 0;
+      overflow-y: auto;
+      height: calc(932px - 37px - 40px);
+    }
+
+    /* ── SECTION ── */
+    .section {
+      border-bottom: 1px solid #21262D;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px 6px;
+      border-bottom: 1px solid #161B22;
+    }
+
+    .section-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: #484F58;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .section-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: #484F58;
+    }
+
+    /* ── TEAM GRID ── */
+    .team-table {
+      width: 100%;
+    }
+
+    .team-row {
+      display: grid;
+      grid-template-columns: 6px 1fr 36px 90px 42px;
+      align-items: center;
+      padding: 5px 12px;
+      gap: 8px;
+      border-bottom: 1px solid #0D1117;
+    }
+
+    .team-row:nth-child(even) {
+      background: #161B22;
+    }
+
+    .type-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 1px;
+    }
+
+    .pokemon-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #E6EDF3;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pokemon-lv {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: #6E7681;
+      text-align: right;
+    }
+
+    .hp-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hp-bar-track {
+      flex: 1;
+      height: 3px;
+      background: #21262D;
+      border-radius: 0;
+    }
+
+    .hp-bar-fill {
+      height: 100%;
+      border-radius: 0;
+    }
+
+    .hp-bar-fill.high { background: #3FB950; }
+    .hp-bar-fill.mid  { background: #D29922; }
+    .hp-bar-fill.low  { background: #F85149; }
+
+    .hp-pct {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: #484F58;
+      width: 24px;
+      text-align: right;
+    }
+
+    .type-codes {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-align: right;
+    }
+
+    .type-code {
+      display: inline-block;
+      padding: 0 2px;
+    }
+
+    /* Type colors */
+    .t-fi { color: #F08030; }  /* Fire */
+    .t-fg { color: #C03028; }  /* Fighting */
+    .t-ps { color: #F85888; }  /* Psychic */
+    .t-fa { color: #EE99AC; }  /* Fairy */
+    .t-wa { color: #6890F0; }  /* Water */
+    .t-fl { color: #A890F0; }  /* Flying */
+    .t-gr { color: #E0C068; }  /* Ground */
+    .t-st { color: #B8B8D0; }  /* Steel */
+    .t-gs { color: #78C850; }  /* Grass */
+    .t-po { color: #A040A0; }  /* Poison */
+    .t-no { color: #A8A878; }  /* Normal */
+    .t-el { color: #F8D030; }  /* Electric */
+    .t-ic { color: #98D8D8; }  /* Ice */
+    .t-dr { color: #7038F8; }  /* Dragon */
+    .t-dk { color: #705848; }  /* Dark */
+    .t-gh { color: #705898; }  /* Ghost */
+    .t-bg { color: #A8B820; }  /* Bug */
+    .t-rk { color: #B8A038; }  /* Rock */
+
+    /* Type dot backgrounds */
+    .td-fi { background: #F08030; }
+    .td-ps { background: #F85888; }
+    .td-wa { background: #6890F0; }
+    .td-gr { background: #E0C068; }
+    .td-fa { background: #EE99AC; }
+    .td-gs { background: #78C850; }
+
+    /* ── COVERAGE ROW ── */
+    .coverage-row {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 6px 12px 8px;
+      gap: 1px;
+    }
+
+    .coverage-row .label {
+      width: 100%;
+      margin-bottom: 3px;
+      font-size: 9px;
+    }
+
+    .cov-cell {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      font-weight: 600;
+      width: calc(100% / 18);
+      text-align: center;
+      padding: 2px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .cov-cell.good  { color: #3FB950; background: rgba(63,185,80,0.08); }
+    .cov-cell.warn  { color: #D29922; background: rgba(210,153,34,0.08); }
+    .cov-cell.bad   { color: #F85149; background: rgba(248,81,73,0.08); }
+    .cov-cell.neut  { color: #484F58; background: rgba(72,79,88,0.04); }
+
+    /* ── OBJECTIVE ── */
+    .objective-header {
+      padding: 8px 12px 6px;
+      border-bottom: 1px solid #161B22;
+    }
+
+    .obj-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #E6EDF3;
+      font-weight: 500;
+    }
+
+    .obj-line .highlight {
+      color: #EE99AC;
+      font-weight: 600;
+    }
+
+    .enemy-table {
+      width: 100%;
+    }
+
+    .enemy-row {
+      display: grid;
+      grid-template-columns: 6px 1fr 42px 36px;
+      align-items: center;
+      padding: 4px 12px;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+    }
+
+    .enemy-row:nth-child(even) {
+      background: #161B22;
+    }
+
+    .enemy-row .pokemon-name {
+      font-size: 10px;
+      color: #C9D1D9;
+      font-weight: 400;
+    }
+
+    .enemy-row .type-codes {
+      font-size: 9px;
+    }
+
+    .enemy-row .pokemon-lv {
+      font-size: 10px;
+    }
+
+    .matchup-line {
+      padding: 6px 12px 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      display: flex;
+      gap: 12px;
+      border-top: 1px solid #161B22;
+    }
+
+    .matchup-line .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .matchup-line .tag .indicator {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 0;
+    }
+
+    /* ── ENCOUNTERS TABLE ── */
+    .enc-table-header {
+      display: grid;
+      grid-template-columns: 1fr 42px 40px 56px;
+      padding: 4px 12px 3px;
+      gap: 8px;
+      border-bottom: 1px solid #161B22;
+    }
+
+    .enc-table-header span {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      color: #484F58;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .enc-table-header span:nth-child(3),
+    .enc-table-header span:nth-child(4) {
+      text-align: right;
+    }
+
+    .enc-row {
+      display: grid;
+      grid-template-columns: 1fr 42px 40px 56px;
+      align-items: center;
+      padding: 4px 12px;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+    }
+
+    .enc-row:nth-child(odd) {
+      background: #161B22;
+    }
+
+    .enc-name {
+      color: #C9D1D9;
+    }
+
+    .enc-type {
+      font-size: 9px;
+      font-weight: 600;
+    }
+
+    .enc-rate {
+      text-align: right;
+      color: #6E7681;
+    }
+
+    .enc-rate.common { color: #3FB950; }
+    .enc-rate.uncommon { color: #D29922; }
+    .enc-rate.rare { color: #F85149; }
+
+    .enc-method {
+      text-align: right;
+      font-size: 9px;
+      color: #484F58;
+      text-transform: uppercase;
+    }
+
+    /* ── STATUS STRIP ── */
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid #21262D;
+    }
+
+    .stat-cell {
+      padding: 7px 8px 6px;
+      text-align: center;
+      border-right: 1px solid #21262D;
+    }
+
+    .stat-cell:last-child {
+      border-right: none;
+    }
+
+    .stat-label {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 8px;
+      font-weight: 500;
+      color: #484F58;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #C9D1D9;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-bar {
+      width: 100%;
+      height: 2px;
+      background: #21262D;
+      border-radius: 0;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 0;
+    }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: #0D1117;
+      border-top: 1px solid #21262D;
+      height: 40px;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      font-weight: 500;
+      color: #484F58;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      padding-top: 2px;
+    }
+
+    .nav-tab.active {
+      color: #F0F6FC;
+    }
+
+    .nav-tab.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: #58A6FF;
+    }
+
+    .nav-tab:hover {
+      color: #6E7681;
+    }
+
+    /* ── SCROLLBAR ── */
+    .content::-webkit-scrollbar {
+      width: 3px;
+    }
+    .content::-webkit-scrollbar-track {
+      background: #0D1117;
+    }
+    .content::-webkit-scrollbar-thumb {
+      background: #21262D;
+    }
+  </style>
+</head>
+<body>
+
+<div class="device">
+
+  <!-- ════════ HEADER ════════ -->
+  <div class="header">
+    <span class="header-brand">PKM UNBOUND</span>
+    <span class="header-status">
+      <span class="val">RT.3</span> | <span class="val">EXPERT</span> | <span class="val">B4</span>/8
+    </span>
+  </div>
+
+  <!-- ════════ CONTENT ════════ -->
+  <div class="content">
+
+    <!-- ──── TEAM GRID ──── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">TEAM</span>
+        <span class="section-meta">6/6</span>
+      </div>
+      <div class="team-table">
+
+        <!-- Blaziken -->
+        <div class="team-row">
+          <div class="type-dot td-fi"></div>
+          <span class="pokemon-name">BLAZIKEN</span>
+          <span class="pokemon-lv">Lv42</span>
+          <div class="hp-bar-container">
+            <div class="hp-bar-track"><div class="hp-bar-fill high" style="width:92%"></div></div>
+            <span class="hp-pct">92%</span>
+          </div>
+          <span class="type-codes"><span class="type-code t-fi">FI</span>/<span class="type-code t-fg">FG</span></span>
+        </div>
+
+        <!-- Gardevoir -->
+        <div class="team-row">
+          <div class="type-dot td-ps"></div>
+          <span class="pokemon-name">GARDEVOI</span>
+          <span class="pokemon-lv">Lv40</span>
+          <div class="hp-bar-container">
+            <div class="hp-bar-track"><div class="hp-bar-fill high" style="width:100%"></div></div>
+            <span class="hp-pct">FUL</span>
+          </div>
+          <span class="type-codes"><span class="type-code t-ps">PS</span>/<span class="type-code t-fa">FA</span></span>
+        </div>
+
+        <!-- Gyarados -->
+        <div class="team-row">
+          <div class="type-dot td-wa"></div>
+          <span class="pokemon-name">GYARADOS</span>
+          <span class="pokemon-lv">Lv41</span>
+          <div class="hp-bar-container">
+            <div class="hp-bar-track"><div class="hp-bar-fill mid" style="width:64%"></div></div>
+            <span class="hp-pct">64%</span>
+          </div>
+          <span class="type-codes"><span class="type-code t-wa">WA</span>/<span class="type-code t-fl">FL</span></span>
+        </div>
+
+        <!-- Excadrill -->
+        <div class="team-row">
+          <div class="type-dot td-gr"></div>
+          <span class="pokemon-name">EXCADRIL</span>
+          <span class="pokemon-lv">Lv39</span>
+          <div class="hp-bar-container">
+            <div class="hp-bar-track"><div class="hp-bar-fill high" style="width:85%"></div></div>
+            <span class="hp-pct">85%</span>
+          </div>
+          <span class="type-codes"><span class="type-code t-gr">GR</span>/<span class="type-code t-st">ST</span></span>
+        </div>
+
+        <!-- Togekiss -->
+        <div class="team-row">
+          <div class="type-dot td-fa"></div>
+          <span class="pokemon-name">TOGEKISS</span>
+          <span class="pokemon-lv">Lv38</span>
+          <div class="hp-bar-container">
+            <div class="hp-bar-track"><div class="hp-bar-fill low" style="width:28%"></div></div>
+            <span class="hp-pct">28%</span>
+          </div>
+          <span class="type-codes"><span class="type-code t-fa">FA</span>/<span class="type-code t-fl">FL</span></span>
+        </div>
+
+        <!-- Roserade -->
+        <div class="team-row">
+          <div class="type-dot td-gs"></div>
+          <span class="pokemon-name">ROSERADE</span>
+          <span class="pokemon-lv">Lv37</span>
+          <div class="hp-bar-container">
+            <div class="hp-bar-track"><div class="hp-bar-fill high" style="width:76%"></div></div>
+            <span class="hp-pct">76%</span>
+          </div>
+          <span class="type-codes"><span class="type-code t-gs">GS</span>/<span class="type-code t-po">PO</span></span>
+        </div>
+
+      </div>
+
+      <!-- Coverage summary -->
+      <div class="coverage-row">
+        <span class="label">TYPE COVERAGE</span>
+        <span class="cov-cell good">NO</span>
+        <span class="cov-cell good">FI</span>
+        <span class="cov-cell neut">WA</span>
+        <span class="cov-cell good">EL</span>
+        <span class="cov-cell good">GS</span>
+        <span class="cov-cell good">IC</span>
+        <span class="cov-cell good">FG</span>
+        <span class="cov-cell warn">PO</span>
+        <span class="cov-cell good">GR</span>
+        <span class="cov-cell neut">FL</span>
+        <span class="cov-cell good">PS</span>
+        <span class="cov-cell warn">BG</span>
+        <span class="cov-cell good">RK</span>
+        <span class="cov-cell bad">GH</span>
+        <span class="cov-cell warn">DR</span>
+        <span class="cov-cell good">DK</span>
+        <span class="cov-cell good">ST</span>
+        <span class="cov-cell good">FA</span>
+      </div>
+    </div>
+
+    <!-- ──── NEXT OBJECTIVE ──── -->
+    <div class="section">
+      <div class="objective-header">
+        <div class="section-title" style="margin-bottom:4px;">NEXT OBJECTIVE</div>
+        <span class="obj-line">GYM 5 -- MIRIAM [<span class="highlight">FAIRY</span>]</span>
+      </div>
+
+      <div class="enemy-table">
+        <div class="enemy-row">
+          <div class="type-dot" style="background:#EE99AC"></div>
+          <span class="pokemon-name">CLEFABLE</span>
+          <span class="type-codes"><span class="type-code t-fa">FA</span></span>
+          <span class="pokemon-lv">Lv43</span>
+        </div>
+        <div class="enemy-row">
+          <div class="type-dot" style="background:#EE99AC"></div>
+          <span class="pokemon-name">TOGEKISS</span>
+          <span class="type-codes"><span class="type-code t-fa">FA</span>/<span class="type-code t-fl">FL</span></span>
+          <span class="pokemon-lv">Lv43</span>
+        </div>
+        <div class="enemy-row">
+          <div class="type-dot" style="background:#EE99AC"></div>
+          <span class="pokemon-name">MIMIKYU</span>
+          <span class="type-codes"><span class="type-code t-gh">GH</span>/<span class="type-code t-fa">FA</span></span>
+          <span class="pokemon-lv">Lv44</span>
+        </div>
+        <div class="enemy-row">
+          <div class="type-dot" style="background:#EE99AC"></div>
+          <span class="pokemon-name">SYLVEON</span>
+          <span class="type-codes"><span class="type-code t-fa">FA</span></span>
+          <span class="pokemon-lv">Lv44</span>
+        </div>
+        <div class="enemy-row">
+          <div class="type-dot" style="background:#EE99AC"></div>
+          <span class="pokemon-name">GRANBULL</span>
+          <span class="type-codes"><span class="type-code t-fa">FA</span></span>
+          <span class="pokemon-lv">Lv45</span>
+        </div>
+      </div>
+
+      <div class="matchup-line">
+        <span class="tag">
+          <span class="indicator" style="background:#3FB950"></span>
+          <span class="c-green">+3 SE HITS</span>
+        </span>
+        <span class="tag">
+          <span class="indicator" style="background:#F85149"></span>
+          <span class="c-red">-1 WEAK</span>
+        </span>
+        <span class="c-dim" style="margin-left:auto; font-size:9px;">EXCADRIL, ROSERADE recommended</span>
+      </div>
+    </div>
+
+    <!-- ──── AREA INTEL ──── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">RT.3 ENCOUNTERS</span>
+        <span class="section-meta">6 species</span>
+      </div>
+
+      <div class="enc-table-header">
+        <span>Pokemon</span>
+        <span>Type</span>
+        <span>Rate</span>
+        <span>Method</span>
+      </div>
+
+      <div class="enc-row">
+        <span class="enc-name">ODDISH</span>
+        <span class="enc-type"><span class="t-gs">GS</span>/<span class="t-po">PO</span></span>
+        <span class="enc-rate common">30%</span>
+        <span class="enc-method">GRASS</span>
+      </div>
+      <div class="enc-row">
+        <span class="enc-name">PIDGEOTTO</span>
+        <span class="enc-type"><span class="t-no">NO</span>/<span class="t-fl">FL</span></span>
+        <span class="enc-rate common">25%</span>
+        <span class="enc-method">GRASS</span>
+      </div>
+      <div class="enc-row">
+        <span class="enc-name">BUNEARY</span>
+        <span class="enc-type"><span class="t-no">NO</span></span>
+        <span class="enc-rate uncommon">20%</span>
+        <span class="enc-method">GRASS</span>
+      </div>
+      <div class="enc-row">
+        <span class="enc-name">FLETCHIND</span>
+        <span class="enc-type"><span class="t-no">NO</span>/<span class="t-fl">FL</span></span>
+        <span class="enc-rate uncommon">15%</span>
+        <span class="enc-method">GRASS</span>
+      </div>
+      <div class="enc-row">
+        <span class="enc-name">EEVEE</span>
+        <span class="enc-type"><span class="t-no">NO</span></span>
+        <span class="enc-rate rare">5%</span>
+        <span class="enc-method">GRASS</span>
+      </div>
+      <div class="enc-row">
+        <span class="enc-name">POLIWAG</span>
+        <span class="enc-type"><span class="t-wa">WA</span></span>
+        <span class="enc-rate rare">5%</span>
+        <span class="enc-method">SURF</span>
+      </div>
+    </div>
+
+    <!-- ──── STATUS STRIP ──── -->
+    <div class="status-strip">
+      <div class="stat-cell">
+        <span class="stat-label">QST</span>
+        <span class="stat-value">4/12</span>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:33%; background:#D29922;"></div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-label">ITM</span>
+        <span class="stat-value">12/48</span>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:25%; background:#484F58;"></div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-label">DEX</span>
+        <span class="stat-value">86/967</span>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:8.9%; background:#58A6FF;"></div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-label">TIME</span>
+        <span class="stat-value">14:32</span>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:60%; background:#484F58;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- end .content -->
+
+  <!-- ════════ BOTTOM NAV ════════ -->
+  <div class="bottom-nav">
+    <div class="nav-tab active">HOME</div>
+    <div class="nav-tab">TEAM</div>
+    <div class="nav-tab">DEX</div>
+    <div class="nav-tab">MAP</div>
+    <div class="nav-tab">MORE</div>
+  </div>
+
+</div>
+<!-- end .device -->
+
+</body>
+</html>
