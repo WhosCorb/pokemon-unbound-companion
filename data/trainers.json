@@ -1,186 +1,1157 @@
 [
   {
-    "id": "gym_1_mel",
-    "name": "Mel",
+    "id": "gym_1_mirskle",
+    "name": "Mirskle",
     "title": "Gym Leader",
-    "locationId": "dehara_city",
-    "specialtyType": "fire",
-    "milestoneRequired": "reach_fallshore",
+    "locationId": "dresco_town",
+    "specialtyType": "grass",
+    "milestoneRequired": "reach_dresco",
     "badgeAwarded": "badge_1",
     "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "budew",
+          "pokemonName": "Budew",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 14,
+          "moves": [
+            "Mega Drain",
+            "Stun Spore",
+            "Growth",
+            "Water Sport"
+          ]
+        },
+        {
+          "pokemonId": "flabebe",
+          "pokemonName": "Flabebe",
+          "types": [
+            "fairy"
+          ],
+          "level": 14,
+          "moves": [
+            "Fairy Wind",
+            "Razor Leaf",
+            "Wish",
+            "Grassy Terrain"
+          ]
+        },
+        {
+          "pokemonId": "gloom",
+          "pokemonName": "Gloom",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 15,
+          "moves": [
+            "Mega Drain",
+            "Acid",
+            "Sleep Powder",
+            "Moonlight"
+          ]
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "budew",
+          "pokemonName": "Budew",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 15,
+          "moves": [
+            "Mega Drain",
+            "Stun Spore",
+            "Growth",
+            "Extrasensory"
+          ]
+        },
+        {
+          "pokemonId": "floette",
+          "pokemonName": "Floette",
+          "types": [
+            "fairy"
+          ],
+          "level": 15,
+          "moves": [
+            "Fairy Wind",
+            "Grass Knot",
+            "Wish",
+            "Grassy Terrain"
+          ]
+        },
+        {
+          "pokemonId": "weedle",
+          "pokemonName": "Weedle",
+          "types": [
+            "bug",
+            "poison"
+          ],
+          "level": 15,
+          "moves": [
+            "Poison Sting",
+            "String Shot",
+            "Bug Bite",
+            "Electroweb"
+          ]
+        },
+        {
+          "pokemonId": "gloom",
+          "pokemonName": "Gloom",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 16,
+          "moves": [
+            "Mega Drain",
+            "Acid",
+            "Sleep Powder",
+            "Moonlight"
+          ]
+        }
+      ],
       "expert": [
         {
-          "pokemonId": "arcanine",
-          "pokemonName": "Arcanine",
+          "pokemonId": "roselia",
+          "pokemonName": "Roselia",
           "types": [
-            "fire"
+            "grass",
+            "poison"
           ],
-          "level": 18,
+          "level": 16,
           "moves": [
-            "Flame Wheel",
-            "Bite",
-            "Extreme Speed",
-            "Will-O-Wisp"
+            "Mega Drain",
+            "Sludge Bomb",
+            "Stun Spore",
+            "Leech Seed"
           ]
         },
         {
-          "pokemonId": "magcargo",
-          "pokemonName": "Magcargo",
+          "pokemonId": "floette",
+          "pokemonName": "Floette",
           "types": [
-            "fire",
-            "rock"
+            "fairy"
           ],
-          "level": 18,
+          "level": 16,
           "moves": [
-            "Rock Slide",
-            "Flame Wheel",
-            "Shell Smash",
-            "Earth Power"
+            "Fairy Wind",
+            "Grass Knot",
+            "Wish",
+            "Grassy Terrain"
           ]
         },
         {
-          "pokemonId": "talonflame",
-          "pokemonName": "Talonflame",
+          "pokemonId": "weedle",
+          "pokemonName": "Weedle",
           "types": [
-            "fire",
-            "flying"
+            "bug",
+            "poison"
           ],
-          "level": 19,
+          "level": 16,
           "moves": [
-            "Acrobatics",
-            "Flame Charge",
-            "Swords Dance",
-            "Roost"
+            "Poison Sting",
+            "String Shot",
+            "Bug Bite",
+            "Electroweb"
           ]
+        },
+        {
+          "pokemonId": "gloom",
+          "pokemonName": "Gloom",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 17,
+          "moves": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Sleep Powder",
+            "Moonlight"
+          ]
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "roselia",
+          "pokemonName": "Roselia",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 17,
+          "moves": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Spikes",
+            "Leech Seed"
+          ],
+          "ability": "Natural Cure"
+        },
+        {
+          "pokemonId": "floette",
+          "pokemonName": "Floette",
+          "types": [
+            "fairy"
+          ],
+          "level": 17,
+          "moves": [
+            "Dazzling Gleam",
+            "Grass Knot",
+            "Wish",
+            "Calm Mind"
+          ],
+          "ability": "Flower Veil"
+        },
+        {
+          "pokemonId": "weedle",
+          "pokemonName": "Weedle",
+          "types": [
+            "bug",
+            "poison"
+          ],
+          "level": 17,
+          "moves": [
+            "Poison Sting",
+            "String Shot",
+            "Bug Bite",
+            "Electroweb"
+          ],
+          "ability": "Shield Dust",
+          "item": "Beedrillite"
+        },
+        {
+          "pokemonId": "budew",
+          "pokemonName": "Budew",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 17,
+          "moves": [
+            "Mega Drain",
+            "Extrasensory",
+            "Stun Spore",
+            "Growth"
+          ],
+          "ability": "Poison Point"
+        },
+        {
+          "pokemonId": "gloom",
+          "pokemonName": "Gloom",
+          "types": [
+            "grass",
+            "poison"
+          ],
+          "level": 18,
+          "moves": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Sleep Powder",
+            "Moonlight"
+          ],
+          "ability": "Chlorophyll"
         }
       ]
     }
   },
   {
-    "id": "gym_2_tessy",
-    "name": "Tessy",
+    "id": "gym_2_vega",
+    "name": "Vega",
     "title": "Gym Leader",
-    "locationId": "seaport_city",
-    "specialtyType": "water",
+    "locationId": "crater_town",
+    "specialtyType": "dark",
     "milestoneRequired": "badge_1",
     "badgeAwarded": "badge_2",
     "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "liepard",
+          "pokemonName": "Liepard",
+          "types": [
+            "dark"
+          ],
+          "level": 22,
+          "moves": [
+            "Fake Out",
+            "Night Slash",
+            "Play Rough",
+            "U-turn"
+          ]
+        },
+        {
+          "pokemonId": "sneasel",
+          "pokemonName": "Sneasel",
+          "types": [
+            "dark",
+            "ice"
+          ],
+          "level": 22,
+          "moves": [
+            "Quick Attack",
+            "Icy Wind",
+            "Knock Off",
+            "Feint Attack"
+          ]
+        },
+        {
+          "pokemonId": "absol",
+          "pokemonName": "Absol",
+          "types": [
+            "dark"
+          ],
+          "level": 23,
+          "moves": [
+            "Night Slash",
+            "Psycho Cut",
+            "Detect",
+            "Swords Dance"
+          ]
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "liepard",
+          "pokemonName": "Liepard",
+          "types": [
+            "dark"
+          ],
+          "level": 23,
+          "moves": [
+            "Fake Out",
+            "Night Slash",
+            "Play Rough",
+            "U-turn"
+          ]
+        },
+        {
+          "pokemonId": "sneasel",
+          "pokemonName": "Sneasel",
+          "types": [
+            "dark",
+            "ice"
+          ],
+          "level": 23,
+          "moves": [
+            "Ice Punch",
+            "Knock Off",
+            "Quick Attack",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "spiritomb",
+          "pokemonName": "Spiritomb",
+          "types": [
+            "ghost",
+            "dark"
+          ],
+          "level": 24,
+          "moves": [
+            "Shadow Ball",
+            "Dark Pulse",
+            "Will-O-Wisp",
+            "Sucker Punch"
+          ]
+        },
+        {
+          "pokemonId": "absol",
+          "pokemonName": "Absol",
+          "types": [
+            "dark"
+          ],
+          "level": 24,
+          "moves": [
+            "Night Slash",
+            "Psycho Cut",
+            "Sucker Punch",
+            "Swords Dance"
+          ]
+        }
+      ],
       "expert": [
         {
-          "pokemonId": "pelipper",
-          "pokemonName": "Pelipper",
+          "pokemonId": "liepard",
+          "pokemonName": "Liepard",
           "types": [
-            "water",
+            "dark"
+          ],
+          "level": 24,
+          "moves": [
+            "Fake Out",
+            "Night Slash",
+            "Play Rough",
+            "U-turn"
+          ]
+        },
+        {
+          "pokemonId": "honchkrow",
+          "pokemonName": "Honchkrow",
+          "types": [
+            "dark",
+            "flying"
+          ],
+          "level": 24,
+          "moves": [
+            "Brave Bird",
+            "Night Slash",
+            "Sucker Punch",
+            "Heat Wave"
+          ]
+        },
+        {
+          "pokemonId": "spiritomb",
+          "pokemonName": "Spiritomb",
+          "types": [
+            "ghost",
+            "dark"
+          ],
+          "level": 25,
+          "moves": [
+            "Shadow Ball",
+            "Dark Pulse",
+            "Will-O-Wisp",
+            "Sucker Punch"
+          ]
+        },
+        {
+          "pokemonId": "pawniard",
+          "pokemonName": "Pawniard",
+          "types": [
+            "dark",
+            "steel"
+          ],
+          "level": 25,
+          "moves": [
+            "Iron Head",
+            "Night Slash",
+            "Sucker Punch",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "absol",
+          "pokemonName": "Absol",
+          "types": [
+            "dark"
+          ],
+          "level": 26,
+          "moves": [
+            "Night Slash",
+            "Psycho Cut",
+            "Sucker Punch",
+            "Swords Dance"
+          ],
+          "item": "Absolite"
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "liepard",
+          "pokemonName": "Liepard",
+          "types": [
+            "dark"
+          ],
+          "level": 25,
+          "moves": [
+            "Fake Out",
+            "Knock Off",
+            "Play Rough",
+            "U-turn"
+          ],
+          "ability": "Prankster"
+        },
+        {
+          "pokemonId": "honchkrow",
+          "pokemonName": "Honchkrow",
+          "types": [
+            "dark",
+            "flying"
+          ],
+          "level": 25,
+          "moves": [
+            "Oblivion Wing",
+            "Night Slash",
+            "Sucker Punch",
+            "Heat Wave"
+          ],
+          "ability": "Moxie"
+        },
+        {
+          "pokemonId": "spiritomb",
+          "pokemonName": "Spiritomb",
+          "types": [
+            "ghost",
+            "dark"
+          ],
+          "level": 25,
+          "moves": [
+            "Shadow Ball",
+            "Dark Pulse",
+            "Will-O-Wisp",
+            "Pain Split"
+          ],
+          "ability": "Pressure"
+        },
+        {
+          "pokemonId": "pawniard",
+          "pokemonName": "Pawniard",
+          "types": [
+            "dark",
+            "steel"
+          ],
+          "level": 26,
+          "moves": [
+            "Iron Head",
+            "Night Slash",
+            "Sucker Punch",
+            "Swords Dance"
+          ],
+          "ability": "Defiant"
+        },
+        {
+          "pokemonId": "absol",
+          "pokemonName": "Absol",
+          "types": [
+            "dark"
+          ],
+          "level": 26,
+          "moves": [
+            "Night Slash",
+            "Psycho Cut",
+            "Sucker Punch",
+            "Swords Dance"
+          ],
+          "ability": "Super Luck",
+          "item": "Absolite"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gym_3_alice",
+    "name": "Alice",
+    "title": "Gym Leader",
+    "locationId": "blizzard_city",
+    "specialtyType": "flying",
+    "milestoneRequired": "badge_2",
+    "badgeAwarded": "badge_3",
+    "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "minior",
+          "pokemonName": "Minior",
+          "types": [
+            "rock",
             "flying"
           ],
           "level": 28,
           "moves": [
-            "Scald",
-            "Hurricane",
+            "Stealth Rock",
+            "Shell Smash",
+            "Acrobatics",
+            "Power Gem"
+          ]
+        },
+        {
+          "pokemonId": "gliscor",
+          "pokemonName": "Gliscor",
+          "types": [
+            "ground",
+            "flying"
+          ],
+          "level": 29,
+          "moves": [
+            "Earthquake",
+            "Acrobatics",
+            "Knock Off",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "dodrio",
+          "pokemonName": "Dodrio",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 30,
+          "moves": [
+            "Brave Bird",
+            "Jump Kick",
+            "Knock Off",
+            "Swords Dance"
+          ]
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "minior",
+          "pokemonName": "Minior",
+          "types": [
+            "rock",
+            "flying"
+          ],
+          "level": 29,
+          "moves": [
+            "Stealth Rock",
+            "Shell Smash",
+            "Acrobatics",
+            "Power Gem"
+          ]
+        },
+        {
+          "pokemonId": "skarmory",
+          "pokemonName": "Skarmory",
+          "types": [
+            "steel",
+            "flying"
+          ],
+          "level": 29,
+          "moves": [
+            "Steel Wing",
+            "Brave Bird",
+            "Whirlwind",
+            "Stealth Rock"
+          ]
+        },
+        {
+          "pokemonId": "gliscor",
+          "pokemonName": "Gliscor",
+          "types": [
+            "ground",
+            "flying"
+          ],
+          "level": 30,
+          "moves": [
+            "Earthquake",
+            "Acrobatics",
+            "Knock Off",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "dodrio",
+          "pokemonName": "Dodrio",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 31,
+          "moves": [
+            "Brave Bird",
+            "Jump Kick",
+            "Knock Off",
+            "Swords Dance"
+          ]
+        }
+      ],
+      "expert": [
+        {
+          "pokemonId": "skarmory",
+          "pokemonName": "Skarmory",
+          "types": [
+            "steel",
+            "flying"
+          ],
+          "level": 30,
+          "moves": [
+            "Steel Wing",
+            "Brave Bird",
+            "Whirlwind",
+            "Stealth Rock"
+          ]
+        },
+        {
+          "pokemonId": "crobat",
+          "pokemonName": "Crobat",
+          "types": [
+            "poison",
+            "flying"
+          ],
+          "level": 30,
+          "moves": [
+            "Brave Bird",
+            "Cross Poison",
             "U-turn",
             "Roost"
           ]
         },
         {
-          "pokemonId": "ludicolo",
-          "pokemonName": "Ludicolo",
+          "pokemonId": "gliscor",
+          "pokemonName": "Gliscor",
           "types": [
-            "water",
-            "grass"
+            "ground",
+            "flying"
           ],
-          "level": 28,
+          "level": 31,
           "moves": [
-            "Scald",
-            "Giga Drain",
-            "Ice Beam",
-            "Rain Dance"
-          ]
-        },
-        {
-          "pokemonId": "swampert",
-          "pokemonName": "Swampert",
-          "types": [
-            "water",
-            "ground"
-          ],
-          "level": 29,
-          "moves": [
-            "Waterfall",
             "Earthquake",
-            "Ice Punch",
-            "Stealth Rock"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "id": "gym_3_roxanne",
-    "name": "Roxanne",
-    "title": "Gym Leader",
-    "locationId": "vivill_town",
-    "specialtyType": "rock",
-    "milestoneRequired": "badge_2",
-    "badgeAwarded": "badge_3",
-    "teams": {
-      "expert": [
-        {
-          "pokemonId": "lycanroc",
-          "pokemonName": "Lycanroc",
-          "types": [
-            "rock"
-          ],
-          "level": 36,
-          "moves": [
-            "Stone Edge",
-            "Accelerock",
-            "Drill Run",
+            "Acrobatics",
+            "Knock Off",
             "Swords Dance"
           ]
         },
         {
-          "pokemonId": "tyranitar",
-          "pokemonName": "Tyranitar",
+          "pokemonId": "dodrio",
+          "pokemonName": "Dodrio",
           "types": [
-            "rock",
-            "dark"
+            "normal",
+            "flying"
           ],
-          "level": 36,
+          "level": 31,
           "moves": [
-            "Stone Edge",
-            "Crunch",
-            "Earthquake",
-            "Dragon Dance"
+            "Brave Bird",
+            "Jump Kick",
+            "Knock Off",
+            "Swords Dance"
           ]
         },
         {
-          "pokemonId": "aerodactyl",
-          "pokemonName": "Aerodactyl",
+          "pokemonId": "pinsir",
+          "pokemonName": "Pinsir",
           "types": [
-            "rock",
+            "bug"
+          ],
+          "level": 32,
+          "moves": [
+            "X-Scissor",
+            "Close Combat",
+            "Quick Attack",
+            "Swords Dance"
+          ],
+          "item": "Pinsirite"
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "skarmory",
+          "pokemonName": "Skarmory",
+          "types": [
+            "steel",
             "flying"
           ],
-          "level": 37,
+          "level": 31,
           "moves": [
-            "Stone Edge",
-            "Dual Wingbeat",
-            "Earthquake",
+            "Steel Wing",
+            "Brave Bird",
+            "Stealth Rock",
+            "Whirlwind"
+          ],
+          "ability": "Sturdy"
+        },
+        {
+          "pokemonId": "dodrio",
+          "pokemonName": "Dodrio",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 31,
+          "moves": [
+            "Brave Bird",
+            "Jump Kick",
+            "Knock Off",
+            "Swords Dance"
+          ],
+          "ability": "Early Bird"
+        },
+        {
+          "pokemonId": "crobat",
+          "pokemonName": "Crobat",
+          "types": [
+            "poison",
+            "flying"
+          ],
+          "level": 31,
+          "moves": [
+            "Brave Bird",
+            "Cross Poison",
+            "U-turn",
             "Roost"
-          ]
+          ],
+          "ability": "Infiltrator"
+        },
+        {
+          "pokemonId": "gliscor",
+          "pokemonName": "Gliscor",
+          "types": [
+            "ground",
+            "flying"
+          ],
+          "level": 32,
+          "moves": [
+            "Earthquake",
+            "Acrobatics",
+            "Knock Off",
+            "Swords Dance"
+          ],
+          "ability": "Poison Heal"
+        },
+        {
+          "pokemonId": "pinsir",
+          "pokemonName": "Pinsir",
+          "types": [
+            "bug"
+          ],
+          "level": 32,
+          "moves": [
+            "Storm Throw",
+            "Close Combat",
+            "Quick Attack",
+            "Swords Dance"
+          ],
+          "ability": "Hyper Cutter",
+          "item": "Pinsirite"
         }
       ]
     }
   },
   {
-    "id": "gym_4_galavan",
-    "name": "Galavan",
+    "id": "gym_4_mel",
+    "name": "Mel",
     "title": "Gym Leader",
-    "locationId": "antisis_city",
-    "specialtyType": "electric",
+    "locationId": "fallshore_city",
+    "specialtyType": "normal",
     "milestoneRequired": "badge_3",
     "badgeAwarded": "badge_4",
     "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "swellow",
+          "pokemonName": "Swellow",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 33,
+          "moves": [
+            "Brave Bird",
+            "Facade",
+            "U-turn",
+            "Quick Attack"
+          ]
+        },
+        {
+          "pokemonId": "type-null",
+          "pokemonName": "Type: Null",
+          "types": [
+            "normal"
+          ],
+          "level": 33,
+          "moves": [
+            "Crush Claw",
+            "X-Scissor",
+            "Iron Head",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "kangaskhan",
+          "pokemonName": "Kangaskhan",
+          "types": [
+            "normal"
+          ],
+          "level": 34,
+          "moves": [
+            "Return",
+            "Sucker Punch",
+            "Earthquake",
+            "Power-Up Punch"
+          ]
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "swellow",
+          "pokemonName": "Swellow",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 34,
+          "moves": [
+            "Brave Bird",
+            "Facade",
+            "U-turn",
+            "Quick Attack"
+          ]
+        },
+        {
+          "pokemonId": "porygon-z",
+          "pokemonName": "Porygon-Z",
+          "types": [
+            "normal"
+          ],
+          "level": 34,
+          "moves": [
+            "Tri Attack",
+            "Shadow Ball",
+            "Thunderbolt",
+            "Nasty Plot"
+          ]
+        },
+        {
+          "pokemonId": "type-null",
+          "pokemonName": "Type: Null",
+          "types": [
+            "normal"
+          ],
+          "level": 34,
+          "moves": [
+            "Crush Claw",
+            "X-Scissor",
+            "Iron Head",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "kangaskhan",
+          "pokemonName": "Kangaskhan",
+          "types": [
+            "normal"
+          ],
+          "level": 35,
+          "moves": [
+            "Return",
+            "Sucker Punch",
+            "Earthquake",
+            "Power-Up Punch"
+          ]
+        }
+      ],
       "expert": [
+        {
+          "pokemonId": "swellow",
+          "pokemonName": "Swellow",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 34,
+          "moves": [
+            "Brave Bird",
+            "Facade",
+            "U-turn",
+            "Quick Attack"
+          ],
+          "ability": "Guts"
+        },
+        {
+          "pokemonId": "porygon-z",
+          "pokemonName": "Porygon-Z",
+          "types": [
+            "normal"
+          ],
+          "level": 35,
+          "moves": [
+            "Tri Attack",
+            "Shadow Ball",
+            "Thunderbolt",
+            "Nasty Plot"
+          ]
+        },
+        {
+          "pokemonId": "snorlax",
+          "pokemonName": "Snorlax",
+          "types": [
+            "normal"
+          ],
+          "level": 35,
+          "moves": [
+            "Body Slam",
+            "Earthquake",
+            "Curse",
+            "Rest"
+          ]
+        },
+        {
+          "pokemonId": "type-null",
+          "pokemonName": "Type: Null",
+          "types": [
+            "normal"
+          ],
+          "level": 35,
+          "moves": [
+            "Crush Claw",
+            "X-Scissor",
+            "Iron Head",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "kangaskhan",
+          "pokemonName": "Kangaskhan",
+          "types": [
+            "normal"
+          ],
+          "level": 36,
+          "moves": [
+            "Return",
+            "Sucker Punch",
+            "Earthquake",
+            "Power-Up Punch"
+          ],
+          "item": "Kangaskhanite"
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "porygon-z",
+          "pokemonName": "Porygon-Z",
+          "types": [
+            "normal"
+          ],
+          "level": 35,
+          "moves": [
+            "Uproar",
+            "Tri Attack",
+            "Uproar",
+            "Tri Attack"
+          ],
+          "ability": "Adaptability"
+        },
+        {
+          "pokemonId": "swellow",
+          "pokemonName": "Swellow",
+          "types": [
+            "normal",
+            "flying"
+          ],
+          "level": 35,
+          "moves": [
+            "Brave Bird",
+            "Facade",
+            "U-turn",
+            "Quick Attack"
+          ],
+          "ability": "Guts"
+        },
+        {
+          "pokemonId": "snorlax",
+          "pokemonName": "Snorlax",
+          "types": [
+            "normal"
+          ],
+          "level": 35,
+          "moves": [
+            "Body Slam",
+            "Earthquake",
+            "Curse",
+            "Rest"
+          ],
+          "ability": "Thick Fat"
+        },
+        {
+          "pokemonId": "type-null",
+          "pokemonName": "Type: Null",
+          "types": [
+            "normal"
+          ],
+          "level": 36,
+          "moves": [
+            "Crush Claw",
+            "X-Scissor",
+            "Iron Head",
+            "Swords Dance"
+          ],
+          "ability": "Battle Armor"
+        },
+        {
+          "pokemonId": "kangaskhan",
+          "pokemonName": "Kangaskhan",
+          "types": [
+            "normal"
+          ],
+          "level": 36,
+          "moves": [
+            "Return",
+            "Sucker Punch",
+            "Earthquake",
+            "Power-Up Punch"
+          ],
+          "ability": "Scrappy",
+          "item": "Kangaskhanite"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gym_5_galavan",
+    "name": "Galavan",
+    "title": "Gym Leader",
+    "locationId": "dehara_city",
+    "specialtyType": "electric",
+    "milestoneRequired": "badge_4",
+    "badgeAwarded": "badge_5",
+    "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "magnezone",
+          "pokemonName": "Magnezone",
+          "types": [
+            "electric",
+            "steel"
+          ],
+          "level": 41,
+          "moves": [
+            "Thunderbolt",
+            "Flash Cannon",
+            "Volt Switch",
+            "Magnet Rise"
+          ]
+        },
+        {
+          "pokemonId": "vikavolt",
+          "pokemonName": "Vikavolt",
+          "types": [
+            "bug",
+            "electric"
+          ],
+          "level": 41,
+          "moves": [
+            "Thunderbolt",
+            "Bug Buzz",
+            "Energy Ball",
+            "Volt Switch"
+          ]
+        },
+        {
+          "pokemonId": "electivire",
+          "pokemonName": "Electivire",
+          "types": [
+            "electric"
+          ],
+          "level": 42,
+          "moves": [
+            "Wild Charge",
+            "Ice Punch",
+            "Cross Chop",
+            "Earthquake"
+          ]
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "magnezone",
+          "pokemonName": "Magnezone",
+          "types": [
+            "electric",
+            "steel"
+          ],
+          "level": 42,
+          "moves": [
+            "Thunderbolt",
+            "Flash Cannon",
+            "Volt Switch",
+            "Magnet Rise"
+          ]
+        },
         {
           "pokemonId": "vikavolt",
           "pokemonName": "Vikavolt",
@@ -203,7 +1174,7 @@
             "electric",
             "poison"
           ],
-          "level": 42,
+          "level": 43,
           "moves": [
             "Overdrive",
             "Sludge Wave",
@@ -225,34 +1196,1078 @@
             "Earthquake"
           ]
         }
+      ],
+      "expert": [
+        {
+          "pokemonId": "magnezone",
+          "pokemonName": "Magnezone",
+          "types": [
+            "electric",
+            "steel"
+          ],
+          "level": 43,
+          "moves": [
+            "Thunderbolt",
+            "Flash Cannon",
+            "Body Press",
+            "Volt Switch"
+          ]
+        },
+        {
+          "pokemonId": "vikavolt",
+          "pokemonName": "Vikavolt",
+          "types": [
+            "bug",
+            "electric"
+          ],
+          "level": 43,
+          "moves": [
+            "Thunderbolt",
+            "Bug Buzz",
+            "Energy Ball",
+            "Volt Switch"
+          ]
+        },
+        {
+          "pokemonId": "toxtricity",
+          "pokemonName": "Toxtricity",
+          "types": [
+            "electric",
+            "poison"
+          ],
+          "level": 44,
+          "moves": [
+            "Overdrive",
+            "Sludge Wave",
+            "Boomburst",
+            "Shift Gear"
+          ]
+        },
+        {
+          "pokemonId": "rotom-wash",
+          "pokemonName": "Rotom-Wash",
+          "types": [
+            "electric",
+            "water"
+          ],
+          "level": 44,
+          "moves": [
+            "Hydro Pump",
+            "Thunderbolt",
+            "Volt Switch",
+            "Will-O-Wisp"
+          ]
+        },
+        {
+          "pokemonId": "electivire",
+          "pokemonName": "Electivire",
+          "types": [
+            "electric"
+          ],
+          "level": 45,
+          "moves": [
+            "Wild Charge",
+            "Ice Punch",
+            "Cross Chop",
+            "Earthquake"
+          ]
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "magnezone",
+          "pokemonName": "Magnezone",
+          "types": [
+            "electric",
+            "steel"
+          ],
+          "level": 44,
+          "moves": [
+            "Thunderbolt",
+            "Flash Cannon",
+            "Body Press",
+            "Volt Switch"
+          ],
+          "ability": "Magnet Pull"
+        },
+        {
+          "pokemonId": "vikavolt",
+          "pokemonName": "Vikavolt",
+          "types": [
+            "bug",
+            "electric"
+          ],
+          "level": 44,
+          "moves": [
+            "Thunderbolt",
+            "Bug Buzz",
+            "Energy Ball",
+            "Volt Switch"
+          ],
+          "ability": "Levitate"
+        },
+        {
+          "pokemonId": "toxtricity",
+          "pokemonName": "Toxtricity",
+          "types": [
+            "electric",
+            "poison"
+          ],
+          "level": 44,
+          "moves": [
+            "Overdrive",
+            "Sludge Wave",
+            "Boomburst",
+            "Shift Gear"
+          ],
+          "ability": "Punk Rock"
+        },
+        {
+          "pokemonId": "heatran",
+          "pokemonName": "Heatran",
+          "types": [
+            "fire",
+            "steel"
+          ],
+          "level": 45,
+          "moves": [
+            "Magma Storm",
+            "Flash Cannon",
+            "Frost Breath",
+            "Earth Power"
+          ],
+          "ability": "Flash Fire"
+        },
+        {
+          "pokemonId": "electivire",
+          "pokemonName": "Electivire",
+          "types": [
+            "electric"
+          ],
+          "level": 45,
+          "moves": [
+            "Wild Charge",
+            "Ice Punch",
+            "Cross Chop",
+            "Earthquake"
+          ],
+          "ability": "Motor Drive"
+        }
       ]
     }
   },
   {
-    "id": "gym_5_miriam",
-    "name": "Miriam",
+    "id": "gym_6_big_mo",
+    "name": "Big Mo",
     "title": "Gym Leader",
-    "locationId": "serenity_isle",
-    "specialtyType": "fairy",
-    "milestoneRequired": "badge_4",
-    "badgeAwarded": "badge_5",
+    "locationId": "antisis_city",
+    "specialtyType": "fighting",
+    "milestoneRequired": "badge_5",
+    "badgeAwarded": "badge_6",
     "teams": {
-      "expert": [
+      "vanilla": [
         {
-          "pokemonId": "grimmsnarl",
-          "pokemonName": "Grimmsnarl",
+          "pokemonId": "mienshao",
+          "pokemonName": "Mienshao",
           "types": [
-            "dark",
-            "fairy"
+            "fighting"
           ],
           "level": 48,
           "moves": [
-            "Spirit Break",
-            "Sucker Punch",
-            "Thunder Wave",
+            "Aura Sphere",
+            "Drain Punch",
+            "U-turn",
+            "Knock Off"
+          ]
+        },
+        {
+          "pokemonId": "hariyama",
+          "pokemonName": "Hariyama",
+          "types": [
+            "fighting"
+          ],
+          "level": 49,
+          "moves": [
+            "Close Combat",
+            "Knock Off",
+            "Bullet Punch",
+            "Belly Drum"
+          ]
+        },
+        {
+          "pokemonId": "lucario",
+          "pokemonName": "Lucario",
+          "types": [
+            "fighting",
+            "steel"
+          ],
+          "level": 50,
+          "moves": [
+            "Close Combat",
+            "Meteor Mash",
+            "Extreme Speed",
+            "Swords Dance"
+          ]
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "mienshao",
+          "pokemonName": "Mienshao",
+          "types": [
+            "fighting"
+          ],
+          "level": 49,
+          "moves": [
+            "Aura Sphere",
+            "Drain Punch",
+            "U-turn",
+            "Knock Off"
+          ]
+        },
+        {
+          "pokemonId": "pangoro",
+          "pokemonName": "Pangoro",
+          "types": [
+            "fighting",
+            "dark"
+          ],
+          "level": 49,
+          "moves": [
+            "Drain Punch",
+            "Knock Off",
+            "Iron Head",
             "Bulk Up"
           ]
         },
+        {
+          "pokemonId": "hariyama",
+          "pokemonName": "Hariyama",
+          "types": [
+            "fighting"
+          ],
+          "level": 50,
+          "moves": [
+            "Close Combat",
+            "Knock Off",
+            "Bullet Punch",
+            "Belly Drum"
+          ]
+        },
+        {
+          "pokemonId": "lucario",
+          "pokemonName": "Lucario",
+          "types": [
+            "fighting",
+            "steel"
+          ],
+          "level": 51,
+          "moves": [
+            "Close Combat",
+            "Meteor Mash",
+            "Extreme Speed",
+            "Swords Dance"
+          ],
+          "item": "Lucarionite"
+        }
+      ],
+      "expert": [
+        {
+          "pokemonId": "mienshao",
+          "pokemonName": "Mienshao",
+          "types": [
+            "fighting"
+          ],
+          "level": 50,
+          "moves": [
+            "Aura Sphere",
+            "Drain Punch",
+            "U-turn",
+            "Knock Off"
+          ]
+        },
+        {
+          "pokemonId": "pangoro",
+          "pokemonName": "Pangoro",
+          "types": [
+            "fighting",
+            "dark"
+          ],
+          "level": 50,
+          "moves": [
+            "Drain Punch",
+            "Knock Off",
+            "Iron Head",
+            "Bulk Up"
+          ]
+        },
+        {
+          "pokemonId": "hariyama",
+          "pokemonName": "Hariyama",
+          "types": [
+            "fighting"
+          ],
+          "level": 51,
+          "moves": [
+            "Close Combat",
+            "Knock Off",
+            "Bullet Punch",
+            "Belly Drum"
+          ]
+        },
+        {
+          "pokemonId": "guzzlord",
+          "pokemonName": "Guzzlord",
+          "types": [
+            "dark",
+            "dragon"
+          ],
+          "level": 51,
+          "moves": [
+            "Draco Meteor",
+            "Dark Pulse",
+            "Flamethrower",
+            "Sludge Wave"
+          ]
+        },
+        {
+          "pokemonId": "lucario",
+          "pokemonName": "Lucario",
+          "types": [
+            "fighting",
+            "steel"
+          ],
+          "level": 52,
+          "moves": [
+            "Close Combat",
+            "Meteor Mash",
+            "Extreme Speed",
+            "Swords Dance"
+          ],
+          "item": "Lucarionite"
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "mienshao",
+          "pokemonName": "Mienshao",
+          "types": [
+            "fighting"
+          ],
+          "level": 51,
+          "moves": [
+            "Aura Sphere",
+            "Drain Punch",
+            "U-turn",
+            "Knock Off"
+          ],
+          "ability": "Reckless"
+        },
+        {
+          "pokemonId": "pangoro",
+          "pokemonName": "Pangoro",
+          "types": [
+            "fighting",
+            "dark"
+          ],
+          "level": 51,
+          "moves": [
+            "Drain Punch",
+            "Knock Off",
+            "Iron Head",
+            "Bulk Up"
+          ],
+          "ability": "Iron Fist"
+        },
+        {
+          "pokemonId": "hariyama",
+          "pokemonName": "Hariyama",
+          "types": [
+            "fighting"
+          ],
+          "level": 51,
+          "moves": [
+            "Close Combat",
+            "Knock Off",
+            "Bullet Punch",
+            "Belly Drum"
+          ],
+          "ability": "Guts"
+        },
+        {
+          "pokemonId": "guzzlord",
+          "pokemonName": "Guzzlord",
+          "types": [
+            "dark",
+            "dragon"
+          ],
+          "level": 52,
+          "moves": [
+            "Draco Meteor",
+            "Dark Pulse",
+            "Flamethrower",
+            "Sludge Wave"
+          ],
+          "ability": "Beast Boost"
+        },
+        {
+          "pokemonId": "lucario",
+          "pokemonName": "Lucario",
+          "types": [
+            "fighting",
+            "steel"
+          ],
+          "level": 52,
+          "moves": [
+            "Close Combat",
+            "Meteor Mash",
+            "Extreme Speed",
+            "Swords Dance"
+          ],
+          "ability": "Adaptability",
+          "item": "Lucarionite"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gym_7_tessy",
+    "name": "Tessy",
+    "title": "Gym Leader",
+    "locationId": "polder_town",
+    "specialtyType": "water",
+    "milestoneRequired": "badge_6",
+    "badgeAwarded": "badge_7",
+    "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "toxapex",
+          "pokemonName": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ],
+          "level": 53,
+          "moves": [
+            "Scald",
+            "Toxic Spikes",
+            "Recover",
+            "Haze"
+          ]
+        },
+        {
+          "pokemonId": "seaking",
+          "pokemonName": "Seaking",
+          "types": [
+            "water"
+          ],
+          "level": 54,
+          "moves": [
+            "Waterfall",
+            "Megahorn",
+            "Drill Run",
+            "Aqua Jet"
+          ]
+        },
+        {
+          "pokemonId": "gyarados",
+          "pokemonName": "Gyarados",
+          "types": [
+            "water",
+            "flying"
+          ],
+          "level": 55,
+          "moves": [
+            "Waterfall",
+            "Crunch",
+            "Ice Fang",
+            "Dragon Dance"
+          ],
+          "item": "Gyaradosite"
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "toxapex",
+          "pokemonName": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ],
+          "level": 54,
+          "moves": [
+            "Scald",
+            "Toxic Spikes",
+            "Recover",
+            "Haze"
+          ]
+        },
+        {
+          "pokemonId": "seaking",
+          "pokemonName": "Seaking",
+          "types": [
+            "water"
+          ],
+          "level": 54,
+          "moves": [
+            "Waterfall",
+            "Megahorn",
+            "Drill Run",
+            "Aqua Jet"
+          ]
+        },
+        {
+          "pokemonId": "zeraora",
+          "pokemonName": "Zeraora",
+          "types": [
+            "electric"
+          ],
+          "level": 55,
+          "moves": [
+            "Plasma Fists",
+            "Close Combat",
+            "Knock Off",
+            "Volt Switch"
+          ]
+        },
+        {
+          "pokemonId": "gyarados",
+          "pokemonName": "Gyarados",
+          "types": [
+            "water",
+            "flying"
+          ],
+          "level": 56,
+          "moves": [
+            "Waterfall",
+            "Crunch",
+            "Ice Fang",
+            "Dragon Dance"
+          ],
+          "item": "Gyaradosite"
+        }
+      ],
+      "expert": [
+        {
+          "pokemonId": "toxapex",
+          "pokemonName": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ],
+          "level": 55,
+          "moves": [
+            "Scald",
+            "Toxic Spikes",
+            "Recover",
+            "Haze"
+          ]
+        },
+        {
+          "pokemonId": "seaking",
+          "pokemonName": "Seaking",
+          "types": [
+            "water"
+          ],
+          "level": 55,
+          "moves": [
+            "Waterfall",
+            "Megahorn",
+            "Drill Run",
+            "Aqua Jet"
+          ]
+        },
+        {
+          "pokemonId": "zeraora",
+          "pokemonName": "Zeraora",
+          "types": [
+            "electric"
+          ],
+          "level": 56,
+          "moves": [
+            "Plasma Fists",
+            "Close Combat",
+            "Knock Off",
+            "Volt Switch"
+          ]
+        },
+        {
+          "pokemonId": "milotic",
+          "pokemonName": "Milotic",
+          "types": [
+            "water"
+          ],
+          "level": 56,
+          "moves": [
+            "Scald",
+            "Ice Beam",
+            "Recover",
+            "Coil"
+          ]
+        },
+        {
+          "pokemonId": "gyarados",
+          "pokemonName": "Gyarados",
+          "types": [
+            "water",
+            "flying"
+          ],
+          "level": 57,
+          "moves": [
+            "Waterfall",
+            "Crunch",
+            "Ice Fang",
+            "Dragon Dance"
+          ],
+          "item": "Gyaradosite"
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "toxapex",
+          "pokemonName": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ],
+          "level": 56,
+          "moves": [
+            "Scald",
+            "Toxic Spikes",
+            "Recover",
+            "Haze"
+          ],
+          "ability": "Regenerator"
+        },
+        {
+          "pokemonId": "seaking",
+          "pokemonName": "Seaking",
+          "types": [
+            "water"
+          ],
+          "level": 56,
+          "moves": [
+            "Waterfall",
+            "Megahorn",
+            "Aqua Jet",
+            "Drill Run"
+          ],
+          "ability": "Lightning Rod"
+        },
+        {
+          "pokemonId": "zeraora",
+          "pokemonName": "Zeraora",
+          "types": [
+            "electric"
+          ],
+          "level": 56,
+          "moves": [
+            "Plasma Fists",
+            "Close Combat",
+            "Roar",
+            "Volt Switch"
+          ],
+          "ability": "Volt Absorb"
+        },
+        {
+          "pokemonId": "milotic",
+          "pokemonName": "Milotic",
+          "types": [
+            "water"
+          ],
+          "level": 57,
+          "moves": [
+            "Scald",
+            "Ice Beam",
+            "Recover",
+            "Coil"
+          ],
+          "ability": "Marvel Scale"
+        },
+        {
+          "pokemonId": "gyarados",
+          "pokemonName": "Gyarados",
+          "types": [
+            "water",
+            "flying"
+          ],
+          "level": 57,
+          "moves": [
+            "Waterfall",
+            "Crunch",
+            "Ice Fang",
+            "Dragon Dance"
+          ],
+          "ability": "Intimidate",
+          "item": "Gyaradosite"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gym_8_benjamin",
+    "name": "Benjamin",
+    "title": "Gym Leader",
+    "locationId": "redwood_village",
+    "specialtyType": "bug",
+    "milestoneRequired": "badge_7",
+    "badgeAwarded": "badge_8",
+    "teams": {
+      "vanilla": [
+        {
+          "pokemonId": "volcarona",
+          "pokemonName": "Volcarona",
+          "types": [
+            "bug",
+            "fire"
+          ],
+          "level": 58,
+          "moves": [
+            "Fire Blast",
+            "Bug Buzz",
+            "Quiver Dance",
+            "Giga Drain"
+          ]
+        },
+        {
+          "pokemonId": "drapion",
+          "pokemonName": "Drapion",
+          "types": [
+            "poison",
+            "dark"
+          ],
+          "level": 58,
+          "moves": [
+            "Cross Poison",
+            "Knock Off",
+            "Earthquake",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "scizor",
+          "pokemonName": "Scizor",
+          "types": [
+            "bug",
+            "steel"
+          ],
+          "level": 59,
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Superpower",
+            "Swords Dance"
+          ],
+          "item": "Scizorite"
+        }
+      ],
+      "difficult": [
+        {
+          "pokemonId": "volcarona",
+          "pokemonName": "Volcarona",
+          "types": [
+            "bug",
+            "fire"
+          ],
+          "level": 58,
+          "moves": [
+            "Fire Blast",
+            "Bug Buzz",
+            "Quiver Dance",
+            "Giga Drain"
+          ]
+        },
+        {
+          "pokemonId": "flygon",
+          "pokemonName": "Flygon",
+          "types": [
+            "ground",
+            "dragon"
+          ],
+          "level": 59,
+          "moves": [
+            "Earthquake",
+            "Dragon Claw",
+            "U-turn",
+            "Dragon Dance"
+          ]
+        },
+        {
+          "pokemonId": "drapion",
+          "pokemonName": "Drapion",
+          "types": [
+            "poison",
+            "dark"
+          ],
+          "level": 59,
+          "moves": [
+            "Cross Poison",
+            "Knock Off",
+            "Earthquake",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "scizor",
+          "pokemonName": "Scizor",
+          "types": [
+            "bug",
+            "steel"
+          ],
+          "level": 60,
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Superpower",
+            "Swords Dance"
+          ],
+          "item": "Scizorite"
+        }
+      ],
+      "expert": [
+        {
+          "pokemonId": "volcarona",
+          "pokemonName": "Volcarona",
+          "types": [
+            "bug",
+            "fire"
+          ],
+          "level": 59,
+          "moves": [
+            "Fire Blast",
+            "Bug Buzz",
+            "Quiver Dance",
+            "Giga Drain"
+          ]
+        },
+        {
+          "pokemonId": "flygon",
+          "pokemonName": "Flygon",
+          "types": [
+            "ground",
+            "dragon"
+          ],
+          "level": 59,
+          "moves": [
+            "Earthquake",
+            "Dragon Claw",
+            "U-turn",
+            "Dragon Dance"
+          ]
+        },
+        {
+          "pokemonId": "drapion",
+          "pokemonName": "Drapion",
+          "types": [
+            "poison",
+            "dark"
+          ],
+          "level": 60,
+          "moves": [
+            "Cross Poison",
+            "Knock Off",
+            "Earthquake",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "heracross",
+          "pokemonName": "Heracross",
+          "types": [
+            "bug",
+            "fighting"
+          ],
+          "level": 60,
+          "moves": [
+            "Megahorn",
+            "Close Combat",
+            "Knock Off",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "scizor",
+          "pokemonName": "Scizor",
+          "types": [
+            "bug",
+            "steel"
+          ],
+          "level": 61,
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Superpower",
+            "Swords Dance"
+          ],
+          "item": "Scizorite"
+        }
+      ],
+      "insane": [
+        {
+          "pokemonId": "volcarona",
+          "pokemonName": "Volcarona",
+          "types": [
+            "bug",
+            "fire"
+          ],
+          "level": 60,
+          "moves": [
+            "Fire Blast",
+            "Bug Buzz",
+            "Quiver Dance",
+            "Giga Drain"
+          ],
+          "ability": "Flame Body"
+        },
+        {
+          "pokemonId": "flygon",
+          "pokemonName": "Flygon",
+          "types": [
+            "ground",
+            "dragon"
+          ],
+          "level": 60,
+          "moves": [
+            "Earthquake",
+            "Dragon Claw",
+            "U-turn",
+            "Dragon Dance"
+          ],
+          "ability": "Levitate"
+        },
+        {
+          "pokemonId": "drapion",
+          "pokemonName": "Drapion",
+          "types": [
+            "poison",
+            "dark"
+          ],
+          "level": 60,
+          "moves": [
+            "Cross Poison",
+            "Knock Off",
+            "Earthquake",
+            "Swords Dance"
+          ],
+          "ability": "Battle Armor"
+        },
+        {
+          "pokemonId": "heracross",
+          "pokemonName": "Heracross",
+          "types": [
+            "bug",
+            "fighting"
+          ],
+          "level": 61,
+          "moves": [
+            "Megahorn",
+            "Close Combat",
+            "Knock Off",
+            "Swords Dance"
+          ],
+          "ability": "Moxie"
+        },
+        {
+          "pokemonId": "scizor",
+          "pokemonName": "Scizor",
+          "types": [
+            "bug",
+            "steel"
+          ],
+          "level": 61,
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Superpower",
+            "Swords Dance"
+          ],
+          "ability": "Technician",
+          "item": "Scizorite"
+        }
+      ]
+    }
+  },
+  {
+    "id": "elite_four_1",
+    "name": "Moleman",
+    "title": "Elite Four",
+    "locationId": "pokemon_league",
+    "specialtyType": "ground",
+    "milestoneRequired": "badge_8",
+    "teams": {
+      "expert": [
+        {
+          "pokemonId": "metagross",
+          "pokemonName": "Metagross",
+          "types": [
+            "steel",
+            "psychic"
+          ],
+          "level": 70,
+          "moves": [
+            "Meteor Mash",
+            "Zen Headbutt",
+            "Earthquake",
+            "Bullet Punch"
+          ]
+        },
+        {
+          "pokemonId": "scizor",
+          "pokemonName": "Scizor",
+          "types": [
+            "bug",
+            "steel"
+          ],
+          "level": 70,
+          "moves": [
+            "Bullet Punch",
+            "U-turn",
+            "Superpower",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "aegislash",
+          "pokemonName": "Aegislash",
+          "types": [
+            "steel",
+            "ghost"
+          ],
+          "level": 70,
+          "moves": [
+            "Shadow Ball",
+            "Flash Cannon",
+            "King's Shield",
+            "Shadow Sneak"
+          ]
+        },
+        {
+          "pokemonId": "excadrill",
+          "pokemonName": "Excadrill",
+          "types": [
+            "ground",
+            "steel"
+          ],
+          "level": 71,
+          "moves": [
+            "Earthquake",
+            "Iron Head",
+            "Rock Slide",
+            "Swords Dance"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "elite_four_2",
+    "name": "Elias",
+    "title": "Elite Four",
+    "locationId": "pokemon_league",
+    "specialtyType": "ghost",
+    "milestoneRequired": "badge_8",
+    "teams": {
+      "expert": [
         {
           "pokemonId": "togekiss",
           "pokemonName": "Togekiss",
@@ -260,12 +2275,27 @@
             "fairy",
             "flying"
           ],
-          "level": 48,
+          "level": 70,
           "moves": [
             "Dazzling Gleam",
             "Air Slash",
             "Nasty Plot",
             "Roost"
+          ]
+        },
+        {
+          "pokemonId": "gardevoir",
+          "pokemonName": "Gardevoir",
+          "types": [
+            "psychic",
+            "fairy"
+          ],
+          "level": 70,
+          "moves": [
+            "Moonblast",
+            "Psychic",
+            "Focus Blast",
+            "Calm Mind"
           ]
         },
         {
@@ -275,155 +2305,39 @@
             "psychic",
             "fairy"
           ],
-          "level": 48,
+          "level": 70,
           "moves": [
             "Dazzling Gleam",
             "Psychic",
             "Mystical Fire",
-            "Calm Mind"
+            "Trick Room"
           ]
         },
         {
-          "pokemonId": "sylveon",
-          "pokemonName": "Sylveon",
-          "types": [
-            "fairy"
-          ],
-          "level": 49,
-          "moves": [
-            "Hyper Voice",
-            "Mystical Fire",
-            "Calm Mind",
-            "Wish"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "id": "gym_6_gail",
-    "name": "Gail",
-    "title": "Gym Leader",
-    "locationId": "crater_town",
-    "specialtyType": "flying",
-    "milestoneRequired": "badge_5",
-    "badgeAwarded": "badge_6",
-    "teams": {
-      "expert": [
-        {
-          "pokemonId": "corviknight",
-          "pokemonName": "Corviknight",
-          "types": [
-            "flying",
-            "steel"
-          ],
-          "level": 54,
-          "moves": [
-            "Brave Bird",
-            "Iron Head",
-            "Bulk Up",
-            "Roost"
-          ]
-        },
-        {
-          "pokemonId": "noivern",
-          "pokemonName": "Noivern",
-          "types": [
-            "flying",
-            "dragon"
-          ],
-          "level": 54,
-          "moves": [
-            "Hurricane",
-            "Draco Meteor",
-            "Flamethrower",
-            "U-turn"
-          ]
-        },
-        {
-          "pokemonId": "hawlucha",
-          "pokemonName": "Hawlucha",
-          "types": [
-            "fighting",
-            "flying"
-          ],
-          "level": 55,
-          "moves": [
-            "Acrobatics",
-            "Close Combat",
-            "Swords Dance",
-            "Thunder Punch"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "id": "gym_7_hector",
-    "name": "Hector",
-    "title": "Gym Leader",
-    "locationId": "frozen_heights",
-    "specialtyType": "ice",
-    "milestoneRequired": "badge_6",
-    "badgeAwarded": "badge_7",
-    "teams": {
-      "expert": [
-        {
-          "pokemonId": "weavile",
-          "pokemonName": "Weavile",
-          "types": [
-            "dark",
-            "ice"
-          ],
-          "level": 60,
-          "moves": [
-            "Triple Axel",
-            "Knock Off",
-            "Ice Shard",
-            "Swords Dance"
-          ]
-        },
-        {
-          "pokemonId": "mamoswine",
-          "pokemonName": "Mamoswine",
-          "types": [
-            "ice",
-            "ground"
-          ],
-          "level": 60,
-          "moves": [
-            "Icicle Crash",
-            "Earthquake",
-            "Ice Shard",
-            "Stealth Rock"
-          ]
-        },
-        {
-          "pokemonId": "lapras",
-          "pokemonName": "Lapras",
+          "pokemonId": "primarina",
+          "pokemonName": "Primarina",
           "types": [
             "water",
-            "ice"
+            "fairy"
           ],
-          "level": 61,
+          "level": 71,
           "moves": [
-            "Freeze-Dry",
-            "Surf",
-            "Thunderbolt",
-            "Perish Song"
+            "Moonblast",
+            "Sparkling Aria",
+            "Energy Ball",
+            "Calm Mind"
           ]
         }
       ]
     }
   },
   {
-    "id": "gym_8_zeph",
-    "name": "Zeph",
-    "title": "Gym Leader",
-    "locationId": "crystal_peak",
-    "specialtyType": "dragon",
-    "milestoneRequired": "badge_7",
-    "badgeAwarded": "badge_8",
+    "id": "elite_four_3",
+    "name": "Arabella",
+    "title": "Elite Four",
+    "locationId": "pokemon_league",
+    "specialtyType": "fairy",
+    "milestoneRequired": "badge_8",
     "teams": {
       "expert": [
         {
@@ -433,7 +2347,7 @@
             "dragon",
             "ghost"
           ],
-          "level": 66,
+          "level": 71,
           "moves": [
             "Dragon Darts",
             "Shadow Ball",
@@ -442,33 +2356,221 @@
           ]
         },
         {
+          "pokemonId": "salamence",
+          "pokemonName": "Salamence",
+          "types": [
+            "dragon",
+            "flying"
+          ],
+          "level": 71,
+          "moves": [
+            "Outrage",
+            "Earthquake",
+            "Dragon Dance",
+            "Fire Fang"
+          ]
+        },
+        {
+          "pokemonId": "kommo-o",
+          "pokemonName": "Kommo-o",
+          "types": [
+            "dragon",
+            "fighting"
+          ],
+          "level": 71,
+          "moves": [
+            "Clanging Scales",
+            "Close Combat",
+            "Poison Jab",
+            "Dragon Dance"
+          ]
+        },
+        {
+          "pokemonId": "dragonite",
+          "pokemonName": "Dragonite",
+          "types": [
+            "dragon",
+            "flying"
+          ],
+          "level": 72,
+          "moves": [
+            "Dragon Claw",
+            "Extreme Speed",
+            "Earthquake",
+            "Dragon Dance"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "elite_four_4",
+    "name": "Penny",
+    "title": "Elite Four",
+    "locationId": "pokemon_league",
+    "specialtyType": "normal",
+    "milestoneRequired": "badge_8",
+    "teams": {
+      "expert": [
+        {
+          "pokemonId": "gengar",
+          "pokemonName": "Gengar",
+          "types": [
+            "ghost",
+            "poison"
+          ],
+          "level": 71,
+          "moves": [
+            "Shadow Ball",
+            "Sludge Wave",
+            "Focus Blast",
+            "Nasty Plot"
+          ]
+        },
+        {
+          "pokemonId": "chandelure",
+          "pokemonName": "Chandelure",
+          "types": [
+            "ghost",
+            "fire"
+          ],
+          "level": 71,
+          "moves": [
+            "Shadow Ball",
+            "Fire Blast",
+            "Energy Ball",
+            "Trick"
+          ]
+        },
+        {
+          "pokemonId": "mimikyu",
+          "pokemonName": "Mimikyu",
+          "types": [
+            "ghost",
+            "fairy"
+          ],
+          "level": 71,
+          "moves": [
+            "Shadow Claw",
+            "Play Rough",
+            "Shadow Sneak",
+            "Swords Dance"
+          ]
+        },
+        {
+          "pokemonId": "dusknoir",
+          "pokemonName": "Dusknoir",
+          "types": [
+            "ghost"
+          ],
+          "level": 72,
+          "moves": [
+            "Shadow Punch",
+            "Ice Punch",
+            "Earthquake",
+            "Trick Room"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "champion",
+    "name": "Jax",
+    "title": "Champion",
+    "locationId": "pokemon_league",
+    "specialtyType": "normal",
+    "milestoneRequired": "elite_four",
+    "teams": {
+      "expert": [
+        {
           "pokemonId": "garchomp",
           "pokemonName": "Garchomp",
           "types": [
             "dragon",
             "ground"
           ],
-          "level": 66,
+          "level": 73,
           "moves": [
-            "Dragon Claw",
             "Earthquake",
+            "Dragon Claw",
             "Stone Edge",
             "Swords Dance"
           ]
         },
         {
-          "pokemonId": "kommo_o",
-          "pokemonName": "Kommo-o",
+          "pokemonId": "volcarona",
+          "pokemonName": "Volcarona",
           "types": [
-            "dragon",
-            "fighting"
+            "bug",
+            "fire"
           ],
-          "level": 67,
+          "level": 73,
           "moves": [
-            "Clanging Scales",
-            "Close Combat",
-            "Poison Jab",
+            "Fire Blast",
+            "Bug Buzz",
+            "Quiver Dance",
+            "Giga Drain"
+          ]
+        },
+        {
+          "pokemonId": "toxapex",
+          "pokemonName": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ],
+          "level": 73,
+          "moves": [
+            "Scald",
+            "Toxic",
+            "Recover",
+            "Haze"
+          ]
+        },
+        {
+          "pokemonId": "ferrothorn",
+          "pokemonName": "Ferrothorn",
+          "types": [
+            "grass",
+            "steel"
+          ],
+          "level": 73,
+          "moves": [
+            "Power Whip",
+            "Gyro Ball",
+            "Leech Seed",
             "Stealth Rock"
+          ]
+        },
+        {
+          "pokemonId": "aegislash",
+          "pokemonName": "Aegislash",
+          "types": [
+            "steel",
+            "ghost"
+          ],
+          "level": 74,
+          "moves": [
+            "Shadow Ball",
+            "Flash Cannon",
+            "King's Shield",
+            "Shadow Sneak"
+          ]
+        },
+        {
+          "pokemonId": "greninja",
+          "pokemonName": "Greninja",
+          "types": [
+            "water",
+            "dark"
+          ],
+          "level": 75,
+          "moves": [
+            "Hydro Pump",
+            "Dark Pulse",
+            "Ice Beam",
+            "U-turn"
           ]
         }
       ]
