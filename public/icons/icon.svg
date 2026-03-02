@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0F0F2D"/>
+  <rect x="30" y="30" width="452" height="452" rx="8" fill="#1A1A3E" stroke="#2A2A5E" stroke-width="6"/>
+  <circle cx="256" cy="240" r="100" fill="#FF4444"/>
+  <path d="M156 240 A100 100 0 0 0 356 240Z" fill="#E0E0FF"/>
+  <line x1="156" y1="240" x2="356" y2="240" stroke="#0F0F2D" stroke-width="8"/>
+  <circle cx="256" cy="240" r="28" fill="#E0E0FF" stroke="#0F0F2D" stroke-width="6"/>
+  <text x="256" y="420" text-anchor="middle" fill="#00FF41" font-family="monospace" font-weight="bold" font-size="42">UNBOUND</text>
+</svg>

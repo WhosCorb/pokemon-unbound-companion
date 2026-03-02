@@ -1,6 +1,17 @@
-const CACHE_NAME = "pkm-unbound-v1";
+const CACHE_NAME = "pkm-unbound-v2";
 
-const PRECACHE_URLS = ["/", "/manifest.json"];
+const PRECACHE_URLS = [
+  "/",
+  "/manifest.json",
+  "/team",
+  "/pokedex",
+  "/locations",
+  "/items",
+  "/missions",
+  "/settings",
+  "/more",
+  "/icons/icon.svg",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -25,9 +36,10 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetched = fetch(event.request)
+  // For navigation requests, try network first, then cache
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request)
         .then((response) => {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -35,9 +47,27 @@ self.addEventListener("fetch", (event) => {
           });
           return response;
         })
+        .catch(() => caches.match(event.request) || caches.match("/"))
+    );
+    return;
+  }
+
+  // For assets, use stale-while-revalidate
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      const fetchPromise = fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, clone);
+            });
+          }
+          return response;
+        })
         .catch(() => cached);
 
-      return cached || fetched;
+      return cached || fetchPromise;
     })
   );
 });

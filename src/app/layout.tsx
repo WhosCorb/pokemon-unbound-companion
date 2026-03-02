@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: "Pokemon Unbound Companion",
   description: "Progress-aware companion app for Pokemon Unbound",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon.svg",
+    apple: "/icons/icon.svg",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
