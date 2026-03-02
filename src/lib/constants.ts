@@ -1,0 +1,71 @@
+import type { PokemonType } from "./types";
+
+export const TYPE_COLORS: Record<PokemonType, string> = {
+  normal: "#A8A878",
+  fire: "#F08030",
+  water: "#6890F0",
+  electric: "#F8D030",
+  grass: "#78C850",
+  ice: "#98D8D8",
+  fighting: "#C03028",
+  poison: "#A040A0",
+  ground: "#E0C068",
+  flying: "#A890F0",
+  psychic: "#F85888",
+  bug: "#A8B820",
+  rock: "#B8A038",
+  ghost: "#705898",
+  dragon: "#7038F8",
+  dark: "#705848",
+  steel: "#B8B8D0",
+  fairy: "#EE99AC",
+};
+
+export const TYPE_ABBREVIATIONS: Record<PokemonType, string> = {
+  normal: "NRM",
+  fire: "FIR",
+  water: "WTR",
+  electric: "ELC",
+  grass: "GRS",
+  ice: "ICE",
+  fighting: "FGT",
+  poison: "PSN",
+  ground: "GRD",
+  flying: "FLY",
+  psychic: "PSY",
+  bug: "BUG",
+  rock: "RCK",
+  ghost: "GHO",
+  dragon: "DRG",
+  dark: "DRK",
+  steel: "STL",
+  fairy: "FAI",
+};
+
+export const ALL_TYPES: PokemonType[] = [
+  "normal",
+  "fire",
+  "water",
+  "electric",
+  "grass",
+  "ice",
+  "fighting",
+  "poison",
+  "ground",
+  "flying",
+  "psychic",
+  "bug",
+  "rock",
+  "ghost",
+  "dragon",
+  "dark",
+  "steel",
+  "fairy",
+];
+
+export const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: "Easy",
+  normal: "Normal",
+  difficult: "Difficult",
+  expert: "Expert",
+};
