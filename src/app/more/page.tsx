@@ -5,6 +5,12 @@ import { PageShell } from "@/components/layout/PageShell";
 
 const MENU_ITEMS = [
   {
+    label: "PC BOX STORAGE",
+    href: "/pc",
+    description: "Store and manage your caught Pokemon",
+    color: "text-gba-blue border-gba-blue/40",
+  },
+  {
     label: "ITEMS & COLLECTIBLES",
     href: "/items",
     description: "TMs, Mega Stones, Z-Crystals, Key Items",
@@ -21,6 +27,12 @@ const MENU_ITEMS = [
     href: "/settings",
     description: "Difficulty, milestones, current location",
     color: "text-gba-cyan border-gba-cyan/40",
+  },
+  {
+    label: "ACCOUNT & SYNC",
+    href: "/login",
+    description: "Sign in to sync data across devices",
+    color: "text-gba-text-dim border-gba-border",
   },
 ];
 

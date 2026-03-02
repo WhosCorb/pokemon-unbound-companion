@@ -6,11 +6,12 @@ import { TeamSlot } from "@/components/team/TeamSlot";
 import { PokemonSelector } from "@/components/team/PokemonSelector";
 import { TypeCoverageGrid } from "@/components/team/TypeCoverageGrid";
 import { CounterAnalysis } from "@/components/team/CounterAnalysis";
+import { RecommendationsPanel } from "@/components/team/RecommendationsPanel";
 import { useTeam } from "@/hooks/useTeam";
 import type { TeamSlot as TeamSlotType } from "@/lib/types";
 
 export default function TeamPage() {
-  const { slots, setSlot, removeSlot, teamTypes, clearTeam, filledSlots } =
+  const { slots, setSlot, removeSlot, updateSlot, teamTypes, clearTeam, filledSlots } =
     useTeam();
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [activeSlotIndex, setActiveSlotIndex] = useState<number>(0);
@@ -65,6 +66,7 @@ export default function TeamPage() {
             index={index}
             onTap={() => handleSlotTap(index)}
             onRemove={() => handleRemove(index)}
+            onUpdate={(updates) => updateSlot(index, updates)}
           />
         ))}
       </div>
@@ -74,6 +76,9 @@ export default function TeamPage() {
 
       {/* Counter Analysis vs Next Gym */}
       <CounterAnalysis />
+
+      {/* Recommendations */}
+      <RecommendationsPanel />
 
       {/* Pokemon Selector Modal */}
       <PokemonSelector

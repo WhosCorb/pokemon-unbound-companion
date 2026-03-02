@@ -3,19 +3,22 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useProgress } from "@/hooks/useProgress";
+import { useCaught } from "@/hooks/useCaught";
 import { PageShell } from "@/components/layout/PageShell";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { TYPE_COLORS, ALL_TYPES } from "@/lib/constants";
+import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import type { PokemonType, Pokemon } from "@/lib/types";
 import pokemonData from "../../../data/pokemon.json";
 
 const allPokemon = pokemonData as Pokemon[];
 
-type FilterMode = "available" | "all";
+type FilterMode = "available" | "all" | "caught";
 
 export default function PokedexPage() {
   const { isUnlocked } = useProgress();
+  const { isCaught, caughtCount } = useCaught();
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<PokemonType | "all">("all");
   const [filterMode, setFilterMode] = useState<FilterMode>("all");
@@ -43,10 +46,12 @@ export default function PokedexPage() {
     // Availability filter
     if (filterMode === "available") {
       list = list.filter((p) => isUnlocked(p.milestoneRequired));
+    } else if (filterMode === "caught") {
+      list = list.filter((p) => isCaught(p.id));
     }
 
     return list;
-  }, [search, typeFilter, filterMode, isUnlocked]);
+  }, [search, typeFilter, filterMode, isUnlocked, isCaught]);
 
   return (
     <PageShell>
@@ -73,6 +78,16 @@ export default function PokedexPage() {
           }`}
         >
           AVAILABLE
+        </button>
+        <button
+          onClick={() => setFilterMode("caught")}
+          className={`flex-1 font-pixel text-[8px] py-1.5 border-2 rounded-sm transition-colors ${
+            filterMode === "caught"
+              ? "bg-gba-yellow/20 border-gba-yellow/60 text-gba-yellow"
+              : "bg-gba-panel border-gba-border text-gba-text-dim hover:border-gba-border-light"
+          }`}
+        >
+          CAUGHT ({caughtCount})
         </button>
         <button
           onClick={() => setFilterMode("all")}
@@ -139,18 +154,25 @@ export default function PokedexPage() {
               }`}
             >
               <div className="flex items-center gap-2.5 p-2">
-                {/* Colored dex number square */}
-                <div
-                  className="w-9 h-9 rounded-sm flex-shrink-0 flex items-center justify-center font-pixel text-[8px] text-white/90"
-                  style={{ backgroundColor: primaryColor }}
-                >
-                  #{pokemon.dexNumber.toString().padStart(3, "0")}
-                </div>
+                {/* Pokemon sprite */}
+                <PokemonSprite
+                  dexNumber={pokemon.dexNumber}
+                  name={pokemon.name}
+                  primaryType={pokemon.types[0]}
+                  size="lg"
+                />
 
                 {/* Name + types */}
                 <div className="flex-1 min-w-0">
-                  <div className="font-mono text-xs text-gba-text truncate">
-                    {pokemon.name}
+                  <div className="flex items-center gap-1">
+                    <span className="font-mono text-xs text-gba-text truncate">
+                      {pokemon.name}
+                    </span>
+                    {isCaught(pokemon.id) && (
+                      <span className="font-pixel text-[5px] text-gba-green border border-gba-green/40 px-1 rounded-sm flex-shrink-0">
+                        CAUGHT
+                      </span>
+                    )}
                   </div>
                   <div className="flex gap-1 mt-0.5">
                     {pokemon.types.map((t) => (

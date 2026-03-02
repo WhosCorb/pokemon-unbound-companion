@@ -64,6 +64,24 @@ export function getBadgeCount(completedMilestones: string[]): number {
 /**
  * Create a default progress state.
  */
+/**
+ * Migrate old difficulty values to new naming convention.
+ */
+export function migrateDifficulty(difficulty: string): "vanilla" | "difficult" | "expert" | "insane" {
+  const mapping: Record<string, "vanilla" | "difficult" | "expert" | "insane"> = {
+    easy: "vanilla",
+    normal: "difficult",
+    difficult: "difficult",
+    expert: "expert",
+    vanilla: "vanilla",
+    insane: "insane",
+  };
+  return mapping[difficulty] ?? "expert";
+}
+
+/**
+ * Create a default progress state.
+ */
 export function createDefaultProgress(): UserProgress {
   return {
     completedMilestones: ["game_start"],

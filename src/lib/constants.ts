@@ -1,4 +1,4 @@
-import type { PokemonType } from "./types";
+import type { PokemonType, NatureData, NatureName, StatKey } from "./types";
 
 export const TYPE_COLORS: Record<PokemonType, string> = {
   normal: "#A8A878",
@@ -64,8 +64,44 @@ export const ALL_TYPES: PokemonType[] = [
 ];
 
 export const DIFFICULTY_LABELS: Record<string, string> = {
-  easy: "Easy",
-  normal: "Normal",
+  vanilla: "Vanilla",
   difficult: "Difficult",
   expert: "Expert",
+  insane: "Insane",
+};
+
+export const NATURES: NatureData[] = [
+  { name: "Hardy", increased: null, decreased: null },
+  { name: "Lonely", increased: "attack", decreased: "defense" },
+  { name: "Brave", increased: "attack", decreased: "speed" },
+  { name: "Adamant", increased: "attack", decreased: "spAttack" },
+  { name: "Naughty", increased: "attack", decreased: "spDefense" },
+  { name: "Bold", increased: "defense", decreased: "attack" },
+  { name: "Docile", increased: null, decreased: null },
+  { name: "Relaxed", increased: "defense", decreased: "speed" },
+  { name: "Impish", increased: "defense", decreased: "spAttack" },
+  { name: "Lax", increased: "defense", decreased: "spDefense" },
+  { name: "Timid", increased: "speed", decreased: "attack" },
+  { name: "Hasty", increased: "speed", decreased: "defense" },
+  { name: "Serious", increased: null, decreased: null },
+  { name: "Jolly", increased: "speed", decreased: "spAttack" },
+  { name: "Naive", increased: "speed", decreased: "spDefense" },
+  { name: "Modest", increased: "spAttack", decreased: "attack" },
+  { name: "Mild", increased: "spAttack", decreased: "defense" },
+  { name: "Quiet", increased: "spAttack", decreased: "speed" },
+  { name: "Bashful", increased: null, decreased: null },
+  { name: "Rash", increased: "spAttack", decreased: "spDefense" },
+  { name: "Calm", increased: "spDefense", decreased: "attack" },
+  { name: "Gentle", increased: "spDefense", decreased: "defense" },
+  { name: "Sassy", increased: "spDefense", decreased: "speed" },
+  { name: "Careful", increased: "spDefense", decreased: "spAttack" },
+  { name: "Quirky", increased: null, decreased: null },
+];
+
+export const STAT_LABELS: Record<StatKey, string> = {
+  attack: "Atk",
+  defense: "Def",
+  spAttack: "SpA",
+  spDefense: "SpD",
+  speed: "Spe",
 };

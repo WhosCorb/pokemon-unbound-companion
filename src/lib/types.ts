@@ -22,7 +22,7 @@ export type PokemonType =
   | "steel"
   | "fairy";
 
-export type Difficulty = "easy" | "normal" | "difficult" | "expert";
+export type Difficulty = "vanilla" | "difficult" | "expert" | "insane";
 
 export type EncounterMethod =
   | "grass"
@@ -217,6 +217,37 @@ export interface Mission {
 }
 
 // ──────────────────────────────────────────────
+// Natures
+// ──────────────────────────────────────────────
+
+export type NatureName =
+  | "Hardy" | "Lonely" | "Brave" | "Adamant" | "Naughty"
+  | "Bold" | "Docile" | "Relaxed" | "Impish" | "Lax"
+  | "Timid" | "Hasty" | "Serious" | "Jolly" | "Naive"
+  | "Modest" | "Mild" | "Quiet" | "Bashful" | "Rash"
+  | "Calm" | "Gentle" | "Sassy" | "Careful" | "Quirky";
+
+export type StatKey = "attack" | "defense" | "spAttack" | "spDefense" | "speed";
+
+export interface NatureData {
+  name: NatureName;
+  increased: StatKey | null;
+  decreased: StatKey | null;
+}
+
+// ──────────────────────────────────────────────
+// Team Slot Move Data
+// ──────────────────────────────────────────────
+
+export interface TeamSlotMove {
+  name: string;
+  type: PokemonType;
+  category: "physical" | "special" | "status";
+  power: number | null;
+  accuracy: number | null;
+}
+
+// ──────────────────────────────────────────────
 // User State (persisted in localStorage)
 // ──────────────────────────────────────────────
 
@@ -227,6 +258,10 @@ export interface TeamSlot {
   level: number;
   moves: string[];
   ability: string;
+  dexNumber?: number;
+  nature?: NatureName;
+  item?: string;
+  moveData?: TeamSlotMove[];
 }
 
 export interface UserProgress {
@@ -242,6 +277,44 @@ export interface UserTeam {
 export interface TrackerState {
   foundItems: string[];
   missionStatus: Record<string, MissionStatus>;
+}
+
+// ──────────────────────────────────────────────
+// PC Box Storage
+// ──────────────────────────────────────────────
+
+export interface PcPokemon {
+  pokemonId: string;
+  pokemonName: string;
+  types: PokemonType[];
+  dexNumber?: number;
+  nickname?: string;
+  level?: number;
+  moves?: string[];
+  ability?: string;
+  nature?: NatureName;
+  boxNumber: number;
+  boxPosition: number;
+}
+
+export interface PcBox {
+  number: number;
+  name: string;
+  pokemon: (PcPokemon | null)[];
+}
+
+export interface UserPc {
+  boxes: PcBox[];
+  activeBox: number;
+}
+
+// ──────────────────────────────────────────────
+// Catch Tracking
+// ──────────────────────────────────────────────
+
+export interface CaughtEntry {
+  pokemonId: string;
+  caughtAt: string;
 }
 
 // ──────────────────────────────────────────────

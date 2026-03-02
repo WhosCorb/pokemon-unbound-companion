@@ -1,10 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useProgress } from "@/hooks/useProgress";
+import { useAuth } from "@/hooks/useAuth";
 import { DIFFICULTY_LABELS } from "@/lib/constants";
 
 export function Header() {
   const { currentLocation, difficulty, badgeCount } = useProgress();
+  const { user, isGuest, isConfigured } = useAuth();
 
   const locationLabel = currentLocation
     .replace(/_/g, " ")
@@ -26,6 +29,18 @@ export function Header() {
           <span className="font-pixel text-[7px] text-gba-text-dim">
             B{badgeCount}/8
           </span>
+          {isConfigured && (
+            <Link
+              href="/login"
+              className={`font-pixel text-[6px] px-1.5 py-0.5 rounded-sm border transition-colors ${
+                isGuest
+                  ? "text-gba-text-dim border-gba-border hover:border-gba-cyan hover:text-gba-cyan"
+                  : "text-gba-green border-gba-green/40"
+              }`}
+            >
+              {isGuest ? "GUEST" : user?.email?.split("@")[0]?.toUpperCase()}
+            </Link>
+          )}
         </div>
       </div>
     </header>

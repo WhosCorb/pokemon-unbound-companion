@@ -2,17 +2,21 @@
 
 import { useProgress } from "@/hooks/useProgress";
 import { useTeam } from "@/hooks/useTeam";
+import { useCaught } from "@/hooks/useCaught";
 import { PageShell } from "@/components/layout/PageShell";
 import { GbaPanel } from "@/components/ui/GbaPanel";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { HpBar } from "@/components/ui/HpBar";
+import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import type { PokemonType } from "@/lib/types";
-import { TYPE_COLORS } from "@/lib/constants";
 import Link from "next/link";
+import pokemonData from "../../data/pokemon.json";
 
 export default function Dashboard() {
   const { completedMilestones, badgeCount, currentLocation } = useProgress();
   const { filledSlots } = useTeam();
+  const { caughtCount } = useCaught();
+  const totalPokemon = pokemonData.length;
 
   const locationLabel = currentLocation
     .replace(/_/g, " ")
@@ -40,16 +44,12 @@ export default function Dashboard() {
                 key={i}
                 className="flex items-center gap-2 py-1 px-1"
               >
-                {/* Type color indicator */}
-                <div
-                  className="w-6 h-6 rounded-sm flex-shrink-0 flex items-center justify-center font-pixel text-[7px] text-white"
-                  style={{
-                    backgroundColor:
-                      TYPE_COLORS[slot.types[0] as PokemonType] || "#888",
-                  }}
-                >
-                  {slot.pokemonName.charAt(0)}
-                </div>
+                <PokemonSprite
+                  dexNumber={slot.dexNumber}
+                  name={slot.pokemonName}
+                  primaryType={slot.types[0]}
+                  size="sm"
+                />
                 {/* Name + Level */}
                 <div className="flex-1 min-w-0">
                   <div className="font-mono text-xs text-gba-text truncate">
@@ -96,8 +96,8 @@ export default function Dashboard() {
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-2">
         <StatCard label="BADGES" value={`${badgeCount}/8`} color="yellow" />
-        <StatCard label="QUESTS" value="--" color="green" />
-        <StatCard label="DEX" value="--" color="blue" />
+        <StatCard label="QUESTS" value={`${completedMilestones.length}`} color="green" />
+        <StatCard label="DEX" value={`${caughtCount}/${totalPokemon}`} color="blue" />
       </div>
     </PageShell>
   );
@@ -132,16 +132,17 @@ function StatCard({
   );
 }
 
-// Gym data for next objective preview
+// Gym data for next objective preview (correct order per unboundwiki.com)
+// Level caps are the official level caps per gym
 const GYM_SEQUENCE = [
-  { badge: 0, name: "Mel", type: "fire" as PokemonType, location: "Dehara City", level: "18-19" },
-  { badge: 1, name: "Tessy", type: "water" as PokemonType, location: "Seaport City", level: "28-29" },
-  { badge: 2, name: "Roxanne", type: "rock" as PokemonType, location: "Vivill Town", level: "36-37" },
-  { badge: 3, name: "Galavan", type: "electric" as PokemonType, location: "Antisis City", level: "42-43" },
-  { badge: 4, name: "Miriam", type: "fairy" as PokemonType, location: "Serenity Isle", level: "48-49" },
-  { badge: 5, name: "Gail", type: "flying" as PokemonType, location: "Crater Town", level: "54-55" },
-  { badge: 6, name: "Hector", type: "ice" as PokemonType, location: "Frozen Heights", level: "60-61" },
-  { badge: 7, name: "Zeph", type: "dragon" as PokemonType, location: "Crystal Peak", level: "66-67" },
+  { badge: 0, name: "Mirskle", type: "grass" as PokemonType, location: "Dresco Town", level: "14-20" },
+  { badge: 1, name: "Vega", type: "dark" as PokemonType, location: "Crater Town", level: "22-26" },
+  { badge: 2, name: "Alice", type: "flying" as PokemonType, location: "Blizzard City", level: "28-32" },
+  { badge: 3, name: "Mel", type: "normal" as PokemonType, location: "Fallshore City", level: "33-36" },
+  { badge: 4, name: "Galavan", type: "electric" as PokemonType, location: "Dehara City", level: "40-45" },
+  { badge: 5, name: "Big Mo", type: "fighting" as PokemonType, location: "Antisis City", level: "48-52" },
+  { badge: 6, name: "Tessy", type: "water" as PokemonType, location: "Polder Town", level: "53-57" },
+  { badge: 7, name: "Benjamin", type: "bug" as PokemonType, location: "Redwood Village", level: "58-61" },
 ];
 
 function NextObjective({ badgeCount }: { badgeCount: number }) {

@@ -6,22 +6,23 @@ import { TYPE_COLORS } from "@/lib/constants";
 import { getEffectivenessAgainst } from "@/lib/type-calc";
 import { GbaPanel } from "@/components/ui/GbaPanel";
 import { TypeBadge } from "@/components/ui/TypeBadge";
+import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import { useProgress } from "@/hooks/useProgress";
 import { useTeam } from "@/hooks/useTeam";
 import trainersData from "../../../data/trainers.json";
 
 const trainers = trainersData as Trainer[];
 
-// Ordered gym leader IDs by badge number
+// Ordered gym leader IDs by badge number (correct order per unboundwiki.com)
 const GYM_ORDER = [
-  "gym_1_mel",
-  "gym_2_tessy",
-  "gym_3_roxanne",
-  "gym_4_galavan",
-  "gym_5_miriam",
-  "gym_6_gail",
-  "gym_7_hector",
-  "gym_8_zeph",
+  "gym_1_mirskle",
+  "gym_2_vega",
+  "gym_3_alice",
+  "gym_4_mel",
+  "gym_5_galavan",
+  "gym_6_big_mo",
+  "gym_7_tessy",
+  "gym_8_benjamin",
 ];
 
 export function CounterAnalysis() {
@@ -37,7 +38,7 @@ export function CounterAnalysis() {
   // Get the gym leader's team for the current difficulty, falling back through difficulties
   const gymTeam = useMemo(() => {
     if (!nextGym) return [];
-    const difficultyOrder: Difficulty[] = [difficulty, "expert", "difficult", "normal", "easy"];
+    const difficultyOrder: Difficulty[] = [difficulty, "insane", "expert", "difficult", "vanilla"];
     for (const d of difficultyOrder) {
       const team = nextGym.teams[d];
       if (team && team.length > 0) return team;
@@ -177,12 +178,11 @@ function GymPokemonMatchup({
     <div className="bg-gba-bg/40 rounded-sm p-2 space-y-2">
       {/* Gym Pokemon header */}
       <div className="flex items-center gap-2">
-        <div
-          className="w-7 h-7 rounded-sm flex-shrink-0 flex items-center justify-center font-pixel text-[8px] text-white"
-          style={{ backgroundColor: primaryColor }}
-        >
-          {gymPokemon.pokemonName.charAt(0)}
-        </div>
+        <PokemonSprite
+          name={gymPokemon.pokemonName}
+          primaryType={gymTypes[0]}
+          size="md"
+        />
         <div className="flex-1 min-w-0">
           <div className="font-mono text-xs text-gba-text">
             {gymPokemon.pokemonName}
@@ -225,15 +225,12 @@ function GymPokemonMatchup({
               key={result.pokemonName}
               className="flex items-center gap-1.5 px-1.5 py-1 rounded-sm bg-gba-panel/60"
             >
-              <div
-                className="w-4 h-4 rounded-sm flex-shrink-0 flex items-center justify-center font-pixel text-[5px] text-white"
-                style={{
-                  backgroundColor:
-                    TYPE_COLORS[result.types[0] as PokemonType] || "#888",
-                }}
-              >
-                {result.pokemonName.charAt(0)}
-              </div>
+              <PokemonSprite
+                name={result.pokemonName}
+                primaryType={result.types[0] as PokemonType}
+                size="sm"
+                className="w-4 h-4"
+              />
               <div className="flex-1 min-w-0">
                 <div className="font-mono text-[9px] text-gba-text truncate">
                   {result.pokemonName}

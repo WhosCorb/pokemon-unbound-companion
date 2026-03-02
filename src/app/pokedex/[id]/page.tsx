@@ -4,9 +4,11 @@ import { GbaPanel } from "@/components/ui/GbaPanel";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { HpBar } from "@/components/ui/HpBar";
 import { PageShell } from "@/components/layout/PageShell";
+import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import { TYPE_COLORS } from "@/lib/constants";
 import type { PokemonType, Pokemon, LearnsetMove } from "@/lib/types";
 import { LearnsetTabs } from "./LearnsetTabs";
+import { CaughtToggle } from "./CaughtToggle";
 import pokemonData from "../../../../data/pokemon.json";
 
 const allPokemon = pokemonData as Pokemon[];
@@ -71,28 +73,22 @@ export default async function PokemonDetailPage({ params }: PageProps) {
         &lt; BACK TO DEX
       </Link>
 
+      {/* Caught toggle */}
+      <div className="flex justify-end">
+        <CaughtToggle pokemonId={pokemon.id} />
+      </div>
+
       {/* ── Header ── */}
       <GbaPanel title={`#${pokemon.dexNumber.toString().padStart(3, "0")} ${pokemon.name.toUpperCase()}`}>
         <div className="flex items-center gap-4">
-          {/* Sprite or placeholder */}
+          {/* Sprite */}
           <div className="flex-shrink-0">
-            {pokemon.spriteUrl ? (
-              <img
-                src={pokemon.spriteUrl}
-                alt={pokemon.name}
-                width={80}
-                height={80}
-                className="pixelated"
-                style={{ imageRendering: "pixelated" }}
-              />
-            ) : (
-              <div
-                className="w-20 h-20 rounded-sm flex items-center justify-center font-pixel text-[16px] text-white/80"
-                style={{ backgroundColor: primaryColor }}
-              >
-                ?
-              </div>
-            )}
+            <PokemonSprite
+              dexNumber={pokemon.dexNumber}
+              name={pokemon.name}
+              primaryType={pokemon.types[0]}
+              size="xl"
+            />
           </div>
 
           <div className="flex-1 min-w-0 space-y-2">

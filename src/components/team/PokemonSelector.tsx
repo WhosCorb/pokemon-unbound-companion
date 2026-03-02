@@ -4,12 +4,14 @@ import { useState, useMemo } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { TypeBadge } from "@/components/ui/TypeBadge";
+import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import type { PokemonType, TeamSlot } from "@/lib/types";
 import { TYPE_COLORS, ALL_TYPES } from "@/lib/constants";
 import pokemonData from "../../../data/pokemon.json";
 
 interface PokemonEntry {
   id: string;
+  dexNumber: number;
   name: string;
   types: string[];
   baseStats: {
@@ -72,6 +74,7 @@ export function PokemonSelector({
       level: 50,
       moves: [],
       ability: defaultAbility,
+      dexNumber: p.dexNumber,
     };
     onSelect(slot);
     setSearch("");
@@ -145,13 +148,13 @@ export function PokemonSelector({
                 onClick={() => handleSelect(p)}
                 className="w-full flex items-center gap-3 px-2 py-2 rounded-sm hover:bg-white/5 transition-colors text-left group"
               >
-                {/* Color indicator */}
-                <div
-                  className="w-8 h-8 rounded-sm flex-shrink-0 flex items-center justify-center font-pixel text-[8px] text-white"
-                  style={{ backgroundColor: primaryColor }}
-                >
-                  {p.name.charAt(0)}
-                </div>
+                {/* Pokemon sprite */}
+                <PokemonSprite
+                  dexNumber={p.dexNumber}
+                  name={p.name}
+                  primaryType={p.types[0]}
+                  size="md"
+                />
 
                 {/* Name and types */}
                 <div className="flex-1 min-w-0">

@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, useCallback, useMemo } from "react";
+import { createContext, useCallback, useEffect, useMemo } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { createDefaultProgress, getBadgeCount, isAccessible } from "@/lib/progress";
+import { createDefaultProgress, getBadgeCount, isAccessible, migrateDifficulty } from "@/lib/progress";
 import type { Difficulty, UserProgress } from "@/lib/types";
 
 interface ProgressContextValue {
@@ -25,6 +25,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     "pkm-unbound-progress",
     createDefaultProgress()
   );
+
+  // Migrate old difficulty values (easy->vanilla, normal->difficult)
+  useEffect(() => {
+    const migrated = migrateDifficulty(progress.difficulty);
+    if (migrated !== progress.difficulty) {
+      setProgress((prev) => ({ ...prev, difficulty: migrated }));
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleMilestone = useCallback(
     (milestoneId: string) => {

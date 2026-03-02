@@ -81,31 +81,37 @@ export default function SettingsPage() {
           className="w-full bg-gba-bg border-2 border-gba-border text-gba-text font-mono text-xs
                      px-3 py-2 rounded-sm outline-none focus:border-gba-cyan"
         >
-          <option value="frozen_heights">Frozen Heights</option>
-          <option value="bellin_town">Bellin Town</option>
-          <option value="route_1">Route 1</option>
-          <option value="dresco_town">Dresco Town</option>
-          <option value="route_2">Route 2</option>
-          <option value="fallshore_city">Fallshore City</option>
-          <option value="route_3">Route 3</option>
-          <option value="dehara_city">Dehara City</option>
-          <option value="route_4">Route 4</option>
-          <option value="seaport_city">Seaport City</option>
-          <option value="route_5">Route 5</option>
-          <option value="route_6">Route 6</option>
-          <option value="vivill_town">Vivill Town</option>
-          <option value="route_7">Route 7</option>
-          <option value="route_8">Route 8</option>
-          <option value="antisis_city">Antisis City</option>
-          <option value="route_9">Route 9</option>
-          <option value="serenity_isle">Serenity Isle</option>
-          <option value="route_10">Route 10</option>
-          <option value="crater_town">Crater Town</option>
-          <option value="route_11">Route 11</option>
-          <option value="route_12">Route 12</option>
-          <option value="crystal_peak">Crystal Peak</option>
-          <option value="victory_road">Victory Road</option>
-          <option value="pokemon_league">Pokemon League</option>
+          <optgroup label="Towns & Cities">
+            <option value="frozen_heights">Frozen Heights</option>
+            <option value="bellin_town">Bellin Town</option>
+            <option value="dresco_town">Dresco Town</option>
+            <option value="crater_town">Crater Town</option>
+            <option value="blizzard_city">Blizzard City</option>
+            <option value="fallshore_city">Fallshore City</option>
+            <option value="dehara_city">Dehara City</option>
+            <option value="antisis_city">Antisis City</option>
+            <option value="polder_town">Polder Town</option>
+            <option value="redwood_village">Redwood Village</option>
+          </optgroup>
+          <optgroup label="Routes">
+            <option value="route_1">Route 1</option>
+            <option value="route_2">Route 2</option>
+            <option value="route_3">Route 3</option>
+            <option value="route_4">Route 4</option>
+            <option value="route_5">Route 5</option>
+            <option value="route_6">Route 6</option>
+            <option value="route_7">Route 7</option>
+            <option value="route_8">Route 8</option>
+            <option value="route_9">Route 9</option>
+            <option value="route_10">Route 10</option>
+            <option value="route_11">Route 11</option>
+            <option value="route_12">Route 12</option>
+          </optgroup>
+          <optgroup label="Special">
+            <option value="victory_road">Victory Road</option>
+            <option value="pokemon_league">Pokemon League</option>
+            <option value="battle_frontier">Battle Frontier</option>
+          </optgroup>
         </select>
       </GbaPanel>
 
