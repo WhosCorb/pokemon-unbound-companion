@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ServiceWorkerRegistrar } from "@/components/ServiceWorkerRegistrar";
+import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,7 +42,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-gba-bg text-gba-text font-mono min-h-dvh antialiased">
-        {children}
+        <AppShell>{children}</AppShell>
         <ServiceWorkerRegistrar />
       </body>
     </html>
