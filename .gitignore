@@ -39,5 +39,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# scraped data (rebuilt from scrapers)
-/data/*.json
+# scraped data can be rebuilt from scrapers, but is committed for deployment
+# /data/*.json
