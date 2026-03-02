@@ -78,23 +78,30 @@ interface BorriusPokemon {
 }
 
 // Encounter data structures from Unbound Pokedex
-// The top-level keys are map names (e.g. "FLOWER_PARADISE_A").
-// Each map contains encounter method groups (e.g. "land_mons", "water_mons", etc.)
-// which have an "encounter_rate" and a "mons" array.
-interface EncounterMon {
-  min_level: number;
-  max_level: number;
+// The JSON is an array of map objects, each with encounters by method.
+interface EncounterSlot {
   species: string; // e.g. "SPECIES_LARVITAR"
-  encounter_rate?: number;
+  minLevel: number;
+  maxLevel: number;
 }
 
 interface EncounterMethodGroup {
-  encounter_rate: number;
-  mons: EncounterMon[];
+  encounterRate: number;
+  slots: EncounterSlot[];
 }
 
-type EncounterMap = Record<string, EncounterMethodGroup>;
-type EncountersData = Record<string, EncounterMap>;
+interface EncounterMapEntry {
+  mapGroup: number;
+  mapNum: number;
+  mapName: string;
+  encounters: Record<string, EncounterMethodGroup>;
+}
+
+// Borrius top-level wrapper
+interface BorriusDataWrapper {
+  info: { description: string; dataPulledOn: string };
+  pokemon: BorriusPokemon[];
+}
 
 // ---------------------------------------------------------------------------
 // Output interfaces (mirrors src/lib/types.ts)
@@ -209,16 +216,22 @@ function parseStatOrNull(val: string): number | null {
 /** Map encounter method group keys to our EncounterMethod type. */
 function mapEncounterMethod(groupKey: string): EncounterMethod {
   const mapping: Record<string, EncounterMethod> = {
+    grassAnytime: "grass",
+    grassDay: "grass",
+    grassNight: "grass",
+    water: "surf",
+    rockSmash: "rock-smash",
+    fishing: "fishing-old",
+    oldRod: "fishing-old",
+    goodRod: "fishing-good",
+    superRod: "fishing-super",
+    hidden: "grass",
+    honeyTree: "headbutt",
+    headbutt: "headbutt",
+    raid: "raid",
     land_mons: "grass",
     water_mons: "surf",
     rock_smash_mons: "rock-smash",
-    fishing_mons: "fishing-old",
-    old_rod_mons: "fishing-old",
-    good_rod_mons: "fishing-good",
-    super_rod_mons: "fishing-super",
-    hidden_mons: "grass",
-    headbutt_mons: "headbutt",
-    raid_mons: "raid",
   };
   return mapping[groupKey] ?? "grass";
 }
@@ -301,25 +314,25 @@ interface CatchLocationEntry {
  * Build a lookup from lowercase pokemon id -> array of catch locations.
  */
 function buildEncounterIndex(
-  encountersData: EncountersData
+  encountersData: EncounterMapEntry[]
 ): Map<string, CatchLocationEntry[]> {
   const index = new Map<string, CatchLocationEntry[]>();
 
-  for (const [mapName, methodGroups] of Object.entries(encountersData)) {
-    const locationId = mapNameToId(mapName);
-    const locationName = mapNameToReadable(mapName);
+  for (const mapEntry of encountersData) {
+    const locationId = mapNameToId(mapEntry.mapName);
+    const locationName = mapNameToReadable(mapEntry.mapName);
 
-    for (const [groupKey, group] of Object.entries(methodGroups)) {
-      if (!group || !group.mons) continue;
+    if (!mapEntry.encounters) continue;
+
+    for (const [groupKey, group] of Object.entries(mapEntry.encounters)) {
+      if (!group || !group.slots) continue;
 
       const method = mapEncounterMethod(groupKey);
+      const totalSlots = group.slots.length;
 
-      for (const mon of group.mons) {
-        const pokemonId = speciesNameToId(mon.species);
-        // Use the per-mon encounter rate if present, otherwise derive from
-        // group encounter rate. The per-mon rate may not exist in all
-        // data versions, so fall back to dividing group rate by mon count.
-        const rate = mon.encounter_rate ?? Math.round(group.encounter_rate / group.mons.length);
+      for (const slot of group.slots) {
+        const pokemonId = speciesNameToId(slot.species);
+        const rate = Math.round(100 / Math.max(totalSlots, 1));
 
         const entry: CatchLocationEntry = {
           locationId,
@@ -437,13 +450,16 @@ async function main(): Promise<void> {
   console.log("=============================================\n");
 
   // 1. Fetch data sources in parallel
-  const [borriusData, encountersData] = await Promise.all([
-    fetchJson<BorriusPokemon[]>(BORRIUS_POKEDEX_URL),
-    fetchJson<EncountersData>(ENCOUNTERS_URL),
+  const [borriusRaw, encountersData] = await Promise.all([
+    fetchJson<BorriusDataWrapper[]>(BORRIUS_POKEDEX_URL),
+    fetchJson<EncounterMapEntry[]>(ENCOUNTERS_URL),
   ]);
 
+  // Borrius data is wrapped: [{info: {...}, pokemon: [...]}]
+  const borriusData = borriusRaw[0]?.pokemon ?? [];
+
   console.log(`\n[data] Borrius Pokedex: ${borriusData.length} Pokemon loaded`);
-  console.log(`[data] Encounters: ${Object.keys(encountersData).length} maps loaded\n`);
+  console.log(`[data] Encounters: ${encountersData.length} maps loaded\n`);
 
   // 2. Build encounter lookup
   const encounterIndex = buildEncounterIndex(encountersData);
