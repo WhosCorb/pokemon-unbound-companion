@@ -5,9 +5,9 @@ import { Modal } from "@/components/ui/Modal";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { PokemonSprite } from "@/components/ui/PokemonSprite";
-import type { PokemonType, TeamSlot, Pokemon } from "@/lib/types";
+import type { PokemonType, TeamSlot, TeamSlotMove, Pokemon } from "@/lib/types";
 import { TYPE_COLORS, ALL_TYPES } from "@/lib/constants";
-import { hasGenderDependentEvolution } from "@/lib/recommendations";
+import { hasGenderDependentEvolution, recommendMoveset } from "@/lib/recommendations";
 import pokemonData from "../../../data/pokemon.json";
 
 interface PokemonEntry {
@@ -72,14 +72,34 @@ export function PokemonSelector({
       p.abilities[0]?.name ||
       "";
 
+    const level = 50;
+    let moves: string[] = [];
+    let moveData: TeamSlotMove[] | undefined;
+
+    const fullPokemon = allPokemonFull.find((fp) => fp.id === p.id);
+    if (fullPokemon) {
+      const recommended = recommendMoveset(fullPokemon, level, [], [], {
+        levelUpOnly: true,
+      });
+      moves = recommended.map((m) => m.name);
+      moveData = recommended.map((m) => ({
+        name: m.name,
+        type: m.type,
+        category: m.category,
+        power: m.power,
+        accuracy: null,
+      }));
+    }
+
     return {
       pokemonId: p.id,
       pokemonName: p.name,
       types: p.types as PokemonType[],
-      level: 50,
-      moves: [],
+      level,
+      moves,
       ability: defaultAbility,
       dexNumber: p.dexNumber,
+      moveData,
       ...(gender ? { gender } : {}),
     };
   }

@@ -1,4 +1,4 @@
-import type { Pokemon, PokemonType, LearnsetMove, NatureName } from "./types";
+import type { Pokemon, PokemonType, LearnsetMove, NatureName, Trainer, TrainerPokemon, TeamSlot, Difficulty } from "./types";
 import { NATURES } from "./constants";
 import { getEffectivenessAgainst } from "./type-calc";
 
@@ -65,7 +65,8 @@ export function recommendMoveset(
   pokemon: Pokemon,
   level: number,
   teamTypes: PokemonType[][],
-  completedMilestones: string[]
+  completedMilestones: string[],
+  options?: { levelUpOnly?: boolean }
 ): MoveRecommendation[] {
   // Determine attacker category from stats
   const isPhysical =
@@ -77,6 +78,7 @@ export function recommendMoveset(
     if (m.source === "level-up") {
       return m.level != null && m.level <= level;
     }
+    if (options?.levelUpOnly) return false;
     if (m.source === "tm" || m.source === "tutor") {
       return true; // Available by default
     }
@@ -289,4 +291,300 @@ export function findWeakestLink(
     }
   }
   return minIdx;
+}
+
+// ──────────────────────────────────────────────
+// Battle Strategy
+// ──────────────────────────────────────────────
+
+export interface BattleAssignment {
+  opponentPokemon: TrainerPokemon;
+  counterSlot: TeamSlot;
+  recommendedMove: string;
+  moveType: PokemonType;
+  offenseMultiplier: number;
+  defenseMultiplier: number;
+  speedComparison: "faster" | "slower" | "unknown";
+  dangerousMoves: string[];
+  backupSlot?: TeamSlot;
+  backupMove?: string;
+}
+
+export interface BattleStrategy {
+  trainer: Trainer;
+  assignments: BattleAssignment[];
+  leadPokemon: TeamSlot;
+  notes: string[];
+}
+
+/**
+ * Find the best move from a slot's moveData against an opponent's types.
+ * Returns [moveName, moveType, effectiveness] or null if no moveData.
+ */
+function bestMoveAgainst(
+  slot: TeamSlot,
+  opponentTypes: PokemonType[]
+): { name: string; type: PokemonType; effectiveness: number } | null {
+  if (!slot.moveData || slot.moveData.length === 0) return null;
+
+  let best: { name: string; type: PokemonType; effectiveness: number } | null = null;
+
+  for (const move of slot.moveData) {
+    if (move.category === "status") continue;
+    const eff = getEffectivenessAgainst(move.type, opponentTypes);
+    const power = move.power ?? 0;
+    // Weight by both effectiveness and power for better move selection
+    const score = eff * (power || 40);
+    if (!best || score > best.effectiveness) {
+      best = { name: move.name, type: move.type, effectiveness: score };
+    }
+  }
+
+  // Normalize: recalculate raw effectiveness for the chosen move
+  if (best) {
+    best = {
+      ...best,
+      effectiveness: getEffectivenessAgainst(best.type, opponentTypes),
+    };
+  }
+
+  return best;
+}
+
+/**
+ * Score a team slot as a counter for a given opponent Pokemon.
+ */
+function scoreCounter(
+  slot: TeamSlot,
+  opponent: TrainerPokemon,
+  allPokemon: Pokemon[],
+  assignedIds: Set<string>
+): number {
+  const opponentTypes = opponent.types as PokemonType[];
+  const slotTypes = slot.types as PokemonType[];
+
+  // Offense: best move effectiveness, or STAB type effectiveness fallback
+  let offenseScore = 0;
+  const bestMove = bestMoveAgainst(slot, opponentTypes);
+  if (bestMove) {
+    offenseScore = bestMove.effectiveness;
+  } else {
+    // Fallback: best STAB type effectiveness
+    for (const t of slotTypes) {
+      const eff = getEffectivenessAgainst(t, opponentTypes);
+      if (eff > offenseScore) offenseScore = eff;
+    }
+  }
+
+  // Defense: how much damage opponent deals to us
+  let defenseScore = 0;
+  if (opponent.moves.length > 0) {
+    // Check actual move types from opponent data
+    const opponentPokemon = allPokemon.find((p) => p.id === opponent.pokemonId);
+    if (opponentPokemon) {
+      for (const moveName of opponent.moves) {
+        const moveData = opponentPokemon.learnset.find((m) => m.name === moveName);
+        if (moveData && moveData.category !== "status") {
+          const eff = getEffectivenessAgainst(moveData.type, slotTypes);
+          if (eff > defenseScore) defenseScore = eff;
+        }
+      }
+    }
+  }
+  if (defenseScore === 0) {
+    // Fallback: STAB type effectiveness
+    for (const t of opponentTypes) {
+      const eff = getEffectivenessAgainst(t, slotTypes);
+      if (eff > defenseScore) defenseScore = eff;
+    }
+  }
+
+  // Composite score: reward high offense, penalize high incoming damage
+  let score = offenseScore * 100 - defenseScore * 50;
+
+  // Speed bonus
+  const ourPokemon = allPokemon.find((p) => p.id === slot.pokemonId);
+  const theirPokemon = allPokemon.find((p) => p.id === opponent.pokemonId);
+  if (ourPokemon && theirPokemon && ourPokemon.baseStats.speed > 0 && theirPokemon.baseStats.speed > 0) {
+    if (ourPokemon.baseStats.speed > theirPokemon.baseStats.speed) {
+      score += 15;
+    }
+  }
+
+  // Penalty for double-duty
+  if (assignedIds.has(slot.pokemonId)) {
+    score -= 30;
+  }
+
+  return score;
+}
+
+/**
+ * Compute a battle strategy for a given trainer encounter.
+ */
+export function computeBattleStrategy(
+  trainer: Trainer,
+  trainerTeam: TrainerPokemon[],
+  filledSlots: TeamSlot[],
+  allPokemon: Pokemon[]
+): BattleStrategy {
+  const assignments: BattleAssignment[] = [];
+  const assignedIds = new Set<string>();
+  const notes: string[] = [];
+
+  for (const opponent of trainerTeam) {
+    const opponentTypes = opponent.types as PokemonType[];
+
+    // Score all team members
+    const scored = filledSlots.map((slot) => ({
+      slot,
+      score: scoreCounter(slot, opponent, allPokemon, assignedIds),
+    }));
+    scored.sort((a, b) => b.score - a.score);
+
+    const bestCounter = scored[0];
+    if (!bestCounter) continue;
+
+    const slot = bestCounter.slot;
+    const slotTypes = slot.types as PokemonType[];
+
+    // Best move
+    const bestMove = bestMoveAgainst(slot, opponentTypes);
+    let moveName = bestMove?.name ?? slotTypes[0].toUpperCase() + " STAB";
+    let moveType = bestMove?.type ?? slotTypes[0];
+    const offenseMultiplier = bestMove?.effectiveness
+      ?? Math.max(...slotTypes.map((t) => getEffectivenessAgainst(t, opponentTypes)));
+
+    // Defense multiplier
+    let defenseMultiplier = 1;
+    if (opponent.moves.length > 0) {
+      const opponentPokemon = allPokemon.find((p) => p.id === opponent.pokemonId);
+      if (opponentPokemon) {
+        for (const mn of opponent.moves) {
+          const md = opponentPokemon.learnset.find((m) => m.name === mn);
+          if (md && md.category !== "status") {
+            const eff = getEffectivenessAgainst(md.type, slotTypes);
+            if (eff > defenseMultiplier) defenseMultiplier = eff;
+          }
+        }
+      }
+    } else {
+      for (const t of opponentTypes) {
+        const eff = getEffectivenessAgainst(t, slotTypes);
+        if (eff > defenseMultiplier) defenseMultiplier = eff;
+      }
+    }
+
+    // Speed comparison
+    let speedComparison: "faster" | "slower" | "unknown" = "unknown";
+    const ourPokemon = allPokemon.find((p) => p.id === slot.pokemonId);
+    const theirPokemon = allPokemon.find((p) => p.id === opponent.pokemonId);
+    if (ourPokemon && theirPokemon && ourPokemon.baseStats.speed > 0 && theirPokemon.baseStats.speed > 0) {
+      speedComparison = ourPokemon.baseStats.speed > theirPokemon.baseStats.speed
+        ? "faster" : "slower";
+    }
+
+    // Dangerous opponent moves (SE against our counter)
+    const dangerousMoves: string[] = [];
+    if (opponent.moves.length > 0) {
+      const opponentPokemon = allPokemon.find((p) => p.id === opponent.pokemonId);
+      if (opponentPokemon) {
+        for (const mn of opponent.moves) {
+          const md = opponentPokemon.learnset.find((m) => m.name === mn);
+          if (md && md.category !== "status") {
+            const eff = getEffectivenessAgainst(md.type, slotTypes);
+            if (eff > 1) dangerousMoves.push(mn);
+          }
+        }
+      }
+    }
+
+    // Backup: second best scorer, preferring unassigned
+    const backup = scored.find(
+      (s) => s.slot.pokemonId !== slot.pokemonId
+    );
+    let backupSlot: TeamSlot | undefined;
+    let backupMove: string | undefined;
+    if (backup) {
+      backupSlot = backup.slot;
+      const backupBestMove = bestMoveAgainst(backup.slot, opponentTypes);
+      backupMove = backupBestMove?.name;
+    }
+
+    assignedIds.add(slot.pokemonId);
+
+    assignments.push({
+      opponentPokemon: opponent,
+      counterSlot: slot,
+      recommendedMove: moveName,
+      moveType,
+      offenseMultiplier,
+      defenseMultiplier,
+      speedComparison,
+      dangerousMoves,
+      backupSlot,
+      backupMove,
+    });
+  }
+
+  // Lead: the counter assigned to the first opponent
+  const leadPokemon = assignments[0]?.counterSlot ?? filledSlots[0];
+
+  // Notes
+  if (trainer.name === "Mel") {
+    notes.push("Mel uses Inverse Battles -- type matchups are reversed!");
+  }
+
+  return { trainer, assignments, leadPokemon, notes };
+}
+
+/**
+ * Find the next trainer encounter the player hasn't beaten yet.
+ */
+export function getNextEncounter(
+  allTrainers: Trainer[],
+  completedMilestones: string[],
+  badgeCount: number,
+  difficulty: Difficulty
+): { trainer: Trainer; team: TrainerPokemon[] } | null {
+  // Sort trainers by their milestone order (approximate via badge/story progression)
+  const milestoneOrder = completedMilestones;
+
+  // Filter to trainers whose prerequisite is met but whose reward hasn't been earned
+  const candidates = allTrainers.filter((t) => {
+    // Prerequisite met?
+    if (t.milestoneRequired && t.milestoneRequired !== "game_start") {
+      if (!completedMilestones.includes(t.milestoneRequired)) return false;
+    }
+    // Not yet beaten? (if trainer awards a badge, check if that badge is completed)
+    if (t.badgeAwarded && completedMilestones.includes(t.badgeAwarded)) return false;
+    // For non-badge trainers (rivals, admins), check if their own id is in completed
+    if (!t.badgeAwarded && completedMilestones.includes(t.id)) return false;
+    return true;
+  });
+
+  if (candidates.length === 0) return null;
+
+  // Prioritize gym leaders/E4/champion over rival/admin battles
+  const prioritized = [...candidates].sort((a, b) => {
+    const priority = (t: Trainer) =>
+      t.badgeAwarded ? 0 :
+      t.title === "Elite Four" || t.title === "Champion" ? 0 : 1;
+    return priority(a) - priority(b);
+  });
+
+  const trainer = prioritized[0];
+
+  // Resolve team for difficulty
+  const difficultyOrder: Difficulty[] = [difficulty, "insane", "expert", "difficult", "vanilla"];
+  let team: TrainerPokemon[] = [];
+  for (const d of difficultyOrder) {
+    const t = trainer.teams[d];
+    if (t && t.length > 0) {
+      team = t;
+      break;
+    }
+  }
+
+  return { trainer, team };
 }
