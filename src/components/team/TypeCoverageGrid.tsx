@@ -115,6 +115,20 @@ export function TypeCoverageGrid({ teamTypes }: TypeCoverageGridProps) {
             </div>
           </div>
 
+          {/* Shared Weakness Warning (Phase 8a) */}
+          {(() => {
+            const sharedWeakTypes = ALL_TYPES.filter(
+              (t) => defensiveSummary[t].weak >= 3
+            );
+            if (sharedWeakTypes.length === 0) return null;
+            return (
+              <div className="font-pixel text-[7px] text-gba-red bg-gba-red/5 border border-gba-red/20 px-2 py-1.5 rounded-sm">
+                WARNING: {sharedWeakTypes.length > 1 ? `${sharedWeakTypes.length} types` : "1 type"} weak across 3+ team members:{" "}
+                {sharedWeakTypes.map((t) => t.toUpperCase()).join(", ")}
+              </div>
+            );
+          })()}
+
           {/* Legend */}
           <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 border-t border-gba-border/40">
             <LegendItem color="bg-green-600" label="Covered / Safe" />
