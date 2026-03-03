@@ -10,6 +10,7 @@ import { TypeBadge } from "@/components/ui/TypeBadge";
 import { HpBar } from "@/components/ui/HpBar";
 import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import { BattleStrategy } from "@/components/home/BattleStrategy";
+import { CaptureRecommendations } from "@/components/home/CaptureRecommendations";
 import type { PokemonType } from "@/lib/types";
 import Link from "next/link";
 import pokemonData from "../../data/pokemon.json";
@@ -84,6 +85,9 @@ export default function Dashboard() {
 
       {/* Battle Strategy */}
       <BattleStrategy />
+
+      {/* Capture Recommendations */}
+      <CaptureRecommendations />
 
       {/* Active Missions */}
       <ActiveMissions />
