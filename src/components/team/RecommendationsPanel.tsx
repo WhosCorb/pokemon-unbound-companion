@@ -6,15 +6,42 @@ import { useProgress } from "@/hooks/useProgress";
 import { GbaPanel } from "@/components/ui/GbaPanel";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { PokemonSprite } from "@/components/ui/PokemonSprite";
-import { TYPE_COLORS, ALL_TYPES } from "@/lib/constants";
+import { TYPE_COLORS, ALL_TYPES, STAT_LABELS } from "@/lib/constants";
 import {
   getTeamOffensiveCoverage,
   getEffectivenessAgainst,
 } from "@/lib/type-calc";
-import type { PokemonType, Pokemon, LearnsetMove } from "@/lib/types";
+import {
+  recommendNature,
+  recommendMoveset,
+  scoreMoveForPokemon,
+  findWeakestLink,
+} from "@/lib/recommendations";
+import type { PokemonType, Pokemon, Trainer, Difficulty, TeamSlot } from "@/lib/types";
 import pokemonData from "../../../data/pokemon.json";
+import trainersData from "../../../data/trainers.json";
 
 const allPokemon = pokemonData as Pokemon[];
+const trainers = trainersData as Trainer[];
+
+const GYM_ORDER = [
+  "gym_1_mirskle",
+  "gym_2_vega",
+  "gym_3_alice",
+  "gym_4_mel",
+  "gym_5_galavan",
+  "gym_6_big_mo",
+  "gym_7_tessy",
+  "gym_8_benjamin",
+];
+
+// Build lookup for pokemonId -> dexNumber
+const pokemonDexLookup = new Map<string, number>();
+for (const p of allPokemon) {
+  if (p.dexNumber > 0) {
+    pokemonDexLookup.set(p.id, p.dexNumber);
+  }
+}
 
 type Tab = "upcoming" | "coverage" | "gym-prep";
 
@@ -60,11 +87,11 @@ export function RecommendationsPanel() {
 }
 
 // ──────────────────────────────────────────────
-// UPCOMING Tab
+// UPCOMING Tab (Phase 6)
 // ──────────────────────────────────────────────
 
 function UpcomingTab() {
-  const { filledSlots } = useTeam();
+  const { filledSlots, teamTypes } = useTeam();
 
   return (
     <div className="space-y-3">
@@ -72,12 +99,26 @@ function UpcomingTab() {
         const pokemon = allPokemon.find((p) => p.id === slot.pokemonId);
         if (!pokemon) return null;
 
-        // Find next evolution
+        // Find next evolution(s)
         const evoChain = pokemon.evolutionChain;
         const currentIdx = evoChain.findIndex((e) => e.pokemonId === slot.pokemonId);
+
+        // Get the immediate next evolution (index currentIdx + 1)
         const nextEvo = currentIdx >= 0 && currentIdx < evoChain.length - 1
           ? evoChain[currentIdx + 1]
           : null;
+
+        // Detect branching: check if any evolution method mentions gender
+        // (gender-based branching like Kirlia -> Gardevoir/Gallade)
+        const genderEvos = currentIdx >= 0
+          ? evoChain.filter((e, i) => {
+              if (i <= currentIdx) return false;
+              const m = e.method.toLowerCase();
+              return m.includes("male") || m.includes("female");
+            })
+          : [];
+        const hasBranch = genderEvos.length >= 2;
+        const nextEvos = hasBranch ? genderEvos : nextEvo ? [nextEvo] : [];
 
         // Find next learnable moves (by level, after current level)
         const upcomingMoves = pokemon.learnset
@@ -88,9 +129,9 @@ function UpcomingTab() {
               m.level > slot.level
           )
           .sort((a, b) => (a.level ?? 0) - (b.level ?? 0))
-          .slice(0, 3);
+          .slice(0, 5);
 
-        if (!nextEvo && upcomingMoves.length === 0) return null;
+        if (nextEvos.length === 0 && upcomingMoves.length === 0) return null;
 
         return (
           <div key={slot.pokemonId} className="space-y-1">
@@ -106,33 +147,115 @@ function UpcomingTab() {
               </span>
             </div>
 
-            {nextEvo && (
-              <div className="ml-7 font-pixel text-[7px] text-gba-cyan">
-                Evolves: {nextEvo.method} -&gt; {nextEvo.pokemonName}
+            {/* Evolution info */}
+            {hasBranch ? (
+              <div className="ml-7 bg-gba-yellow/5 border border-gba-yellow/20 px-2 py-1 rounded-sm">
+                <div className="font-pixel text-[7px] text-gba-yellow mb-0.5">
+                  DECISION:
+                </div>
+                {nextEvos.map((evo) => {
+                  const isGenderRelevant =
+                    slot.gender &&
+                    evo.method.toLowerCase().includes(slot.gender);
+                  return (
+                    <div
+                      key={evo.pokemonId}
+                      className={`font-mono text-[9px] ${
+                        isGenderRelevant
+                          ? "text-gba-cyan"
+                          : "text-gba-text-dim"
+                      }`}
+                    >
+                      {evo.pokemonName} ({evo.method})
+                      {isGenderRelevant && (
+                        <span className="font-pixel text-[6px] text-gba-cyan ml-1">
+                          YOUR PATH
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            )}
+            ) : nextEvos.length === 1 ? (
+              <div className="ml-7 font-pixel text-[7px] text-gba-cyan">
+                Evolves: {nextEvos[0].method} -&gt; {nextEvos[0].pokemonName}
+              </div>
+            ) : null}
 
+            {/* Upcoming moves with LEARN/SKIP tags */}
             {upcomingMoves.length > 0 && (
               <div className="ml-7 space-y-0.5">
-                {upcomingMoves.map((m) => (
-                  <div
-                    key={m.name}
-                    className="flex items-center gap-1 font-mono text-[9px] text-gba-text-dim"
-                  >
-                    <span
-                      className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: TYPE_COLORS[m.type] }}
-                    />
-                    <span>
-                      Lv{m.level}: {m.name}
-                    </span>
-                    {m.power && (
-                      <span className="text-gba-text-dim/60 ml-auto">
-                        {m.category === "physical" ? "PHY" : m.category === "special" ? "SPC" : "STA"} {m.power}
+                {upcomingMoves.map((m) => {
+                  const isStab = pokemon.types.includes(m.type);
+                  const moveScore = scoreMoveForPokemon(m, pokemon, teamTypes);
+
+                  // Compare against current moveset
+                  const currentMoves = (slot.moveData ?? []).map((cm) => {
+                    const fullMove = pokemon.learnset.find(
+                      (lm) => lm.name === cm.name
+                    );
+                    return fullMove
+                      ? scoreMoveForPokemon(fullMove, pokemon, teamTypes)
+                      : 0;
+                  });
+                  const worstCurrentScore =
+                    currentMoves.length > 0
+                      ? Math.min(...currentMoves)
+                      : 0;
+                  const shouldLearn =
+                    currentMoves.length < 4 || moveScore > worstCurrentScore;
+                  const worstMoveName =
+                    shouldLearn && slot.moveData && slot.moveData.length >= 4
+                      ? slot.moveData[
+                          currentMoves.indexOf(
+                            Math.min(...currentMoves)
+                          )
+                        ]?.name
+                      : null;
+
+                  return (
+                    <div
+                      key={m.name}
+                      className="flex items-center gap-1 font-mono text-[9px] text-gba-text-dim"
+                    >
+                      <span
+                        className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: TYPE_COLORS[m.type] }}
+                      />
+                      <span>
+                        Lv{m.level}: {m.name}
                       </span>
-                    )}
-                  </div>
-                ))}
+                      {isStab && (
+                        <span className="font-pixel text-[5px] text-gba-green">
+                          STAB
+                        </span>
+                      )}
+                      {m.power && (
+                        <span className="text-gba-text-dim/60">
+                          {m.category === "physical"
+                            ? "PHY"
+                            : m.category === "special"
+                              ? "SPC"
+                              : "STA"}{" "}
+                          {m.power}
+                        </span>
+                      )}
+                      <span
+                        className={`font-pixel text-[5px] ml-auto flex-shrink-0 ${
+                          shouldLearn
+                            ? "text-gba-green"
+                            : "text-gba-text-dim/40"
+                        }`}
+                      >
+                        {shouldLearn
+                          ? worstMoveName
+                            ? `LEARN -- replace ${worstMoveName}`
+                            : "LEARN"
+                          : "SKIP"}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -143,8 +266,15 @@ function UpcomingTab() {
 }
 
 // ──────────────────────────────────────────────
-// COVERAGE GAPS Tab
+// COVERAGE GAPS Tab (Phases 3-5)
 // ──────────────────────────────────────────────
+
+interface CoverageSuggestion {
+  gap: PokemonType;
+  pokemon: Pokemon;
+  replaceSlotName?: string;
+  bestLocation?: { name: string; method: string; rate: number };
+}
 
 function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
   const { isUnlocked, completedMilestones } = useProgress();
@@ -158,13 +288,19 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
   // Types where team has no super-effective STAB coverage
   const gaps = ALL_TYPES.filter((t) => coverage[t] <= 1);
 
-  // For each gap, suggest a Pokemon that covers it -- deduplicated and location-aware
+  // Compute the "weakest link" team member
+  const weakestIdx = useMemo(
+    () => (filledSlots.length >= 6 ? findWeakestLink(teamTypes, ALL_TYPES) : -1),
+    [teamTypes, filledSlots.length]
+  );
+  const weakestName = weakestIdx >= 0 ? filledSlots[weakestIdx]?.pokemonName : undefined;
+
+  // For each gap, suggest a Pokemon that covers it
   const suggestions = useMemo(() => {
-    const result: { gap: PokemonType; pokemon: Pokemon }[] = [];
+    const result: CoverageSuggestion[] = [];
     const alreadySuggested = new Set(filledSlots.map((s) => s.pokemonId));
 
     for (const gapType of gaps.slice(0, 5)) {
-      // Find all candidates with STAB that's SE against the gap type
       const candidates = allPokemon.filter((p) => {
         if (alreadySuggested.has(p.id)) return false;
         if (!isUnlocked(p.milestoneRequired)) return false;
@@ -176,7 +312,6 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
 
       if (candidates.length === 0) continue;
 
-      // Sort: prefer Pokemon at accessible catch locations, then by base stat total
       candidates.sort((a, b) => {
         const aLocations = a.catchLocations.filter((loc) =>
           isUnlocked(loc.milestoneRequired)
@@ -185,14 +320,10 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
           isUnlocked(loc.milestoneRequired)
         ).length;
 
-        // Pokemon with accessible catch locations first
         if (aLocations > 0 && bLocations === 0) return -1;
         if (bLocations > 0 && aLocations === 0) return 1;
-
-        // More accessible locations = easier to find
         if (aLocations !== bLocations) return bLocations - aLocations;
 
-        // Tiebreaker: base stat total
         const aBst =
           a.baseStats.hp + a.baseStats.attack + a.baseStats.defense +
           a.baseStats.spAttack + a.baseStats.spDefense + a.baseStats.speed;
@@ -203,12 +334,30 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
       });
 
       const best = candidates[0];
-      result.push({ gap: gapType, pokemon: best });
+
+      // Find best accessible catch location
+      const accessibleLocations = best.catchLocations
+        .filter((loc) => isUnlocked(loc.milestoneRequired))
+        .sort((a, b) => b.rate - a.rate);
+      const bestLocation = accessibleLocations[0]
+        ? {
+            name: accessibleLocations[0].locationName,
+            method: accessibleLocations[0].method,
+            rate: accessibleLocations[0].rate,
+          }
+        : undefined;
+
+      result.push({
+        gap: gapType,
+        pokemon: best,
+        replaceSlotName: weakestName,
+        bestLocation,
+      });
       alreadySuggested.add(best.id);
     }
 
     return result;
-  }, [gaps, isUnlocked, filledSlots]);
+  }, [gaps, isUnlocked, filledSlots, weakestName]);
 
   if (gaps.length === 0) {
     return (
@@ -239,36 +388,105 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
           <div className="font-pixel text-[7px] text-gba-text-dim mt-2">
             SUGGESTIONS:
           </div>
-          <div className="space-y-1">
-            {suggestions.map(({ gap, pokemon }) => (
-              <div
-                key={gap}
-                className="flex items-center gap-2 py-1"
-              >
-                <PokemonSprite
-                  dexNumber={pokemon.dexNumber}
-                  name={pokemon.name}
-                  primaryType={pokemon.types[0]}
-                  size="sm"
-                />
-                <div className="flex-1 min-w-0">
-                  <span className="font-mono text-[9px] text-gba-text truncate">
-                    {pokemon.name}
-                  </span>
-                  <div className="flex gap-0.5 mt-0.5">
-                    {pokemon.types.map((t) => (
-                      <TypeBadge key={t} type={t} abbreviated />
-                    ))}
+          <div className="space-y-2">
+            {suggestions.map(({ gap, pokemon, replaceSlotName, bestLocation }) => {
+              const nature = recommendNature(pokemon);
+              const avgLevel = filledSlots.length > 0
+                ? Math.round(filledSlots.reduce((sum, s) => sum + s.level, 0) / filledSlots.length)
+                : 50;
+              const moveset = recommendMoveset(
+                pokemon,
+                avgLevel,
+                teamTypes,
+                completedMilestones
+              );
+
+              return (
+                <div
+                  key={gap}
+                  className="bg-gba-bg/40 rounded-sm p-2 space-y-1"
+                >
+                  {/* Pokemon header row */}
+                  <div className="flex items-center gap-2">
+                    <PokemonSprite
+                      dexNumber={pokemon.dexNumber}
+                      name={pokemon.name}
+                      primaryType={pokemon.types[0]}
+                      size="sm"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <span className="font-mono text-[9px] text-gba-text truncate block">
+                        {pokemon.name}
+                      </span>
+                      <div className="flex gap-0.5 mt-0.5">
+                        {pokemon.types.map((t) => (
+                          <TypeBadge key={t} type={t} abbreviated />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <span className="font-pixel text-[6px] text-gba-text-dim">
+                        covers{" "}
+                        <span style={{ color: TYPE_COLORS[gap] }}>
+                          {gap.toUpperCase()}
+                        </span>
+                      </span>
+                      {replaceSlotName && filledSlots.length >= 6 && (
+                        <div className="font-pixel text-[5px] text-gba-yellow">
+                          swap {replaceSlotName.toUpperCase()}
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Catch location */}
+                  <div className="font-mono text-[8px] text-gba-text-dim">
+                    {bestLocation ? (
+                      <>
+                        {bestLocation.name} ({bestLocation.method})
+                        {bestLocation.rate > 0 && (
+                          <span className="ml-1 text-gba-text-dim/60">
+                            {bestLocation.rate}%
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      <span className="text-gba-text-dim/40">
+                        Not catchable yet
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Nature recommendation */}
+                  <div className="font-mono text-[8px] text-gba-cyan">
+                    Nature: {nature.name}
+                    {nature.increased && nature.decreased && (
+                      <span className="text-gba-text-dim ml-1">
+                        (+{STAT_LABELS[nature.increased as keyof typeof STAT_LABELS]}, -{STAT_LABELS[nature.decreased as keyof typeof STAT_LABELS]})
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Recommended moves */}
+                  {moveset.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {moveset.slice(0, 4).map((m) => (
+                        <span
+                          key={m.name}
+                          className="inline-flex items-center gap-0.5 font-mono text-[7px] text-gba-text-dim"
+                        >
+                          <span
+                            className="inline-block w-1 h-1 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: TYPE_COLORS[m.type] }}
+                          />
+                          {m.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <span className="font-pixel text-[6px] text-gba-text-dim flex-shrink-0">
-                  covers{" "}
-                  <span style={{ color: TYPE_COLORS[gap] }}>
-                    {gap.toUpperCase()}
-                  </span>
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
       )}
@@ -277,7 +495,7 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
 }
 
 // ──────────────────────────────────────────────
-// GYM PREP Tab
+// GYM PREP Tab (Phase 8b: type quick reference)
 // ──────────────────────────────────────────────
 
 const GYM_SEQUENCE: {
@@ -285,22 +503,37 @@ const GYM_SEQUENCE: {
   type: PokemonType;
   location: string;
   badge: number;
+  gymId: string;
 }[] = [
-  { badge: 0, name: "Mirskle", type: "grass", location: "Dresco Town" },
-  { badge: 1, name: "Vega", type: "dark", location: "Crater Town" },
-  { badge: 2, name: "Alice", type: "flying", location: "Blizzard City" },
-  { badge: 3, name: "Mel", type: "normal", location: "Fallshore City" },
-  { badge: 4, name: "Galavan", type: "electric", location: "Dehara City" },
-  { badge: 5, name: "Big Mo", type: "fighting", location: "Antisis City" },
-  { badge: 6, name: "Tessy", type: "water", location: "Polder Town" },
-  { badge: 7, name: "Benjamin", type: "bug", location: "Redwood Village" },
+  { badge: 0, name: "Mirskle", type: "grass", location: "Dresco Town", gymId: "gym_1_mirskle" },
+  { badge: 1, name: "Vega", type: "dark", location: "Crater Town", gymId: "gym_2_vega" },
+  { badge: 2, name: "Alice", type: "flying", location: "Blizzard City", gymId: "gym_3_alice" },
+  { badge: 3, name: "Mel", type: "normal", location: "Fallshore City", gymId: "gym_4_mel" },
+  { badge: 4, name: "Galavan", type: "electric", location: "Dehara City", gymId: "gym_5_galavan" },
+  { badge: 5, name: "Big Mo", type: "fighting", location: "Antisis City", gymId: "gym_6_big_mo" },
+  { badge: 6, name: "Tessy", type: "water", location: "Polder Town", gymId: "gym_7_tessy" },
+  { badge: 7, name: "Benjamin", type: "bug", location: "Redwood Village", gymId: "gym_8_benjamin" },
 ];
 
 function GymPrepTab() {
   const { filledSlots } = useTeam();
-  const { badgeCount } = useProgress();
+  const { badgeCount, difficulty } = useProgress();
 
   const nextGym = GYM_SEQUENCE[badgeCount];
+
+  // Resolve gym leader's actual Pokemon team from trainers.json
+  const gymTrainer = nextGym
+    ? trainers.find((t) => t.id === nextGym.gymId)
+    : null;
+  const gymTeam = useMemo(() => {
+    if (!gymTrainer) return [];
+    const difficultyOrder: Difficulty[] = [difficulty, "insane", "expert", "difficult", "vanilla"];
+    for (const d of difficultyOrder) {
+      const team = gymTrainer.teams[d];
+      if (team && team.length > 0) return team;
+    }
+    return [];
+  }, [gymTrainer, difficulty]);
 
   if (!nextGym) {
     return (
@@ -315,19 +548,24 @@ function GymPrepTab() {
     );
   }
 
+  // Type quick reference: which types are SE against gym type and vice versa
+  const seAgainstGym = ALL_TYPES.filter(
+    (t) => getEffectivenessAgainst(t, [nextGym.type]) > 1
+  );
+  const gymSeAgainst = ALL_TYPES.filter(
+    (t) => getEffectivenessAgainst(nextGym.type, [t]) > 1
+  );
+
   // Analyze each team member vs the gym type
   const matchups = filledSlots.map((slot) => {
-    const pokemon = allPokemon.find((p) => p.id === slot.pokemonId);
     const memberTypes = slot.types as PokemonType[];
 
-    // How does team member attack the gym type?
     let bestOffense = 1;
     for (const atkType of memberTypes) {
       const eff = getEffectivenessAgainst(atkType, [nextGym.type]);
       if (eff > bestOffense) bestOffense = eff;
     }
 
-    // How does the gym type attack this member?
     const defEff = getEffectivenessAgainst(nextGym.type, memberTypes);
 
     let verdict: "strong" | "neutral" | "risky";
@@ -335,13 +573,7 @@ function GymPrepTab() {
     else if (defEff >= 2) verdict = "risky";
     else verdict = "neutral";
 
-    return {
-      slot,
-      pokemon,
-      bestOffense,
-      defEff,
-      verdict,
-    };
+    return { slot, bestOffense, defEff, verdict };
   });
 
   const strong = matchups.filter((m) => m.verdict === "strong");
@@ -358,6 +590,70 @@ function GymPrepTab() {
           {nextGym.location}
         </span>
       </div>
+
+      {/* Type quick reference (Phase 8b) */}
+      <div className="bg-gba-bg/40 rounded-sm p-2 space-y-1">
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-pixel text-[6px] text-gba-green flex-shrink-0">
+            SE vs {nextGym.type.toUpperCase()}:
+          </span>
+          {seAgainstGym.map((t) => (
+            <TypeBadge key={t} type={t} abbreviated />
+          ))}
+        </div>
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-pixel text-[6px] text-gba-red flex-shrink-0">
+            {nextGym.type.toUpperCase()} SE vs:
+          </span>
+          {gymSeAgainst.length > 0 ? (
+            gymSeAgainst.map((t) => (
+              <TypeBadge key={t} type={t} abbreviated />
+            ))
+          ) : (
+            <span className="font-pixel text-[6px] text-gba-text-dim">
+              None
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Gym leader's actual Pokemon team */}
+      {gymTeam.length > 0 && (
+        <div className="space-y-1">
+          <div className="font-pixel text-[7px] text-gba-text-dim">
+            {nextGym.name.toUpperCase()}&apos;S TEAM:
+          </div>
+          <div className="grid grid-cols-2 gap-1">
+            {gymTeam.map((gp) => (
+              <div
+                key={gp.pokemonId}
+                className="flex items-center gap-1.5 px-1.5 py-1 rounded-sm bg-gba-panel/60"
+              >
+                <PokemonSprite
+                  dexNumber={pokemonDexLookup.get(gp.pokemonId)}
+                  name={gp.pokemonName}
+                  primaryType={(gp.types as PokemonType[])[0]}
+                  size="sm"
+                  className="w-4 h-4"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="font-mono text-[8px] text-gba-text truncate">
+                    {gp.pokemonName}
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    <span className="font-pixel text-[5px] text-gba-text-dim">
+                      Lv{gp.level}
+                    </span>
+                    {(gp.types as PokemonType[]).map((t) => (
+                      <TypeBadge key={t} type={t} abbreviated />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Team matchups */}
       <div className="space-y-1">
