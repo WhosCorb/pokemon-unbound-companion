@@ -147,7 +147,8 @@ function UpcomingTab() {
 // ──────────────────────────────────────────────
 
 function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
-  const { isUnlocked } = useProgress();
+  const { isUnlocked, completedMilestones } = useProgress();
+  const { filledSlots } = useTeam();
 
   const coverage = useMemo(
     () => getTeamOffensiveCoverage(teamTypes),
@@ -157,26 +158,57 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
   // Types where team has no super-effective STAB coverage
   const gaps = ALL_TYPES.filter((t) => coverage[t] <= 1);
 
-  // For each gap, suggest a Pokemon that covers it and is available
+  // For each gap, suggest a Pokemon that covers it -- deduplicated and location-aware
   const suggestions = useMemo(() => {
     const result: { gap: PokemonType; pokemon: Pokemon }[] = [];
+    const alreadySuggested = new Set(filledSlots.map((s) => s.pokemonId));
 
     for (const gapType of gaps.slice(0, 5)) {
-      // Find Pokemon with STAB that's SE against the gap type
-      const candidate = allPokemon.find((p) => {
+      // Find all candidates with STAB that's SE against the gap type
+      const candidates = allPokemon.filter((p) => {
+        if (alreadySuggested.has(p.id)) return false;
         if (!isUnlocked(p.milestoneRequired)) return false;
         return p.types.some(
           (atkType) =>
             getEffectivenessAgainst(atkType as PokemonType, [gapType]) > 1
         );
       });
-      if (candidate) {
-        result.push({ gap: gapType, pokemon: candidate });
-      }
+
+      if (candidates.length === 0) continue;
+
+      // Sort: prefer Pokemon at accessible catch locations, then by base stat total
+      candidates.sort((a, b) => {
+        const aLocations = a.catchLocations.filter((loc) =>
+          isUnlocked(loc.milestoneRequired)
+        ).length;
+        const bLocations = b.catchLocations.filter((loc) =>
+          isUnlocked(loc.milestoneRequired)
+        ).length;
+
+        // Pokemon with accessible catch locations first
+        if (aLocations > 0 && bLocations === 0) return -1;
+        if (bLocations > 0 && aLocations === 0) return 1;
+
+        // More accessible locations = easier to find
+        if (aLocations !== bLocations) return bLocations - aLocations;
+
+        // Tiebreaker: base stat total
+        const aBst =
+          a.baseStats.hp + a.baseStats.attack + a.baseStats.defense +
+          a.baseStats.spAttack + a.baseStats.spDefense + a.baseStats.speed;
+        const bBst =
+          b.baseStats.hp + b.baseStats.attack + b.baseStats.defense +
+          b.baseStats.spAttack + b.baseStats.spDefense + b.baseStats.speed;
+        return bBst - aBst;
+      });
+
+      const best = candidates[0];
+      result.push({ gap: gapType, pokemon: best });
+      alreadySuggested.add(best.id);
     }
 
     return result;
-  }, [gaps, isUnlocked]);
+  }, [gaps, isUnlocked, filledSlots]);
 
   if (gaps.length === 0) {
     return (

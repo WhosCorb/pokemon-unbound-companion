@@ -8,11 +8,13 @@ import { TypeCoverageGrid } from "@/components/team/TypeCoverageGrid";
 import { CounterAnalysis } from "@/components/team/CounterAnalysis";
 import { RecommendationsPanel } from "@/components/team/RecommendationsPanel";
 import { useTeam } from "@/hooks/useTeam";
+import { useCaught } from "@/hooks/useCaught";
 import type { TeamSlot as TeamSlotType } from "@/lib/types";
 
 export default function TeamPage() {
   const { slots, setSlot, removeSlot, updateSlot, teamTypes, clearTeam, filledSlots } =
     useTeam();
+  const { markCaught } = useCaught();
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [activeSlotIndex, setActiveSlotIndex] = useState<number>(0);
 
@@ -24,8 +26,9 @@ export default function TeamPage() {
   const handleSelect = useCallback(
     (slot: TeamSlotType) => {
       setSlot(activeSlotIndex, slot);
+      markCaught(slot.pokemonId);
     },
-    [activeSlotIndex, setSlot]
+    [activeSlotIndex, setSlot, markCaught]
   );
 
   const handleRemove = useCallback(
