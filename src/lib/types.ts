@@ -262,6 +262,7 @@ export interface TeamSlot {
   nature?: NatureName;
   item?: string;
   moveData?: TeamSlotMove[];
+  gender?: "male" | "female";
 }
 
 export interface UserProgress {

@@ -5,8 +5,9 @@ import { Modal } from "@/components/ui/Modal";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { PokemonSprite } from "@/components/ui/PokemonSprite";
-import type { PokemonType, TeamSlot } from "@/lib/types";
+import type { PokemonType, TeamSlot, Pokemon } from "@/lib/types";
 import { TYPE_COLORS, ALL_TYPES } from "@/lib/constants";
+import { hasGenderDependentEvolution } from "@/lib/recommendations";
 import pokemonData from "../../../data/pokemon.json";
 
 interface PokemonEntry {
@@ -26,6 +27,7 @@ interface PokemonEntry {
 }
 
 const allPokemon: PokemonEntry[] = pokemonData as PokemonEntry[];
+const allPokemonFull = pokemonData as Pokemon[];
 
 interface PokemonSelectorProps {
   isOpen: boolean;
@@ -40,15 +42,15 @@ export function PokemonSelector({
 }: PokemonSelectorProps) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<PokemonType | "">("");
+  const [pendingGenderPokemon, setPendingGenderPokemon] =
+    useState<PokemonEntry | null>(null);
 
   const filtered = useMemo(() => {
     const query = search.toLowerCase().trim();
     return allPokemon.filter((p) => {
-      // Name filter
       if (query && !p.name.toLowerCase().includes(query)) {
         return false;
       }
-      // Type filter
       if (typeFilter && !p.types.includes(typeFilter)) {
         return false;
       }
@@ -61,13 +63,16 @@ export function PokemonSelector({
     return s.hp + s.attack + s.defense + s.spAttack + s.spDefense + s.speed;
   }
 
-  function handleSelect(p: PokemonEntry) {
+  function createSlot(
+    p: PokemonEntry,
+    gender?: "male" | "female"
+  ): TeamSlot {
     const defaultAbility =
       p.abilities.find((a) => !a.isHidden)?.name ||
       p.abilities[0]?.name ||
       "";
 
-    const slot: TeamSlot = {
+    return {
       pokemonId: p.id,
       pokemonName: p.name,
       types: p.types as PokemonType[],
@@ -75,8 +80,28 @@ export function PokemonSelector({
       moves: [],
       ability: defaultAbility,
       dexNumber: p.dexNumber,
+      ...(gender ? { gender } : {}),
     };
-    onSelect(slot);
+  }
+
+  function handleSelect(p: PokemonEntry) {
+    // Check if this Pokemon has gender-dependent evolutions
+    const fullPokemon = allPokemonFull.find((fp) => fp.id === p.id);
+    if (fullPokemon && hasGenderDependentEvolution(fullPokemon)) {
+      setPendingGenderPokemon(p);
+      return;
+    }
+
+    onSelect(createSlot(p));
+    setSearch("");
+    setTypeFilter("");
+    onClose();
+  }
+
+  function handleGenderSelect(gender: "male" | "female") {
+    if (!pendingGenderPokemon) return;
+    onSelect(createSlot(pendingGenderPokemon, gender));
+    setPendingGenderPokemon(null);
     setSearch("");
     setTypeFilter("");
     onClose();
@@ -85,7 +110,85 @@ export function PokemonSelector({
   function handleClose() {
     setSearch("");
     setTypeFilter("");
+    setPendingGenderPokemon(null);
     onClose();
+  }
+
+  // Gender selection sub-view
+  if (pendingGenderPokemon) {
+    const fullPokemon = allPokemonFull.find(
+      (fp) => fp.id === pendingGenderPokemon.id
+    );
+    const evoChain = fullPokemon?.evolutionChain ?? [];
+
+    return (
+      <Modal isOpen={isOpen} onClose={handleClose} title="SELECT GENDER">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 justify-center">
+            <PokemonSprite
+              dexNumber={pendingGenderPokemon.dexNumber}
+              name={pendingGenderPokemon.name}
+              primaryType={pendingGenderPokemon.types[0]}
+              size="lg"
+            />
+            <div>
+              <div className="font-mono text-sm text-gba-text">
+                {pendingGenderPokemon.name}
+              </div>
+              <div className="font-pixel text-[7px] text-gba-text-dim mt-1">
+                This Pokemon has gender-dependent evolutions.
+              </div>
+            </div>
+          </div>
+
+          {/* Show evolution paths */}
+          {evoChain.length > 0 && (
+            <div className="bg-gba-bg/40 rounded-sm p-2">
+              <div className="font-pixel text-[7px] text-gba-text-dim mb-1">
+                EVOLUTION PATHS:
+              </div>
+              {evoChain
+                .filter((e) => {
+                  const m = e.method.toLowerCase();
+                  return m.includes("male") || m.includes("female");
+                })
+                .map((e) => (
+                  <div
+                    key={e.pokemonId}
+                    className="font-mono text-[9px] text-gba-text"
+                  >
+                    {e.pokemonName} -- {e.method}
+                  </div>
+                ))}
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleGenderSelect("male")}
+              className="flex-1 py-3 rounded-sm border border-blue-400/40 bg-blue-900/20 hover:bg-blue-900/40 transition-colors"
+            >
+              <div className="font-pixel text-[10px] text-blue-300">MALE</div>
+            </button>
+            <button
+              onClick={() => handleGenderSelect("female")}
+              className="flex-1 py-3 rounded-sm border border-pink-400/40 bg-pink-900/20 hover:bg-pink-900/40 transition-colors"
+            >
+              <div className="font-pixel text-[10px] text-pink-300">
+                FEMALE
+              </div>
+            </button>
+          </div>
+
+          <button
+            onClick={() => setPendingGenderPokemon(null)}
+            className="w-full font-pixel text-[7px] text-gba-text-dim hover:text-gba-text py-1"
+          >
+            BACK TO LIST
+          </button>
+        </div>
+      </Modal>
+    );
   }
 
   return (
