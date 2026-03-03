@@ -10,8 +10,19 @@ import { PokemonSprite } from "@/components/ui/PokemonSprite";
 import { useProgress } from "@/hooks/useProgress";
 import { useTeam } from "@/hooks/useTeam";
 import trainersData from "../../../data/trainers.json";
+import pokemonData from "../../../data/pokemon.json";
+import type { Pokemon } from "@/lib/types";
 
 const trainers = trainersData as Trainer[];
+const allPokemon = pokemonData as Pokemon[];
+
+// Build lookup map for pokemonId -> dexNumber
+const pokemonDexLookup = new Map<string, number>();
+for (const p of allPokemon) {
+  if (p.dexNumber > 0) {
+    pokemonDexLookup.set(p.id, p.dexNumber);
+  }
+}
 
 // Ordered gym leader IDs by badge number (correct order per unboundwiki.com)
 const GYM_ORDER = [
@@ -76,6 +87,7 @@ export function CounterAnalysis() {
         return {
           pokemonName: member.pokemonName,
           types: member.types,
+          dexNumber: member.dexNumber,
           offensiveEff: bestOffense,
           defensiveEff: worstDefense,
         };
@@ -167,6 +179,7 @@ function GymPokemonMatchup({
   memberResults: {
     pokemonName: string;
     types: PokemonType[] | string[];
+    dexNumber?: number;
     offensiveEff: number;
     defensiveEff: number;
   }[];
@@ -179,6 +192,7 @@ function GymPokemonMatchup({
       {/* Gym Pokemon header */}
       <div className="flex items-center gap-2">
         <PokemonSprite
+          dexNumber={pokemonDexLookup.get(gymPokemon.pokemonId)}
           name={gymPokemon.pokemonName}
           primaryType={gymTypes[0]}
           size="md"
@@ -226,6 +240,7 @@ function GymPokemonMatchup({
               className="flex items-center gap-1.5 px-1.5 py-1 rounded-sm bg-gba-panel/60"
             >
               <PokemonSprite
+                dexNumber={result.dexNumber}
                 name={result.pokemonName}
                 primaryType={result.types[0] as PokemonType}
                 size="sm"
