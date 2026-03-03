@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useMemo } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useStorage } from "@/hooks/useStorage";
 import type { TeamSlot, UserTeam, PokemonType } from "@/lib/types";
 
 interface TeamContextValue {
@@ -22,7 +22,7 @@ const EMPTY_TEAM: UserTeam = {
 export const TeamContext = createContext<TeamContextValue | null>(null);
 
 export function TeamProvider({ children }: { children: React.ReactNode }) {
-  const [team, setTeam] = useLocalStorage<UserTeam>(
+  const [team, setTeam] = useStorage<UserTeam>(
     "pkm-unbound-team",
     EMPTY_TEAM
   );

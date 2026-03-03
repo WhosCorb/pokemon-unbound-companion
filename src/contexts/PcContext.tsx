@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useMemo } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useStorage } from "@/hooks/useStorage";
 import type { PcPokemon, PcBox, UserPc } from "@/lib/types";
 
 const BOX_SIZE = 30;
@@ -40,7 +40,7 @@ interface PcContextValue {
 export const PcContext = createContext<PcContextValue | null>(null);
 
 export function PcProvider({ children }: { children: React.ReactNode }) {
-  const [pc, setPc] = useLocalStorage<UserPc>("pkm-unbound-pc", EMPTY_PC);
+  const [pc, setPc] = useStorage<UserPc>("pkm-unbound-pc", EMPTY_PC);
 
   const setActiveBox = useCallback(
     (index: number) => {

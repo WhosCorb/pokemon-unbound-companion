@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useMemo } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useStorage } from "@/hooks/useStorage";
 import type { CaughtEntry } from "@/lib/types";
 
 interface CaughtContextValue {
@@ -16,7 +16,7 @@ interface CaughtContextValue {
 export const CaughtContext = createContext<CaughtContextValue | null>(null);
 
 export function CaughtProvider({ children }: { children: React.ReactNode }) {
-  const [caught, setCaught] = useLocalStorage<CaughtEntry[]>(
+  const [caught, setCaught] = useStorage<CaughtEntry[]>(
     "pkm-unbound-caught",
     []
   );

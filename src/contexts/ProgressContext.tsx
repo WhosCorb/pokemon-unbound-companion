@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useEffect, useMemo } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useStorage } from "@/hooks/useStorage";
 import { createDefaultProgress, getBadgeCount, isAccessible, migrateDifficulty } from "@/lib/progress";
 import type { Difficulty, UserProgress } from "@/lib/types";
 
@@ -21,7 +21,7 @@ interface ProgressContextValue {
 export const ProgressContext = createContext<ProgressContextValue | null>(null);
 
 export function ProgressProvider({ children }: { children: React.ReactNode }) {
-  const [progress, setProgress] = useLocalStorage<UserProgress>(
+  const [progress, setProgress] = useStorage<UserProgress>(
     "pkm-unbound-progress",
     createDefaultProgress()
   );
