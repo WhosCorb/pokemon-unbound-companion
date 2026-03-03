@@ -1,27 +1,17 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useProgress } from "@/hooks/useProgress";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useMissions } from "@/hooks/useMissions";
 import { PageShell } from "@/components/layout/PageShell";
 import { GbaPanel } from "@/components/ui/GbaPanel";
 import { HpBar } from "@/components/ui/HpBar";
 import type { Mission, MissionStatus } from "@/lib/types";
-import missionsData from "../../../data/missions.json";
-
-const missions = missionsData as Mission[];
 
 // -- Status filter definitions --
 
 type StatusFilter = "ALL" | "AVAILABLE" | "IN PROGRESS" | "COMPLETED";
 
 const STATUS_TABS: StatusFilter[] = ["ALL", "AVAILABLE", "IN PROGRESS", "COMPLETED"];
-
-const STATUS_CYCLE: Record<string, MissionStatus> = {
-  available: "in-progress",
-  "in-progress": "completed",
-  completed: "available",
-};
 
 const STATUS_LABELS: Record<MissionStatus, string> = {
   available: "AVAILABLE",
@@ -48,28 +38,17 @@ const STATUS_HEADER_COLORS: Record<MissionStatus, string> = {
 };
 
 export default function MissionsPage() {
-  const { isUnlocked } = useProgress();
-  const [missionStatus, setMissionStatus] = useLocalStorage<
-    Record<string, string>
-  >("pkm-unbound-mission-status", {});
+  const {
+    missions,
+    getStatus,
+    cycleStatus,
+    getObjectiveStatus,
+    toggleObjective,
+    isLocked,
+    completedCount,
+    totalCount,
+  } = useMissions();
   const [activeFilter, setActiveFilter] = useState<StatusFilter>("ALL");
-
-  // -- Helpers --
-
-  function getStatus(missionId: string): MissionStatus {
-    const status = missionStatus[missionId];
-    if (status === "in-progress" || status === "completed") return status;
-    return "available";
-  }
-
-  function cycleStatus(missionId: string) {
-    const current = getStatus(missionId);
-    const next = STATUS_CYCLE[current];
-    setMissionStatus((prev) => ({
-      ...prev,
-      [missionId]: next,
-    }));
-  }
 
   // -- Filtered missions --
 
@@ -77,7 +56,7 @@ export default function MissionsPage() {
     return missions.filter((mission) => {
       if (activeFilter === "ALL") return true;
 
-      const locked = !isUnlocked(mission.milestoneRequired);
+      const locked = isLocked(mission);
       const status = getStatus(mission.id);
 
       if (activeFilter === "AVAILABLE") {
@@ -91,15 +70,10 @@ export default function MissionsPage() {
       }
       return true;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilter, missionStatus, isUnlocked]);
+  }, [activeFilter, missions, getStatus, isLocked]);
 
   // -- Progress stats --
 
-  const completedCount = missions.filter(
-    (m) => getStatus(m.id) === "completed"
-  ).length;
-  const totalCount = missions.length;
   const progressPercent =
     totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
@@ -148,8 +122,9 @@ export default function MissionsPage() {
         </div>
       ) : (
         filteredMissions.map((mission) => {
-          const locked = !isUnlocked(mission.milestoneRequired);
+          const locked = isLocked(mission);
           const status = getStatus(mission.id);
+          const objectives = getObjectiveStatus(mission.id, mission.objectives.length);
 
           return (
             <MissionCard
@@ -157,7 +132,11 @@ export default function MissionsPage() {
               mission={mission}
               status={status}
               locked={locked}
+              objectiveChecks={objectives}
               onCycleStatus={() => cycleStatus(mission.id)}
+              onToggleObjective={(idx) =>
+                toggleObjective(mission.id, idx, mission.objectives.length)
+              }
             />
           );
         })
@@ -172,18 +151,23 @@ function MissionCard({
   mission,
   status,
   locked,
+  objectiveChecks,
   onCycleStatus,
+  onToggleObjective,
 }: {
   mission: Mission;
   status: MissionStatus;
   locked: boolean;
+  objectiveChecks: boolean[];
   onCycleStatus: () => void;
+  onToggleObjective: (idx: number) => void;
 }) {
   const headerColor = locked
     ? "bg-gba-red/10 text-gba-text-dim"
     : STATUS_HEADER_COLORS[status];
 
   const panelBorder = locked ? "" : STATUS_PANEL_BORDER[status];
+  const canToggleObjectives = status === "in-progress";
 
   return (
     <GbaPanel
@@ -224,9 +208,16 @@ function MissionCard({
             </div>
             <div className="space-y-0.5 pl-1">
               {mission.objectives.map((objective, idx) => {
-                const isChecked = status === "completed";
+                const isChecked = status === "completed" || objectiveChecks[idx];
                 return (
-                  <div key={idx} className="flex items-start gap-2 min-h-[28px]">
+                  <button
+                    key={idx}
+                    onClick={() => canToggleObjectives && onToggleObjective(idx)}
+                    disabled={!canToggleObjectives}
+                    className={`flex items-start gap-2 min-h-[28px] w-full text-left ${
+                      canToggleObjectives ? "cursor-pointer hover:bg-white/5 rounded-sm px-1 -mx-1" : ""
+                    }`}
+                  >
                     <span
                       className={`font-pixel text-[8px] w-4 text-center flex-shrink-0 mt-0.5 ${
                         isChecked ? "text-gba-green" : "text-gba-text-dim"
@@ -243,7 +234,7 @@ function MissionCard({
                     >
                       {objective}
                     </span>
-                  </div>
+                  </button>
                 );
               })}
             </div>

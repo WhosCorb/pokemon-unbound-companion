@@ -1,283 +1,1178 @@
 [
   {
-    "id": "mission_starter_delivery",
-    "name": "Special Delivery",
-    "description": "Professor Ranger has a package that needs to be delivered to an aide in Fallshore City. A simple errand, but trouble may be lurking on the way.",
-    "requirements": "Speak with Professor Ranger in Frozen Heights Lab",
+    "id": "mission_001",
+    "name": "A Hero’s Journey",
+    "description": "Complete the main story mission of the game, including defeating the Light of Ruin and becoming Pokémon Champion.",
+    "requirements": "None",
     "objectives": [
-      "Receive the package from Professor Ranger",
-      "Travel to Fallshore City",
-      "Deliver the package to the Professor's aide"
+      "Complete the main story mission of the game, including defeating the Light of Ruin and becoming Pokémon Champion."
     ],
     "rewards": [
-      "5 Poke Balls",
-      "Running Shoes"
+      "Access to the Post-Game"
     ],
     "milestoneRequired": "game_start",
     "locationId": "frozen_heights"
   },
   {
-    "id": "mission_thief_pursuit",
-    "name": "Stop the Thief",
-    "description": "A shady figure has been spotted stealing items from travelers on Route 1. Track them down and put an end to their schemes.",
-    "requirements": "Complete Special Delivery mission",
+    "id": "mission_002",
+    "name": "A Life of No Regrets",
+    "description": "Play Cloud Burst in the Game Corner and collect 3000 Coins in a single day",
+    "requirements": "None",
     "objectives": [
-      "Investigate Route 1 for suspicious activity",
-      "Chase the thief to their hideout",
-      "Defeat the thief in battle",
-      "Return the stolen goods to the travelers"
+      "Play Cloud Burst in the Game Corner and collect 3000 Coins in a single day"
     ],
     "rewards": [
-      "Great Ball x3",
-      "1500 Poke Dollars"
+      "Balloon Pikachu"
     ],
     "milestoneRequired": "game_start",
-    "locationId": "route_1"
-  },
-  {
-    "id": "mission_koolking_hideout",
-    "name": "KoolKing's Challenge",
-    "description": "The infamous KoolKing has taken over an abandoned warehouse in Dehara City. The local authorities need a capable trainer to put an end to his antics.",
-    "requirements": "Obtain Badge 1 from Dehara City Gym",
-    "objectives": [
-      "Speak with Officer Jenny in Dehara City",
-      "Infiltrate the KoolKing hideout",
-      "Defeat KoolKing's underlings",
-      "Battle and defeat KoolKing"
-    ],
-    "rewards": [
-      "TM46 Thief",
-      "2000 Poke Dollars"
-    ],
-    "milestoneRequired": "badge_1",
     "locationId": "dehara_city"
   },
   {
-    "id": "mission_missing_sailor",
-    "name": "The Missing Sailor",
-    "description": "A sailor has gone missing near the Seaport City docks. His wife is worried sick and needs someone to search the nearby caves.",
-    "requirements": "Reach Seaport City",
+    "id": "mission_003",
+    "name": "A Minor Scrap",
+    "description": "Participate in a fight against two Black Ferrothorn Goons in the streets of Antisis City",
+    "requirements": "#061: The Black Emboar and #073: The Terror Granbull",
     "objectives": [
-      "Speak with the sailor's wife at Seaport City Harbor",
-      "Search the Tidal Cave for the missing sailor",
-      "Escort the sailor back to Seaport City"
+      "Participate in a fight against two Black Ferrothorn Goons in the streets of Antisis City"
     ],
     "rewards": [
-      "Good Rod",
-      "Mystic Water"
+      "Power Bracer"
     ],
-    "milestoneRequired": "badge_2",
-    "locationId": "seaport_city"
+    "milestoneRequired": "game_start",
+    "locationId": "antisis_city"
   },
   {
-    "id": "mission_berry_farmer",
-    "name": "Berry Farmer's Request",
-    "description": "Old man Harmond's Berry farm has been overrun by wild Pokemon. He needs someone to help clear them out before the harvest is ruined.",
-    "requirements": "Reach Fallshore City",
+    "id": "mission_004",
+    "name": "A Rift in Space",
+    "description": "Rescue a little girl in Rift Cave",
+    "requirements": "None",
     "objectives": [
-      "Visit Harmond's Berry Farm on Route 2",
-      "Clear out the wild Pokemon (3 encounters)",
-      "Report back to Harmond"
+      "Rescue a little girl in Rift Cave"
     ],
     "rewards": [
-      "Sitrus Berry x5",
-      "Lum Berry x3",
-      "Oran Berry x10"
+      "Lustrous Orb"
     ],
-    "milestoneRequired": "reach_fallshore",
+    "milestoneRequired": "post_game",
+    "locationId": "dehara_city"
+  },
+  {
+    "id": "mission_005",
+    "name": "Abandonment Issues",
+    "description": "Find the little Tuber girl on the south beach of Fallshore, and find her again multiple times",
+    "requirements": "None",
+    "objectives": [
+      "Find the little Tuber girl on the south beach of Fallshore, and find her again multiple times"
+    ],
+    "rewards": [
+      "Power Belt"
+    ],
+    "milestoneRequired": "game_start",
     "locationId": "fallshore_city"
   },
   {
-    "id": "mission_fossil_expedition",
-    "name": "Fossil Expedition",
-    "description": "The Borrius Museum of Natural History has requested help excavating fossils from Dusty Hollow. Professor Lane believes there may be rare specimens deep within.",
-    "requirements": "Obtain Badge 3 and have access to Rock Smash",
+    "id": "mission_006",
+    "name": "All the Right Moves",
+    "description": "Collect all 120 TMs",
+    "requirements": "None",
     "objectives": [
-      "Meet Professor Lane at Dusty Hollow entrance",
-      "Navigate the excavation tunnels",
-      "Find and collect 3 fossil fragments",
-      "Deliver the fossils to the Museum in Vivpokemon City"
+      "Collect all 120 TMs"
     ],
     "rewards": [
-      "Old Amber",
-      "3000 Poke Dollars",
-      "Exp. Candy M x5"
+      "Gold Bottle Cap"
     ],
-    "milestoneRequired": "badge_3",
-    "locationId": "vivpokemon_city"
+    "milestoneRequired": "game_start",
+    "locationId": "polder_town"
   },
   {
-    "id": "mission_power_plant_crisis",
-    "name": "Power Plant Crisis",
-    "description": "The Antler City Power Plant is experiencing dangerous energy surges. Chief Engineer Watts suspects that a powerful Electric-type Pokemon is the cause.",
-    "requirements": "Obtain Badge 4",
+    "id": "mission_007",
+    "name": "Am I Blind?",
+    "description": "Solve all the Ancient Tablet Puzzles in Borrius",
+    "requirements": "Mission #067: The Food Thief",
     "objectives": [
-      "Speak with Chief Engineer Watts at the Power Plant",
-      "Navigate the malfunctioning facility",
-      "Find the source of the energy surges",
-      "Calm or capture the rampaging Electivire"
+      "Solve all the Ancient Tablet Puzzles in Borrius"
     ],
     "rewards": [
-      "Magnet",
-      "Thunderstone",
-      "5000 Poke Dollars"
+      "5 Wishing Pieces"
     ],
-    "milestoneRequired": "badge_4",
-    "locationId": "antler_city"
+    "milestoneRequired": "game_start",
+    "locationId": "icicle_cave"
   },
   {
-    "id": "mission_shadow_syndicate_base",
-    "name": "Shadow Syndicate Recon",
-    "description": "Intelligence suggests the Shadow Syndicate has established a secret base between Antler City and Serenity Isle. Investigate and gather information on their plans.",
-    "requirements": "Obtain Badge 4 and complete Power Plant Crisis",
+    "id": "mission_008",
+    "name": "And Den There Were None",
+    "description": "Defeat all Raid Dens in Borrius in a single day",
+    "requirements": "None",
     "objectives": [
-      "Meet the Intelligence Officer at Antler City Pokemon Center",
-      "Travel the hidden route to the suspected base",
-      "Infiltrate the Shadow Syndicate outpost",
-      "Gather intel documents from the command room",
-      "Escape the base without being detected"
+      "Defeat all Raid Dens in Borrius in a single day"
     ],
     "rewards": [
-      "Smoke Ball",
-      "4000 Poke Dollars",
-      "Up-Grade"
+      "Portable PC"
     ],
-    "milestoneRequired": "badge_4",
-    "locationId": "antler_city"
+    "milestoneRequired": "post_game",
+    "locationId": "cube_corp"
   },
   {
-    "id": "mission_fairy_shrine",
-    "name": "Guardian of the Shrine",
-    "description": "The ancient Fairy Shrine on Serenity Isle has been disturbed by treasure hunters. The shrine maiden Akari asks for help restoring peace before the guardian awakens in anger.",
-    "requirements": "Reach Serenity Isle",
+    "id": "mission_009",
+    "name": "Armoured Magma",
+    "description": "Hatch 50 Pokémon Eggs",
+    "requirements": "#023 Flaming Body",
     "objectives": [
-      "Speak with Shrine Maiden Akari on Serenity Isle",
-      "Collect the 3 scattered shrine offerings from the island",
-      "Return the offerings to their pedestals",
-      "Defeat the agitated guardian Pokemon"
+      "Hatch 50 Pokémon Eggs"
     ],
     "rewards": [
-      "Fairy Gem",
-      "Gardevoirite",
-      "6000 Poke Dollars"
+      "Ditto"
     ],
-    "milestoneRequired": "badge_5",
-    "locationId": "serenity_isle"
-  },
-  {
-    "id": "mission_surf_race",
-    "name": "Borrius Surf Championship",
-    "description": "The annual Borrius Surf Championship is being held between Seaport City and Serenity Isle. Compete against the region's best water trainers for glory and prizes.",
-    "requirements": "Have Surf unlocked",
-    "objectives": [
-      "Register at the Seaport City Contest Hall",
-      "Complete the qualifying round (defeat 2 trainers)",
-      "Navigate the open-water obstacle course",
-      "Win the championship final battle"
-    ],
-    "rewards": [
-      "Mystic Water",
-      "Rare Candy x3",
-      "8000 Poke Dollars"
-    ],
-    "milestoneRequired": "badge_3",
+    "milestoneRequired": "game_start",
     "locationId": "seaport_city"
   },
   {
-    "id": "mission_volcano_expedition",
-    "name": "Eruption Warning",
-    "description": "The volcano near Crater Town is showing signs of imminent eruption. Volcanologist Dr. Magma needs an experienced trainer to help investigate the volcanic chambers and prevent disaster.",
-    "requirements": "Obtain Badge 6",
+    "id": "mission_010",
+    "name": "As Hard as They Come",
+    "description": "Collect 20 Hard Stones",
+    "requirements": "None",
     "objectives": [
-      "Meet Dr. Magma at the Crater Town Observatory",
-      "Enter the volcanic caverns with protective gear",
-      "Collect 3 magma samples from different chambers",
-      "Defeat the Magmortar blocking the pressure valve",
-      "Activate the pressure release mechanism"
+      "Collect 20 Hard Stones"
     ],
     "rewards": [
-      "Charcoal",
-      "Fire Gem",
-      "10000 Poke Dollars"
+      "TM111 Smack Down"
     ],
-    "milestoneRequired": "badge_6",
-    "locationId": "crater_town"
+    "milestoneRequired": "game_start",
+    "locationId": "gurun_town"
   },
   {
-    "id": "mission_legendary_clue",
-    "name": "Traces of a Legend",
-    "description": "Ancient texts discovered in Crystal Peak reference a legendary Pokemon that once protected the Borrius region. Scholar Helena believes the texts contain clues to its resting place.",
-    "requirements": "Obtain Badge 7",
+    "id": "mission_011",
+    "name": "Average Angler",
+    "description": "Catch 10 Pokémon by Fishing",
+    "requirements": "Speak to the Fisherman in Gurun Town first",
     "objectives": [
-      "Speak with Scholar Helena at the Crystal Peak Library",
-      "Decipher the 3 ancient stone tablets",
-      "Visit each tablet's referenced location",
-      "Unlock the entrance to the Hidden Chamber"
+      "Catch 10 Pokémon by Fishing"
     ],
     "rewards": [
-      "Master Ball",
-      "15000 Poke Dollars"
+      "10 Dive Balls"
     ],
-    "milestoneRequired": "badge_7",
+    "milestoneRequired": "game_start",
+    "locationId": "polder_town"
+  },
+  {
+    "id": "mission_012",
+    "name": "Bad Babysitter",
+    "description": "Find a lost boy in a Pikachu costume on Route 8",
+    "requirements": "None",
+    "objectives": [
+      "Find a lost boy in a Pikachu costume on Route 8"
+    ],
+    "rewards": [
+      "TM27 Return"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "blizzard_city"
+  },
+  {
+    "id": "mission_013",
+    "name": "Basic Literacy",
+    "description": "Read all 40 Trainer Tips signs in the game",
+    "requirements": "None",
+    "objectives": [
+      "Read all 40 Trainer Tips signs in the game"
+    ],
+    "rewards": [
+      "Notebook"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "dresco_town"
+  },
+  {
+    "id": "mission_014",
+    "name": "Blazing Emerald",
+    "description": "Find 10 Emeralds in Crystal Peak",
+    "requirements": "None",
+    "objectives": [
+      "Find 10 Emeralds in Crystal Peak"
+    ],
+    "rewards": [
+      "Jade Orb"
+    ],
+    "milestoneRequired": "post_game",
     "locationId": "crystal_peak"
   },
   {
-    "id": "mission_final_syndicate",
-    "name": "Shadow Syndicate Showdown",
-    "description": "The Shadow Syndicate is making their final move -- a full-scale assault on the Pokemon League. Rally the gym leaders and put an end to their plans once and for all.",
-    "requirements": "Obtain Badge 8",
+    "id": "mission_015",
+    "name": "Butterfly Effect",
+    "description": "Find all 19 Vivillon in Borrius (after speaking to the quest giver)",
+    "requirements": "None",
     "objectives": [
-      "Receive the emergency alert at any Pokemon Center",
-      "Rally Gym Leaders Mel, Galavan, and Gail",
-      "Storm the Shadow Syndicate headquarters",
-      "Defeat Admin Nox and Admin Shade",
-      "Battle and defeat Syndicate Boss Raven"
+      "Find all 19 Vivillon in Borrius (after speaking to the quest giver)"
     ],
     "rewards": [
-      "Shadow Orb",
-      "Lucky Egg",
-      "20000 Poke Dollars"
+      "Shiny Poke Ball-pattern Vivillon"
     ],
-    "milestoneRequired": "badge_8",
-    "locationId": "victory_road"
+    "milestoneRequired": "game_start",
+    "locationId": "magnolia_town"
   },
   {
-    "id": "mission_battle_frontier_pass",
-    "name": "Frontier Challenge Invitation",
-    "description": "After becoming Champion, the Battle Frontier sends an invitation to test your skills. Prove your worth by completing the entrance trials.",
-    "requirements": "Defeat the Champion",
+    "id": "mission_016",
+    "name": "Bye-Bye, Butterfree",
+    "description": "Train a Butterfree to Level 70",
+    "requirements": "None",
     "objectives": [
-      "Receive the Frontier Pass at your home in Frozen Heights",
-      "Travel to the Battle Frontier island",
-      "Complete the Battle Factory entrance trial (3 wins)",
-      "Complete the Battle Tower entrance trial (5 wins)",
-      "Speak with the Frontier Brain Palmer"
+      "Train a Butterfree to Level 70"
     ],
     "rewards": [
-      "Battle Frontier full access",
-      "Ability Capsule",
-      "50 BP"
+      "Shiny Gigantamax Butterfree"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_017",
+    "name": "Darwin Was Right",
+    "description": "Evolve 151 Pokemon",
+    "requirements": "None",
+    "objectives": [
+      "Evolve 151 Pokemon"
+    ],
+    "rewards": [
+      "Mewnium Z Pokemon Mew"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_018",
+    "name": "Don’t Turn off the Power",
+    "description": "Save the game 100 times",
+    "requirements": "None",
+    "objectives": [
+      "Save the game 100 times"
+    ],
+    "rewards": [
+      "Bottle Cap"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "dresco_town"
+  },
+  {
+    "id": "mission_019",
+    "name": "Dowsing Wizard",
+    "description": "Find 150 hidden items",
+    "requirements": "None",
+    "objectives": [
+      "Find 150 hidden items"
+    ],
+    "rewards": [
+      "Gold Bottle Cap"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "tehl_town"
+  },
+  {
+    "id": "mission_020",
+    "name": "Exp. Millionaire",
+    "description": "Earn 1,000,000 EXP in one day",
+    "requirements": "None",
+    "objectives": [
+      "Earn 1,000,000 EXP in one day"
+    ],
+    "rewards": [
+      "2 Lucky Eggs"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_021",
+    "name": "Extreme Hyperosmia",
+    "description": "Show a series of Pokemon bred with Incenses",
+    "requirements": "None",
+    "objectives": [
+      "Show a series of Pokemon bred with Incenses"
+    ],
+    "rewards": [
+      "Oval Charm"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "pokemon_day_care"
+  },
+  {
+    "id": "mission_022",
+    "name": "Fisher Master",
+    "description": "Catch 100 Pokemon while Fishing",
+    "requirements": "#026 Great Piscator",
+    "objectives": [
+      "Catch 100 Pokemon while Fishing"
+    ],
+    "rewards": [
+      "Feebas"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "polder_town"
+  },
+  {
+    "id": "mission_023",
+    "name": "Flaming Body",
+    "description": "Hatch 10 Eggs",
+    "requirements": "None",
+    "objectives": [
+      "Hatch 10 Eggs"
+    ],
+    "rewards": [
+      "Power Bracer"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "seaport_city"
+  },
+  {
+    "id": "mission_024",
+    "name": "Flushed Away",
+    "description": "Find the Grimy Socks in the Antisis Sewers",
+    "requirements": "#061: The Black Emboar and #073: The Terror Granbull",
+    "objectives": [
+      "Find the Grimy Socks in the Antisis Sewers"
+    ],
+    "rewards": [
+      "Black Sludge"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "antisis_city"
+  },
+  {
+    "id": "mission_025",
+    "name": "Gimme a V",
+    "description": "Defeat the Classic Leaders Gauntlet in the Battleground",
+    "requirements": "None",
+    "objectives": [
+      "Defeat the Classic Leaders Gauntlet in the Battleground"
+    ],
+    "rewards": [
+      "Victini"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "seaport_city"
+  },
+  {
+    "id": "mission_026",
+    "name": "Great Piscator",
+    "description": "Catch 50 Pokemon while Fishing",
+    "requirements": "#011 Average Angler",
+    "objectives": [
+      "Catch 50 Pokemon while Fishing"
+    ],
+    "rewards": [
+      "10 Heart Scales"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "polder_town"
+  },
+  {
+    "id": "mission_027",
+    "name": "Guardians of the Lake",
+    "description": "Explore the Cave of Being",
+    "requirements": "Complete 20 Missions and receive Type:Null",
+    "objectives": [
+      "Explore the Cave of Being"
+    ],
+    "rewards": [
+      "Adamant Orb"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_028",
+    "name": "Herd But Not Seen",
+    "description": "Rescue the kidnapped Miltank from the Terror Granbull Goons",
+    "requirements": "Complete #060 The Battle of Antisis",
+    "objectives": [
+      "Rescue the kidnapped Miltank from the Terror Granbull Goons"
+    ],
+    "rewards": [
+      "100 Moomoo Milks"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "magnolia_town"
+  },
+  {
+    "id": "mission_029",
+    "name": "Hero of the Hall",
+    "description": "Defeat the Pokemon League with 18 different monotype teams, 1 for each Type",
+    "requirements": "None",
+    "objectives": [
+      "Defeat the Pokemon League with 18 different monotype teams, 1 for each Type"
+    ],
+    "rewards": [
+      "1000 BP 18 Big Nuggets"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "route_18"
+  },
+  {
+    "id": "mission_030",
+    "name": "Home for a Hobo",
+    "description": "Find a new home for an old man in Epidimy Town by helping out a landlord in Seaport City; requires defeating a warehouse full of trainers with only Ice- or Fairy-type Pokemon",
+    "requirements": "None",
+    "objectives": [
+      "Find a new home for an old man in Epidimy Town by helping out a landlord in Seaport City; requires defeating a warehouse full of trainers with only Ice- or Fairy-type Pokemon"
+    ],
+    "rewards": [
+      "Icium Z"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "epidimy_town"
+  },
+  {
+    "id": "mission_031",
+    "name": "Honey Gather",
+    "description": "Collect 3 Honey from Combee",
+    "requirements": "None",
+    "objectives": [
+      "Collect 3 Honey from Combee"
+    ],
+    "rewards": [
+      "TM62 Silver Wind"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "flower_paradise"
+  },
+  {
+    "id": "mission_032",
+    "name": "Hunter of the Swamp",
+    "description": "Capture all varieties of Pokemon – wild grass, surfable and fishable – in Cootes Bog",
+    "requirements": "None",
+    "objectives": [
+      "Capture all varieties of Pokemon – wild grass, surfable and fishable – in Cootes Bog"
+    ],
+    "rewards": [
+      "15 Timer Balls Upgraded DexNav"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "cootes_bog"
+  },
+  {
+    "id": "mission_033",
+    "name": "If We Were Meant to Fly",
+    "description": "Collect 20 Pretty Wings from Flying-type Pokemon",
+    "requirements": "Flying Badge from the Blizzard Gym",
+    "objectives": [
+      "Collect 20 Pretty Wings from Flying-type Pokemon"
+    ],
+    "rewards": [
+      "Power Anklet"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "blizzard_city"
+  },
+  {
+    "id": "mission_034",
+    "name": "Island Saviour",
+    "description": "Help a Hiker explore the Lost Tunnel",
+    "requirements": "Pokemon that already knows Dig",
+    "objectives": [
+      "Help a Hiker explore the Lost Tunnel"
+    ],
+    "rewards": [
+      "TM28 Dig"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "auburn_waterway"
+  },
+  {
+    "id": "mission_035",
+    "name": "Juicy Pie",
+    "description": "Give the Piemaker 3 Rawst Berries, 5 Belue Berries, 5 Watmel Berries, and 5 Moomoo Milks",
+    "requirements": "#058 Sweet Pie",
+    "objectives": [
+      "Give the Piemaker 3 Rawst Berries, 5 Belue Berries, 5 Watmel Berries, and 5 Moomoo Milks"
+    ],
+    "rewards": [
+      "20 Revives"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "blizzard_city"
+  },
+  {
+    "id": "mission_036",
+    "name": "Leg Day",
+    "description": "Walk 150,000 steps",
+    "requirements": "None",
+    "objectives": [
+      "Walk 150,000 steps"
+    ],
+    "rewards": [
+      "50 Carbos"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "route_5"
+  },
+  {
+    "id": "mission_037",
+    "name": "Lost Hanky",
+    "description": "Return the Handkerchief to the boy at the Magnolia Cafe on Friday",
+    "requirements": "Find the Handkerchief in Magnolia Cafe (Saturday)",
+    "objectives": [
+      "Return the Handkerchief to the boy at the Magnolia Cafe on Friday"
+    ],
+    "rewards": [
+      "Lycanium Z"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "magnolia_town"
+  },
+  {
+    "id": "mission_038",
+    "name": "Major Miner",
+    "description": "Capture 3 Carbink from the tunnels in the KBT Expressway",
+    "requirements": "ADM from Seaport Shipyard",
+    "objectives": [
+      "Capture 3 Carbink from the tunnels in the KBT Expressway"
+    ],
+    "rewards": [
+      "Diancite"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "crater_town"
+  },
+  {
+    "id": "mission_039",
+    "name": "Master Incubator",
+    "description": "Hatch 100 Eggs",
+    "requirements": "#009 Armoured Magma",
+    "objectives": [
+      "Hatch 100 Eggs"
+    ],
+    "rewards": [
+      "Magma Stone"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "seaport_city"
+  },
+  {
+    "id": "mission_040",
+    "name": "More Than a Game",
+    "description": "Win 100 Frontier Battles",
+    "requirements": "Frontier Card",
+    "objectives": [
+      "Win 100 Frontier Battles"
+    ],
+    "rewards": [
+      "200 BP"
     ],
     "milestoneRequired": "post_game",
     "locationId": "battle_frontier"
   },
   {
-    "id": "mission_raid_den_survey",
-    "name": "Raid Den Survey",
-    "description": "Strange energy readings have been detected across the Borrius region. Professor Ranger tasks you with investigating the newly appeared Raid Dens and documenting the powerful Pokemon within.",
-    "requirements": "Reach post-game content",
+    "id": "mission_041",
+    "name": "Neighbourly Assistance",
+    "description": "Bring an Antidote to the old man in Frozen Heights",
+    "requirements": "None",
     "objectives": [
-      "Speak with Professor Ranger about the energy readings",
-      "Locate and investigate 5 Raid Dens across Borrius",
-      "Successfully complete at least 3 Raid Battles",
-      "Report findings back to Professor Ranger"
+      "Bring an Antidote to the old man in Frozen Heights"
     ],
     "rewards": [
-      "Dynamax Candy x10",
-      "Rare Candy x5",
-      "30000 Poke Dollars"
+      "Psychic Gem or Rock Gem or Dragon Gem (depending on your starter)"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "frozen_heights"
+  },
+  {
+    "id": "mission_042",
+    "name": "No Survivors",
+    "description": "Use the Trainer Catalogue and battle every Trainer",
+    "requirements": "Complete 5 Missions",
+    "objectives": [
+      "Use the Trainer Catalogue and battle every Trainer"
+    ],
+    "rewards": [
+      "Latiosite or Latiasite (depending on your gender)"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_043",
+    "name": "Nine Tales of Snow",
+    "description": "Hunt down a thief into Frozen Forest and return a woman’s Alolan Ninetales",
+    "requirements": "None",
+    "objectives": [
+      "Hunt down a thief into Frozen Forest and return a woman’s Alolan Ninetales"
+    ],
+    "rewards": [
+      "Alolan Vulpix Egg"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "blizzard_city"
+  },
+  {
+    "id": "mission_044",
+    "name": "Numbskull",
+    "description": "Use Headbutt on trees 50 times",
+    "requirements": "None",
+    "objectives": [
+      "Use Headbutt on trees 50 times"
+    ],
+    "rewards": [
+      "Pinsirite"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "redwood_forest"
+  },
+  {
+    "id": "mission_045",
+    "name": "No Fall Damage",
+    "description": "Jump over one-way cliffs 1000 times",
+    "requirements": "None",
+    "objectives": [
+      "Jump over one-way cliffs 1000 times"
+    ],
+    "rewards": [
+      "60 Proteins"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "route_8"
+  },
+  {
+    "id": "mission_046",
+    "name": "Odd Odd Docks",
+    "description": "Participate in a smuggling mission at the Antisis Port",
+    "requirements": "None",
+    "objectives": [
+      "Participate in a smuggling mission at the Antisis Port"
+    ],
+    "rewards": [
+      "Dream Mist"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "antisis_city"
+  },
+  {
+    "id": "mission_047",
+    "name": "One Purple Balloon",
+    "description": "Rescue the little girl (again) from a Drifloon",
+    "requirements": "#005 Abandonment Issues",
+    "objectives": [
+      "Rescue the little girl (again) from a Drifloon"
+    ],
+    "rewards": [
+      "Quick Powder"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "crystal_peak"
+  },
+  {
+    "id": "mission_048",
+    "name": "Pangs of Hunger",
+    "description": "Show a woman a Pyukumuku and then a Probopass",
+    "requirements": "None",
+    "objectives": [
+      "Show a woman a Pyukumuku and then a Probopass"
+    ],
+    "rewards": [
+      "3 Balm Mushrooms"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "seaport_city"
+  },
+  {
+    "id": "mission_049",
+    "name": "Population Control",
+    "description": "Capture 50 Pokémon in a single day",
+    "requirements": "None",
+    "objectives": [
+      "Capture 50 Pokémon in a single day"
+    ],
+    "rewards": [
+      "+10% catch rate with all Poke Balls"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_050",
+    "name": "Portal Purge",
+    "description": "Capture all Portal Pokémon",
+    "requirements": "None",
+    "objectives": [
+      "Capture all Portal Pokémon"
+    ],
+    "rewards": [
+      "Master Ball 2x Borrius Starter Mega Stones (ones not yet obtained)"
     ],
     "milestoneRequired": "post_game",
     "locationId": "frozen_heights"
+  },
+  {
+    "id": "mission_051",
+    "name": "Protector of the Swamp",
+    "description": "Defeat all the Terror Granbull in Cootes Bog alongside Tessy, including a Dynamax Feraligatr",
+    "requirements": "#071 The Rogue Electivire",
+    "objectives": [
+      "Defeat all the Terror Granbull in Cootes Bog alongside Tessy, including a Dynamax Feraligatr"
+    ],
+    "rewards": [
+      "TM120 Nature Power"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "cootes_bog"
+  },
+  {
+    "id": "mission_052",
+    "name": "Pyukumuku Chucker",
+    "description": "Throw all Pyukumuku back in the ocean from Dehara beach",
+    "requirements": "None",
+    "objectives": [
+      "Throw all Pyukumuku back in the ocean from Dehara beach"
+    ],
+    "rewards": [
+      "Power Band"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "dehara_city"
+  },
+  {
+    "id": "mission_053",
+    "name": "Seasonal Research",
+    "description": "Show a Scientist all four seasonal forms of Sawsbuck",
+    "requirements": "None",
+    "objectives": [
+      "Show a Scientist all four seasonal forms of Sawsbuck"
+    ],
+    "rewards": [
+      "Free Change of Nature"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "tehl_town"
+  },
+  {
+    "id": "mission_054",
+    "name": "Shark Bait",
+    "description": "Calm down the Sharpedo on the sea floor of Route 17",
+    "requirements": "#073 The Terror Granbull and #071 The Rogue Electivire, ADM from Seaport Shipyard",
+    "objectives": [
+      "Calm down the Sharpedo on the sea floor of Route 17"
+    ],
+    "rewards": [
+      "Sharpedonite"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "seaport_city"
+  },
+  {
+    "id": "mission_055",
+    "name": "Splishy Splash",
+    "description": "Capture 30 Magikarp and put them in the same Box",
+    "requirements": "None",
+    "objectives": [
+      "Capture 30 Magikarp and put them in the same Box"
+    ],
+    "rewards": [
+      "Shiny Magikarp"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "redwood_village"
+  },
+  {
+    "id": "mission_056",
+    "name": "Statue of Regi",
+    "description": "Show Regigigas to a Worker in Tehl Town",
+    "requirements": "#076 Tomb Raider",
+    "objectives": [
+      "Show Regigigas to a Worker in Tehl Town"
+    ],
+    "rewards": [
+      "Upgraded Amulet Coin"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "gurun_town"
+  },
+  {
+    "id": "mission_057",
+    "name": "Supply and Demand",
+    "description": "Defeat the Science Society Scientist supplying the Black Ferrothorn",
+    "requirements": "None",
+    "objectives": [
+      "Defeat the Science Society Scientist supplying the Black Ferrothorn"
+    ],
+    "rewards": [
+      "Alolan Grimer Egg"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "antisis_city"
+  },
+  {
+    "id": "mission_058",
+    "name": "Sweet Pie",
+    "description": "Give the Piemaker 1 Pecha Berry, 1 Qualot Berry and 1 Fresh Water",
+    "requirements": "None",
+    "objectives": [
+      "Give the Piemaker 1 Pecha Berry, 1 Qualot Berry and 1 Fresh Water"
+    ],
+    "rewards": [
+      "5 Hyper Potions"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "blizzard_city"
+  },
+  {
+    "id": "mission_059",
+    "name": "Swords of Justice",
+    "description": "Capture the Swords of Justice",
+    "requirements": "Complete 20 Missions and receive Type:Null",
+    "objectives": [
+      "Capture the Swords of Justice"
+    ],
+    "rewards": [
+      "10 Fast Balls"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_060",
+    "name": "The Battle of Antisis",
+    "description": "Assault the Ferrothorn Turf with the Black Emboar",
+    "requirements": "#003 A Minor Scrap, #024 Flushed Away, #046 Odd Odd Docks",
+    "objectives": [
+      "Assault the Ferrothorn Turf with the Black Emboar"
+    ],
+    "rewards": [
+      "Heracronite"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "antisis_city"
+  },
+  {
+    "id": "mission_061",
+    "name": "The Black Emboar",
+    "description": "Help a man in Crater Town find his brother in the KBT Expressway",
+    "requirements": "None",
+    "objectives": [
+      "Help a man in Crater Town find his brother in the KBT Expressway"
+    ],
+    "rewards": [
+      "TM98 Work Up Motorcycle"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "crater_town"
+  },
+  {
+    "id": "mission_062",
+    "name": "The West Borrius Pokedex",
+    "description": "See all Pokemon in West Borrius",
+    "requirements": "None",
+    "objectives": [
+      "See all Pokemon in West Borrius"
+    ],
+    "rewards": [
+      "Catching Charm"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "frozen_heights"
+  },
+  {
+    "id": "mission_063",
+    "name": "The Capitalist Revolution",
+    "description": "Purchase 300 Items from Poke Marts",
+    "requirements": "None",
+    "objectives": [
+      "Purchase 300 Items from Poke Marts"
+    ],
+    "rewards": [
+      "200 Premier Balls"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_064",
+    "name": "The Communist Revolution",
+    "description": "Heal at Pokémon Centers 300 times",
+    "requirements": "None",
+    "objectives": [
+      "Heal at Pokémon Centers 300 times"
+    ],
+    "rewards": [
+      "PP Maxes"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_065",
+    "name": "The Daily Grind",
+    "description": "Complete 23 different Daily Events in the same day",
+    "requirements": "#027 Guardians of the Lake, catch Dialga",
+    "objectives": [
+      "Complete 23 different Daily Events in the same day"
+    ],
+    "rewards": [
+      "Time Turner"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "cube_corp"
+  },
+  {
+    "id": "mission_066",
+    "name": "The Endless Nightmare",
+    "description": "Help a little boy with bad dream issues",
+    "requirements": "None",
+    "objectives": [
+      "Help a little boy with bad dream issues"
+    ],
+    "rewards": [
+      "Member Card"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "tarmigan_town"
+  },
+  {
+    "id": "mission_067",
+    "name": "The Food Thief",
+    "description": "Pursue an Alolan Sandslash into Icicle Cave",
+    "requirements": "None",
+    "objectives": [
+      "Pursue an Alolan Sandslash into Icicle Cave"
+    ],
+    "rewards": [
+      "TM56 Hone Claws"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "bellin_town"
+  },
+  {
+    "id": "mission_068",
+    "name": "The Most Dangerous Game",
+    "description": "Capture 25 Pokemon in one Safari Zone game on any difficulty",
+    "requirements": "None",
+    "objectives": [
+      "Capture 25 Pokemon in one Safari Zone game on any difficulty"
+    ],
+    "rewards": [
+      "30 Beast Balls"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "magnolia_fields"
+  },
+  {
+    "id": "mission_069",
+    "name": "The National Pokedex",
+    "description": "Register all 809 Pokemon in Pokemon Unbound in the Pokedex",
+    "requirements": "None",
+    "objectives": [
+      "Register all 809 Pokemon in Pokemon Unbound in the Pokedex"
+    ],
+    "rewards": [
+      "Magearna (Original Color)"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "frozen_heights"
+  },
+  {
+    "id": "mission_070",
+    "name": "The Powerhouse of the Cell",
+    "description": "Collect all 100 Zygarde Cells",
+    "requirements": "None",
+    "objectives": [
+      "Collect all 100 Zygarde Cells"
+    ],
+    "rewards": [
+      "Power Construct Zygarde"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "dresco_town"
+  },
+  {
+    "id": "mission_071",
+    "name": "The Rogue Electivire",
+    "description": "Return an Electivire to its Trainer – defeat it in Thundercap and then battle its Dynamax form and the Scientist that stole it in Seaport City",
+    "requirements": "None",
+    "objectives": [
+      "Return an Electivire to its Trainer – defeat it in Thundercap and then battle its Dynamax form and the Scientist that stole it in Seaport City"
+    ],
+    "rewards": [
+      "Electirizer Power Weight Gold Bottle Cap Pokemon Elekid Egg"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "thundercap_mountain"
+  },
+  {
+    "id": "mission_072",
+    "name": "The Strongest There Is",
+    "description": "Defeat all the Unbound Developer Trainers on the same day",
+    "requirements": "None",
+    "objectives": [
+      "Defeat all the Unbound Developer Trainers on the same day"
+    ],
+    "rewards": [
+      "Master Ball"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "dehara_city"
+  },
+  {
+    "id": "mission_073",
+    "name": "The Terror Granbull",
+    "description": "Find all the Terror Granbull Goons on Route 10 and in a part of Auburn Waterway and Route 9",
+    "requirements": "None",
+    "objectives": [
+      "Find all the Terror Granbull Goons on Route 10 and in a part of Auburn Waterway and Route 9"
+    ],
+    "rewards": [
+      "TM106 Smart Strike"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_074",
+    "name": "The Trash-Man",
+    "description": "Search 100 trashcans for 7 items",
+    "requirements": "None",
+    "objectives": [
+      "Search 100 trashcans for 7 items"
+    ],
+    "rewards": [
+      "Shiny Gigantamax Garbodor"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_075",
+    "name": "The Wayward Kid",
+    "description": "Help a lost Pikachu-suited kid to the exit in an area of 4F",
+    "requirements": "None",
+    "objectives": [
+      "Help a lost Pikachu-suited kid to the exit in an area of 4F"
+    ],
+    "rewards": [
+      "TM73 Thunder Wave"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "thundercap_mt"
+  },
+  {
+    "id": "mission_076",
+    "name": "Tomb Raider",
+    "description": "Explore the Tomb of Borrius",
+    "requirements": "None",
+    "objectives": [
+      "Explore the Tomb of Borrius"
+    ],
+    "rewards": [
+      "Psychium Z"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "tomb_of_borrius"
+  },
+  {
+    "id": "mission_077",
+    "name": "Too Much TV",
+    "description": "Assist a Scientist in the Dream Research Lab to find all five TV-afflicted kids in Borrius",
+    "requirements": "None",
+    "objectives": [
+      "Assist a Scientist in the Dream Research Lab to find all five TV-afflicted kids in Borrius"
+    ],
+    "rewards": [
+      "Rotom"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "polder_town"
+  },
+  {
+    "id": "mission_078",
+    "name": "Trader Traitor",
+    "description": "Complete all Pokemon Trades in Borrius",
+    "requirements": "None",
+    "objectives": [
+      "Complete all Pokemon Trades in Borrius"
+    ],
+    "rewards": [
+      "10 Link Stones"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "vivill_town"
+  },
+  {
+    "id": "mission_079",
+    "name": "Treasure Hunter",
+    "description": "Find all the hidden items in the Tomb of Borrius",
+    "requirements": "None",
+    "objectives": [
+      "Find all the hidden items in the Tomb of Borrius"
+    ],
+    "rewards": [
+      "Larvesta Egg"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "gurun_town"
+  },
+  {
+    "id": "mission_080",
+    "name": "Ultimate Pie",
+    "description": "Give the Piemaker 10 Sitrus Berries, 10 Lum Berries, 2 Kee Berries, 2 Marang Berries, 5 Moomoo Milks",
+    "requirements": "#058 Sweet Pie, #035 Juicy Pie",
+    "objectives": [
+      "Give the Piemaker 10 Sitrus Berries, 10 Lum Berries, 2 Kee Berries, 2 Marang Berries, 5 Moomoo Milks"
+    ],
+    "rewards": [
+      "3 Gold Bottle Caps"
+    ],
+    "milestoneRequired": "post_game",
+    "locationId": "blizzard_city"
+  },
+  {
+    "id": "mission_081",
+    "name": "Warmonger",
+    "description": "Fight 2000 Pokemon Battles",
+    "requirements": "None",
+    "objectives": [
+      "Fight 2000 Pokemon Battles"
+    ],
+    "rewards": [
+      "Lucarionite"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "great_desert"
+  },
+  {
+    "id": "mission_082",
+    "name": "Weed Whacker",
+    "description": "Cut down all the grass in Grim Woods",
+    "requirements": "HM Strength",
+    "objectives": [
+      "Cut down all the grass in Grim Woods"
+    ],
+    "rewards": [
+      "Beedrillite"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "grim_woods"
+  },
+  {
+    "id": "mission_083",
+    "name": "Wingin’ It",
+    "description": "Show a Bird Keeper a requested Flying-type Pokemon every day for four days",
+    "requirements": "None",
+    "objectives": [
+      "Show a Bird Keeper a requested Flying-type Pokemon every day for four days"
+    ],
+    "rewards": [
+      "50 Swift Wings"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "fallshore_city"
+  },
+  {
+    "id": "mission_084",
+    "name": "You Are My Only",
+    "description": "Become Pokemon League Champion with only one Pokemon",
+    "requirements": "None",
+    "objectives": [
+      "Become Pokemon League Champion with only one Pokemon"
+    ],
+    "rewards": [
+      "Ultranecronium Z"
+    ],
+    "milestoneRequired": "game_start",
+    "locationId": "pokemon_league"
   }
 ]

@@ -3,11 +3,13 @@
 import { useProgress } from "@/hooks/useProgress";
 import { useTeam } from "@/hooks/useTeam";
 import { useCaught } from "@/hooks/useCaught";
+import { useMissions } from "@/hooks/useMissions";
 import { PageShell } from "@/components/layout/PageShell";
 import { GbaPanel } from "@/components/ui/GbaPanel";
 import { TypeBadge } from "@/components/ui/TypeBadge";
 import { HpBar } from "@/components/ui/HpBar";
 import { PokemonSprite } from "@/components/ui/PokemonSprite";
+import { BattleStrategy } from "@/components/home/BattleStrategy";
 import type { PokemonType } from "@/lib/types";
 import Link from "next/link";
 import pokemonData from "../../data/pokemon.json";
@@ -80,6 +82,12 @@ export default function Dashboard() {
         <NextObjective badgeCount={badgeCount} />
       </GbaPanel>
 
+      {/* Battle Strategy */}
+      <BattleStrategy />
+
+      {/* Active Missions */}
+      <ActiveMissions />
+
       {/* Current Location */}
       <GbaPanel title={`AREA: ${locationLabel.toUpperCase()}`} headerColor="bg-gba-blue/20 text-gba-blue">
         <div className="font-mono text-xs text-gba-text-dim">
@@ -133,7 +141,6 @@ function StatCard({
 }
 
 // Gym data for next objective preview (correct order per unboundwiki.com)
-// Level caps are the official level caps per gym
 const GYM_SEQUENCE = [
   { badge: 0, name: "Mirskle", type: "grass" as PokemonType, location: "Dresco Town", level: "14-20" },
   { badge: 1, name: "Vega", type: "dark" as PokemonType, location: "Crater Town", level: "22-26" },
@@ -179,5 +186,102 @@ function NextObjective({ badgeCount }: { badgeCount: number }) {
         </span>
       </div>
     </div>
+  );
+}
+
+function ActiveMissions() {
+  const {
+    inProgressMissions,
+    getObjectiveStatus,
+    toggleObjective,
+    cycleStatus,
+    getStatus,
+  } = useMissions();
+
+  if (inProgressMissions.length === 0) {
+    return (
+      <GbaPanel title="ACTIVE MISSIONS" headerColor="bg-gba-cyan/20 text-gba-cyan">
+        <div className="text-center py-3">
+          <div className="font-mono text-[10px] text-gba-text-dim">
+            No active missions.
+          </div>
+          <Link
+            href="/missions"
+            className="inline-block mt-2 font-pixel text-[8px] text-gba-cyan hover:text-white transition-colors"
+          >
+            VIEW MISSION LOG &gt;
+          </Link>
+        </div>
+      </GbaPanel>
+    );
+  }
+
+  return (
+    <GbaPanel title="ACTIVE MISSIONS" headerColor="bg-gba-cyan/20 text-gba-cyan">
+      <div className="space-y-3">
+        {inProgressMissions.map((mission) => {
+          const objectives = getObjectiveStatus(mission.id, mission.objectives.length);
+          const allDone = objectives.every(Boolean);
+
+          return (
+            <div key={mission.id} className="space-y-1.5">
+              <div className="font-pixel text-[8px] text-gba-text">
+                {mission.name.toUpperCase()}
+              </div>
+
+              {/* Objective checklist */}
+              <div className="space-y-0.5 pl-1">
+                {mission.objectives.map((objective, idx) => {
+                  const isChecked = objectives[idx];
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() =>
+                        toggleObjective(mission.id, idx, mission.objectives.length)
+                      }
+                      className="flex items-start gap-2 min-h-[28px] w-full text-left cursor-pointer hover:bg-white/5 rounded-sm px-1 -mx-1"
+                    >
+                      <span
+                        className={`font-pixel text-[8px] w-4 text-center flex-shrink-0 mt-0.5 ${
+                          isChecked ? "text-gba-green" : "text-gba-text-dim"
+                        }`}
+                      >
+                        {isChecked ? "+" : `${idx + 1}.`}
+                      </span>
+                      <span
+                        className={`font-mono text-[10px] leading-relaxed ${
+                          isChecked
+                            ? "text-gba-green/80 line-through"
+                            : "text-gba-text-dim"
+                        }`}
+                      >
+                        {objective}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Complete button */}
+              {allDone && (
+                <button
+                  onClick={() => cycleStatus(mission.id)}
+                  className="w-full font-pixel text-[8px] py-2 px-3 border-2 rounded-sm transition-colors min-h-[44px] border-gba-green text-gba-green hover:bg-white/5"
+                >
+                  COMPLETE
+                </button>
+              )}
+            </div>
+          );
+        })}
+
+        <Link
+          href="/missions"
+          className="block text-center font-pixel text-[7px] text-gba-text-dim hover:text-gba-cyan transition-colors pt-1"
+        >
+          VIEW ALL MISSIONS &gt;
+        </Link>
+      </div>
+    </GbaPanel>
   );
 }

@@ -1,14 +1,15 @@
 /**
- * Missions Stub Scraper for Pokemon Unbound Companion
+ * Missions Scraper for Pokemon Unbound Companion
  *
- * Outputs a manually curated list of missions spanning early-game,
- * mid-game, and late-game progression milestones.
+ * Scrapes all 84 missions from unboundwiki.com/missions/
+ * The page contains two tables: Pre-Pokemon League and Post-Pokemon League missions.
  *
  * Run with: npx tsx scripts/scrapers/missions.ts
  */
 
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import { fetchAndParse, cleanText } from "./wiki-utils";
 
 interface Mission {
   id: string;
@@ -21,277 +22,160 @@ interface Mission {
   locationId?: string;
 }
 
-const missions: Mission[] = [
-  // ---------------------------------------------------------------------------
-  // Early-game missions (game_start through badge_2)
-  // ---------------------------------------------------------------------------
-  {
-    id: "mission_starter_delivery",
-    name: "Special Delivery",
-    description:
-      "Professor Ranger has a package that needs to be delivered to an aide in Fallshore City. A simple errand, but trouble may be lurking on the way.",
-    requirements: "Speak with Professor Ranger in Frozen Heights Lab",
-    objectives: [
-      "Receive the package from Professor Ranger",
-      "Travel to Fallshore City",
-      "Deliver the package to the Professor's aide",
-    ],
-    rewards: ["5 Poke Balls", "Running Shoes"],
-    milestoneRequired: "game_start",
-    locationId: "frozen_heights",
-  },
-  {
-    id: "mission_thief_pursuit",
-    name: "Stop the Thief",
-    description:
-      "A shady figure has been spotted stealing items from travelers on Route 1. Track them down and put an end to their schemes.",
-    requirements: "Complete Special Delivery mission",
-    objectives: [
-      "Investigate Route 1 for suspicious activity",
-      "Chase the thief to their hideout",
-      "Defeat the thief in battle",
-      "Return the stolen goods to the travelers",
-    ],
-    rewards: ["Great Ball x3", "1500 Poke Dollars"],
-    milestoneRequired: "game_start",
-    locationId: "route_1",
-  },
-  {
-    id: "mission_koolking_hideout",
-    name: "KoolKing's Challenge",
-    description:
-      "The infamous KoolKing has taken over an abandoned warehouse in Dehara City. The local authorities need a capable trainer to put an end to his antics.",
-    requirements: "Obtain Badge 1 from Dehara City Gym",
-    objectives: [
-      "Speak with Officer Jenny in Dehara City",
-      "Infiltrate the KoolKing hideout",
-      "Defeat KoolKing's underlings",
-      "Battle and defeat KoolKing",
-    ],
-    rewards: ["TM46 Thief", "2000 Poke Dollars"],
-    milestoneRequired: "badge_1",
-    locationId: "dehara_city",
-  },
-  {
-    id: "mission_missing_sailor",
-    name: "The Missing Sailor",
-    description:
-      "A sailor has gone missing near the Seaport City docks. His wife is worried sick and needs someone to search the nearby caves.",
-    requirements: "Reach Seaport City",
-    objectives: [
-      "Speak with the sailor's wife at Seaport City Harbor",
-      "Search the Tidal Cave for the missing sailor",
-      "Escort the sailor back to Seaport City",
-    ],
-    rewards: ["Good Rod", "Mystic Water"],
-    milestoneRequired: "badge_2",
-    locationId: "seaport_city",
-  },
-  {
-    id: "mission_berry_farmer",
-    name: "Berry Farmer's Request",
-    description:
-      "Old man Harmond's Berry farm has been overrun by wild Pokemon. He needs someone to help clear them out before the harvest is ruined.",
-    requirements: "Reach Fallshore City",
-    objectives: [
-      "Visit Harmond's Berry Farm on Route 2",
-      "Clear out the wild Pokemon (3 encounters)",
-      "Report back to Harmond",
-    ],
-    rewards: ["Sitrus Berry x5", "Lum Berry x3", "Oran Berry x10"],
-    milestoneRequired: "reach_fallshore",
-    locationId: "fallshore_city",
-  },
+/**
+ * Convert a location name like "Frozen Heights" to a location ID like "frozen_heights".
+ */
+function toLocationId(name: string): string {
+  return name
+    .replace(/['']/g, "")
+    .replace(/\./g, "")
+    .replace(/\s+/g, "_")
+    .toLowerCase();
+}
 
-  // ---------------------------------------------------------------------------
-  // Mid-game missions (badge_3 through badge_5)
-  // ---------------------------------------------------------------------------
-  {
-    id: "mission_fossil_expedition",
-    name: "Fossil Expedition",
-    description:
-      "The Borrius Museum of Natural History has requested help excavating fossils from Dusty Hollow. Professor Lane believes there may be rare specimens deep within.",
-    requirements: "Obtain Badge 3 and have access to Rock Smash",
-    objectives: [
-      "Meet Professor Lane at Dusty Hollow entrance",
-      "Navigate the excavation tunnels",
-      "Find and collect 3 fossil fragments",
-      "Deliver the fossils to the Museum in Vivpokemon City",
-    ],
-    rewards: ["Old Amber", "3000 Poke Dollars", "Exp. Candy M x5"],
-    milestoneRequired: "badge_3",
-    locationId: "vivpokemon_city",
-  },
-  {
-    id: "mission_power_plant_crisis",
-    name: "Power Plant Crisis",
-    description:
-      "The Antler City Power Plant is experiencing dangerous energy surges. Chief Engineer Watts suspects that a powerful Electric-type Pokemon is the cause.",
-    requirements: "Obtain Badge 4",
-    objectives: [
-      "Speak with Chief Engineer Watts at the Power Plant",
-      "Navigate the malfunctioning facility",
-      "Find the source of the energy surges",
-      "Calm or capture the rampaging Electivire",
-    ],
-    rewards: ["Magnet", "Thunderstone", "5000 Poke Dollars"],
-    milestoneRequired: "badge_4",
-    locationId: "antler_city",
-  },
-  {
-    id: "mission_shadow_syndicate_base",
-    name: "Shadow Syndicate Recon",
-    description:
-      "Intelligence suggests the Shadow Syndicate has established a secret base between Antler City and Serenity Isle. Investigate and gather information on their plans.",
-    requirements: "Obtain Badge 4 and complete Power Plant Crisis",
-    objectives: [
-      "Meet the Intelligence Officer at Antler City Pokemon Center",
-      "Travel the hidden route to the suspected base",
-      "Infiltrate the Shadow Syndicate outpost",
-      "Gather intel documents from the command room",
-      "Escape the base without being detected",
-    ],
-    rewards: ["Smoke Ball", "4000 Poke Dollars", "Up-Grade"],
-    milestoneRequired: "badge_4",
-    locationId: "antler_city",
-  },
-  {
-    id: "mission_fairy_shrine",
-    name: "Guardian of the Shrine",
-    description:
-      "The ancient Fairy Shrine on Serenity Isle has been disturbed by treasure hunters. The shrine maiden Akari asks for help restoring peace before the guardian awakens in anger.",
-    requirements: "Reach Serenity Isle",
-    objectives: [
-      "Speak with Shrine Maiden Akari on Serenity Isle",
-      "Collect the 3 scattered shrine offerings from the island",
-      "Return the offerings to their pedestals",
-      "Defeat the agitated guardian Pokemon",
-    ],
-    rewards: ["Fairy Gem", "Gardevoirite", "6000 Poke Dollars"],
-    milestoneRequired: "badge_5",
-    locationId: "serenity_isle",
-  },
-  {
-    id: "mission_surf_race",
-    name: "Borrius Surf Championship",
-    description:
-      "The annual Borrius Surf Championship is being held between Seaport City and Serenity Isle. Compete against the region's best water trainers for glory and prizes.",
-    requirements: "Have Surf unlocked",
-    objectives: [
-      "Register at the Seaport City Contest Hall",
-      "Complete the qualifying round (defeat 2 trainers)",
-      "Navigate the open-water obstacle course",
-      "Win the championship final battle",
-    ],
-    rewards: ["Mystic Water", "Rare Candy x3", "8000 Poke Dollars"],
-    milestoneRequired: "badge_3",
-    locationId: "seaport_city",
-  },
+/**
+ * Parse reward text from a table cell into an array of reward strings.
+ * Handles formats like:
+ *   "Item\nPower Bracer"
+ *   "Pokemon\nBalloon Pikachu"
+ *   "Effect\n+10% catch rate"
+ *   "Electirizer, Power Weight, Gold Bottle Cap"
+ */
+function parseRewards(rewardText: string): string[] {
+  // Remove type prefixes (Item, Pokemon, Effect) that appear on their own line
+  const cleaned = rewardText
+    .replace(/^(Item|Pokémon|Pokemon|Effect)\s*/gim, "")
+    .trim();
 
-  // ---------------------------------------------------------------------------
-  // Late-game missions (badge_6 through post_game)
-  // ---------------------------------------------------------------------------
-  {
-    id: "mission_volcano_expedition",
-    name: "Eruption Warning",
-    description:
-      "The volcano near Crater Town is showing signs of imminent eruption. Volcanologist Dr. Magma needs an experienced trainer to help investigate the volcanic chambers and prevent disaster.",
-    requirements: "Obtain Badge 6",
-    objectives: [
-      "Meet Dr. Magma at the Crater Town Observatory",
-      "Enter the volcanic caverns with protective gear",
-      "Collect 3 magma samples from different chambers",
-      "Defeat the Magmortar blocking the pressure valve",
-      "Activate the pressure release mechanism",
-    ],
-    rewards: ["Charcoal", "Fire Gem", "10000 Poke Dollars"],
-    milestoneRequired: "badge_6",
-    locationId: "crater_town",
-  },
-  {
-    id: "mission_legendary_clue",
-    name: "Traces of a Legend",
-    description:
-      "Ancient texts discovered in Crystal Peak reference a legendary Pokemon that once protected the Borrius region. Scholar Helena believes the texts contain clues to its resting place.",
-    requirements: "Obtain Badge 7",
-    objectives: [
-      "Speak with Scholar Helena at the Crystal Peak Library",
-      "Decipher the 3 ancient stone tablets",
-      "Visit each tablet's referenced location",
-      "Unlock the entrance to the Hidden Chamber",
-    ],
-    rewards: ["Master Ball", "15000 Poke Dollars"],
-    milestoneRequired: "badge_7",
-    locationId: "crystal_peak",
-  },
-  {
-    id: "mission_final_syndicate",
-    name: "Shadow Syndicate Showdown",
-    description:
-      "The Shadow Syndicate is making their final move -- a full-scale assault on the Pokemon League. Rally the gym leaders and put an end to their plans once and for all.",
-    requirements: "Obtain Badge 8",
-    objectives: [
-      "Receive the emergency alert at any Pokemon Center",
-      "Rally Gym Leaders Mel, Galavan, and Gail",
-      "Storm the Shadow Syndicate headquarters",
-      "Defeat Admin Nox and Admin Shade",
-      "Battle and defeat Syndicate Boss Raven",
-    ],
-    rewards: ["Shadow Orb", "Lucky Egg", "20000 Poke Dollars"],
-    milestoneRequired: "badge_8",
-    locationId: "victory_road",
-  },
-  {
-    id: "mission_battle_frontier_pass",
-    name: "Frontier Challenge Invitation",
-    description:
-      "After becoming Champion, the Battle Frontier sends an invitation to test your skills. Prove your worth by completing the entrance trials.",
-    requirements: "Defeat the Champion",
-    objectives: [
-      "Receive the Frontier Pass at your home in Frozen Heights",
-      "Travel to the Battle Frontier island",
-      "Complete the Battle Factory entrance trial (3 wins)",
-      "Complete the Battle Tower entrance trial (5 wins)",
-      "Speak with the Frontier Brain Palmer",
-    ],
-    rewards: [
-      "Battle Frontier full access",
-      "Ability Capsule",
-      "50 BP",
-    ],
-    milestoneRequired: "post_game",
-    locationId: "battle_frontier",
-  },
-  {
-    id: "mission_raid_den_survey",
-    name: "Raid Den Survey",
-    description:
-      "Strange energy readings have been detected across the Borrius region. Professor Ranger tasks you with investigating the newly appeared Raid Dens and documenting the powerful Pokemon within.",
-    requirements: "Reach post-game content",
-    objectives: [
-      "Speak with Professor Ranger about the energy readings",
-      "Locate and investigate 5 Raid Dens across Borrius",
-      "Successfully complete at least 3 Raid Battles",
-      "Report findings back to Professor Ranger",
-    ],
-    rewards: [
-      "Dynamax Candy x10",
-      "Rare Candy x5",
-      "30000 Poke Dollars",
-    ],
-    milestoneRequired: "post_game",
-    locationId: "frozen_heights",
-  },
-];
+  if (!cleaned) return [rewardText.trim()];
+
+  // Split on commas, semicolons, or newlines, but keep compound items together
+  return cleaned
+    .split(/[,;]\s*|\n/)
+    .map((r) => r.trim())
+    .filter(Boolean);
+}
 
 export async function scrapeMissions(): Promise<void> {
+  console.log("[missions] Fetching missions from unboundwiki.com...");
+
+  const $ = await fetchAndParse("/missions/");
+
+  const missions: Mission[] = [];
+
+  // The page has two tables, separated by h2/h3 headings:
+  // "Pre-Pokemon League Missions" and "Post-Pokemon League Missions"
+  // Each table: thead with [Mission, Location, Description, Reward, Picture]
+  // Each tbody tr has 5 td cells
+
+  // Track which section we're in by finding all tables
+  const tables = $("table");
+
+  tables.each((tableIdx, table) => {
+    // Determine section: first table = pre-league, second = post-league
+    const isPostGame = tableIdx >= 1;
+    const milestoneDefault = isPostGame ? "post_game" : "game_start";
+
+    $(table)
+      .find("tbody tr")
+      .each((_, row) => {
+        const cells = $(row).find("td");
+        if (cells.length < 4) return;
+
+        // Cell 0: Mission number and name -- "#001: A Hero's Journey"
+        const missionText = cleanText(cells.eq(0).text());
+        const missionMatch = missionText.match(/#(\d{3}):\s*(.+)/);
+        if (!missionMatch) return;
+
+        const number = missionMatch[1];
+        const name = missionMatch[2].trim();
+        const id = `mission_${number}`;
+
+        // Cell 1: Location -- may have <br> separating area from sub-location
+        const locationHtml = cells.eq(1).html() || "";
+        const locationParts = locationHtml
+          .split(/<br\s*\/?>/)
+          .map((part) => {
+            // Strip HTML tags and clean
+            const text = part.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+            return text;
+          })
+          .filter(Boolean);
+        const locationName = locationParts[0] || "";
+        const locationId = locationName ? toLocationId(locationName) : undefined;
+
+        // Cell 2: Description -- contains "Requirements: ..." and description text
+        const descHtml = cells.eq(2).html() || "";
+        const descParts = descHtml.split(/<br\s*\/?>/);
+
+        let requirements = "None";
+        let description = cleanText(cells.eq(2).text());
+
+        if (descParts.length >= 1) {
+          // First part should contain "Requirements: ..."
+          const reqHtml = descParts[0];
+          const reqText = reqHtml.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+
+          if (reqText.match(/^Requirements?:/i)) {
+            requirements = reqText.replace(/^Requirements?:\s*/i, "").trim();
+
+            // Description is everything after the requirements line(s)
+            // Skip empty <br> parts
+            const descPartsFiltered = descParts
+              .slice(1)
+              .map((p) => p.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim())
+              .filter(Boolean);
+            description = descPartsFiltered.join(" ").trim();
+          }
+        }
+
+        if (!requirements || requirements === "") requirements = "None";
+
+        // Cell 3: Reward
+        const rewardText = cleanText(cells.eq(3).text());
+        const rewards = parseRewards(rewardText);
+
+        // Create objectives from description (single item from list page)
+        const objectives = description ? [description] : [];
+
+        missions.push({
+          id,
+          name,
+          description,
+          requirements,
+          objectives,
+          rewards,
+          milestoneRequired: milestoneDefault,
+          locationId,
+        });
+      });
+  });
+
+  // Sort by mission number
+  missions.sort((a, b) => {
+    const numA = parseInt(a.id.replace("mission_", ""));
+    const numB = parseInt(b.id.replace("mission_", ""));
+    return numA - numB;
+  });
+
   const dataDir = path.resolve(__dirname, "../../data");
   const outputPath = path.join(dataDir, "missions.json");
 
   await mkdir(dataDir, { recursive: true });
   await writeFile(outputPath, JSON.stringify(missions, null, 2), "utf-8");
 
-  console.log(`[missions] Wrote ${missions.length} missions to ${outputPath}`);
+  console.log(
+    `[missions] Wrote ${missions.length} missions to ${outputPath}`
+  );
+
+  // Summary
+  const preCount = missions.filter(
+    (m) => m.milestoneRequired === "game_start"
+  ).length;
+  const postCount = missions.filter(
+    (m) => m.milestoneRequired === "post_game"
+  ).length;
+  console.log(`[missions] Pre-league: ${preCount}, Post-league: ${postCount}`);
 }
 
 // Allow direct execution: npx tsx scripts/scrapers/missions.ts

@@ -118,7 +118,27 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_16",
+      "antisis_sewers",
+      "antisis_port",
+      "mt_thundercap",
+      "ferrothorn_turf",
+      "kbt_expressway",
+      "antisis_gym"
+    ]
+  },
+  {
+    "id": "antisis_port",
+    "name": "Antisis Port",
+    "category": "route",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_5",
+    "connectedLocations": [
+      "antisis_city"
+    ]
   },
   {
     "id": "antisis_sewers_north",
@@ -1056,6 +1076,58 @@
     "connectedLocations": []
   },
   {
+    "id": "battle_frontier",
+    "name": "Battle Frontier",
+    "category": "town",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "post_game",
+    "connectedLocations": [
+      "seaport_city"
+    ]
+  },
+  {
+    "id": "bellin_town",
+    "name": "Bellin Town",
+    "category": "town",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "game_start",
+    "connectedLocations": [
+      "route_1",
+      "icy_hole"
+    ]
+  },
+  {
+    "id": "black_ferrothorn_turf",
+    "name": "Black Ferrothorn Turf",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_5",
+    "connectedLocations": [
+      "antisis_sewers",
+      "antisis_city"
+    ]
+  },
+  {
+    "id": "blizzard_city",
+    "name": "Blizzard City",
+    "category": "town",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_2",
+    "connectedLocations": [
+      "route_8",
+      "kbt_expressway",
+      "blizzard_gym"
+    ]
+  },
+  {
     "id": "cinder_volcano_2f",
     "name": "Cinder Volcano 2f",
     "category": "special",
@@ -1461,6 +1533,18 @@
     "trainers": [],
     "milestoneRequired": "game_start",
     "connectedLocations": []
+  },
+  {
+    "id": "cinder_volcano_depths",
+    "name": "Cinder Volcano Depths",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_4",
+    "connectedLocations": [
+      "route_4"
+    ]
   },
   {
     "id": "cinder_volcano_f1",
@@ -2945,7 +3029,26 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "polder_town",
+      "magnolia_town",
+      "crystal_peak"
+    ]
+  },
+  {
+    "id": "crater_town",
+    "name": "Crater Town",
+    "category": "town",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_1",
+    "connectedLocations": [
+      "route_5",
+      "valley_cave",
+      "kbt_expressway",
+      "crater_gym"
+    ]
   },
   {
     "id": "crystal_peak_1f_left_room",
@@ -4232,7 +4335,10 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "crystal_peak",
+      "redwood_forest"
+    ]
   },
   {
     "id": "dehara_city",
@@ -4342,7 +4448,15 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_12",
+      "great_desert",
+      "rift_cave",
+      "route_13",
+      "dresco_town",
+      "kbt_expressway",
+      "dehara_gym"
+    ]
   },
   {
     "id": "distortion_world_1",
@@ -4518,7 +4632,14 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_2",
+      "route_3",
+      "grim_woods",
+      "dehara_city",
+      "kbt_expressway",
+      "dresco_gym"
+    ]
   },
   {
     "id": "epidimy_town",
@@ -4639,7 +4760,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_11",
+      "thundercap_mountain",
+      "kbt_expressway"
+    ]
   },
   {
     "id": "fallshore_city",
@@ -4760,7 +4885,12 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "kbt_expressway",
+      "route_10",
+      "route_11",
+      "fallshore_gym"
+    ]
   },
   {
     "id": "flower_paradise_a",
@@ -5695,7 +5825,35 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_8"
+    ]
+  },
+  {
+    "id": "frozen_heights",
+    "name": "Frozen Heights",
+    "category": "town",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "game_start",
+    "connectedLocations": [
+      "route_1",
+      "shadow_base",
+      "kbt_expressway"
+    ]
+  },
+  {
+    "id": "fullmoon_and_newmoon_island",
+    "name": "Fullmoon and Newmoon Island",
+    "category": "route",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "post_game",
+    "connectedLocations": [
+      "seaport_city"
+    ]
   },
   {
     "id": "great_desert_a",
@@ -6421,7 +6579,9 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "1f,_east_side,_off_the_ice"
+    ]
   },
   {
     "id": "gurun_town",
@@ -6553,7 +6713,13 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "great_desert",
+      "vivill_woods",
+      "route_16",
+      "route_18",
+      "kbt_expressway"
+    ]
   },
   {
     "id": "icicle_cave_1f",
@@ -7799,6 +7965,29 @@
     "connectedLocations": []
   },
   {
+    "id": "kbt_expressway",
+    "name": "KBT Expressway",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "game_start",
+    "connectedLocations": [
+      "frozen_heights",
+      "blizzard_city",
+      "crater_town",
+      "tehl_town",
+      "fallshore_city",
+      "epidimy_town",
+      "lost_tunnel",
+      "dresco_town",
+      "dehara_city",
+      "gurun_town",
+      "antisis_city",
+      "seaport_city"
+    ]
+  },
+  {
     "id": "lost_tunnel_b1f",
     "name": "Lost Tunnel B1f",
     "category": "dungeon",
@@ -8126,7 +8315,23 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "magnolia_town",
+      "redwood_village"
+    ]
+  },
+  {
+    "id": "magnolia_town",
+    "name": "Magnolia Town",
+    "category": "town",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_6",
+    "connectedLocations": [
+      "cootes_bog",
+      "magnolia_fields"
+    ]
   },
   {
     "id": "polder_town",
@@ -8247,7 +8452,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "seaport_city",
+      "cootes_bog",
+      "polder_gym"
+    ]
   },
   {
     "id": "redwood_forest",
@@ -8544,7 +8753,10 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "redwood_village",
+      "cube_corp"
+    ]
   },
   {
     "id": "redwood_village",
@@ -8610,7 +8822,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "magnolia_fields",
+      "redwood_forest",
+      "redwood_gym"
+    ]
   },
   {
     "id": "rift_cave_b1f",
@@ -8742,7 +8958,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "frozen_heights",
+      "icicle_cave",
+      "bellin_town"
+    ]
   },
   {
     "id": "route_10",
@@ -8918,7 +9138,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "fallshore_city",
+      "route_9",
+      "auburn_waterway"
+    ]
   },
   {
     "id": "route_11",
@@ -9171,7 +9395,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "fallshore_city",
+      "epidimy_town",
+      "tarmigan_town"
+    ]
   },
   {
     "id": "route_12",
@@ -9490,7 +9718,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "tarmigan_town",
+      "dehara_city",
+      "route_14"
+    ]
   },
   {
     "id": "route_13_a",
@@ -10711,7 +10943,10 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "vivill_town",
+      "route_2"
+    ]
   },
   {
     "id": "route_16",
@@ -10964,7 +11199,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "gurun_town",
+      "route_17",
+      "antisis_city"
+    ]
   },
   {
     "id": "route_17",
@@ -11283,7 +11522,10 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_16",
+      "seaport_city"
+    ]
   },
   {
     "id": "route_18_a",
@@ -12042,7 +12284,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "icicle_cave",
+      "dresco_town",
+      "route_15"
+    ]
   },
   {
     "id": "route_3",
@@ -12328,7 +12574,10 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "dresco_town",
+      "flower_paradise"
+    ]
   },
   {
     "id": "route_4",
@@ -12603,7 +12852,13 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "grim_woods",
+      "cinder_volcano",
+      "cinder_volcano_depths",
+      "route_5",
+      "route_13"
+    ]
   },
   {
     "id": "route_5",
@@ -12900,7 +13155,10 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_4",
+      "crater_town"
+    ]
   },
   {
     "id": "route_6",
@@ -13175,7 +13433,12 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "valley_cave",
+      "route_7",
+      "route_14",
+      "auburn_waterway"
+    ]
   },
   {
     "id": "route_7",
@@ -13494,7 +13757,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_6",
+      "frost_mountain",
+      "route_9"
+    ]
   },
   {
     "id": "route_8",
@@ -13670,7 +13937,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "frost_mountain",
+      "frozen_forest",
+      "blizzard_city"
+    ]
   },
   {
     "id": "route_9",
@@ -13868,7 +14139,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "underground_pass",
+      "tehl_town",
+      "route_7"
+    ]
   },
   {
     "id": "rov_post_game_aklove",
@@ -14473,7 +14748,64 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_17",
+      "battle_frontier",
+      "ss_marine",
+      "polder_town",
+      "fullmoon_island",
+      "newmoon_island",
+      "kbt_expressway"
+    ]
+  },
+  {
+    "id": "seaport_warehouses",
+    "name": "Seaport Warehouses",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_6",
+    "connectedLocations": [
+      "seaport_city"
+    ]
+  },
+  {
+    "id": "shadow_base",
+    "name": "Shadow Base",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_7",
+    "connectedLocations": [
+      "route_1"
+    ]
+  },
+  {
+    "id": "ss_marine",
+    "name": "S.S. Marine",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "post_game",
+    "connectedLocations": [
+      "seaport_city",
+      "polder_town"
+    ]
+  },
+  {
+    "id": "tarmigan_mansion",
+    "name": "Tarmigan Mansion",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_3",
+    "connectedLocations": [
+      "tarmigan_town"
+    ]
   },
   {
     "id": "tarmigan_town",
@@ -14583,7 +14915,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_11",
+      "tarmigan_mansion",
+      "route_12"
+    ]
   },
   {
     "id": "tehl_town",
@@ -14704,7 +15040,25 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "route_10",
+      "route_9",
+      "underground_pass",
+      "kbt_expressway"
+    ]
+  },
+  {
+    "id": "thundercap_mountain",
+    "name": "Thundercap Mountain",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_3",
+    "connectedLocations": [
+      "epidimy_town",
+      "antisis_city"
+    ]
   },
   {
     "id": "thundercap_mt_1f",
@@ -16388,6 +16742,19 @@
     "trainers": [],
     "milestoneRequired": "game_start",
     "connectedLocations": []
+  },
+  {
+    "id": "underground_pass",
+    "name": "Underground Pass",
+    "category": "dungeon",
+    "encounters": [],
+    "items": [],
+    "trainers": [],
+    "milestoneRequired": "badge_2",
+    "connectedLocations": [
+      "tehl_town",
+      "route_9"
+    ]
   },
   {
     "id": "underwater_route_17",
@@ -22261,7 +22628,11 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "vivill_woods",
+      "vivill_warehouse",
+      "route_15"
+    ]
   },
   {
     "id": "vivill_warehouse_research_room",
@@ -22712,6 +23083,9 @@
     "items": [],
     "trainers": [],
     "milestoneRequired": "game_start",
-    "connectedLocations": []
+    "connectedLocations": [
+      "gurun_town",
+      "vivill_town"
+    ]
   }
 ]
