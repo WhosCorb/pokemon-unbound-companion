@@ -23,6 +23,12 @@ const MENU_ITEMS = [
     color: "text-gba-green border-gba-green/40",
   },
   {
+    label: "SAVE EDITOR",
+    href: "/save-editor",
+    description: "Edit Pokemon stats, moves, items in your save file",
+    color: "text-gba-yellow border-gba-yellow/40",
+  },
+  {
     label: "SETTINGS",
     href: "/settings",
     description: "Difficulty, milestones, current location",

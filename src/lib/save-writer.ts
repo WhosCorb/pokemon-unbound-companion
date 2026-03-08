@@ -35,6 +35,9 @@ export interface PokemonEdits {
   gender?: "male" | "female";
   ivs?: StatValues;
   evs?: StatValues;
+  moves?: { id: number; pp: number }[]; // 1-4 slots, id=0 clears
+  heldItem?: number; // item ID, 0 = remove
+  friendship?: number; // 0-255
 }
 
 export interface SaveModification {
@@ -257,6 +260,31 @@ export function applySaveModifications(
       w8(dv, monOff + 0x3B, Math.min(252, Math.max(0, e.spd)));
       w8(dv, monOff + 0x3C, Math.min(252, Math.max(0, e.spAtk)));
       w8(dv, monOff + 0x3D, Math.min(252, Math.max(0, e.spDef)));
+    }
+
+    // -- Moves (4x u16 at +0x2C, 4x u8 PP at +0x34) --
+    if (changes.moves) {
+      for (let i = 0; i < 4; i++) {
+        const move = changes.moves[i];
+        if (move) {
+          w16(dv, monOff + 0x2C + i * 2, move.id);
+          w8(dv, monOff + 0x34 + i, move.pp);
+        } else {
+          // Clear unused slots
+          w16(dv, monOff + 0x2C + i * 2, 0);
+          w8(dv, monOff + 0x34 + i, 0);
+        }
+      }
+    }
+
+    // -- Held Item (u16 at +0x22) --
+    if (changes.heldItem !== undefined) {
+      w16(dv, monOff + 0x22, changes.heldItem);
+    }
+
+    // -- Friendship (u8 at +0x29) --
+    if (changes.friendship !== undefined) {
+      w8(dv, monOff + 0x29, Math.min(255, Math.max(0, changes.friendship)));
     }
 
     // -- IVs (packed u32 at +0x48, 5 bits each, preserving egg/ability flags) --

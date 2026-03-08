@@ -745,3 +745,8 @@ export const MOVES: ReadonlyMap<number, string> = new Map([
   [741, "Astral Storm"],
   [742, "GlacialLance"],
 ]);
+
+// Reverse lookup: move name -> numeric ID
+export const MOVE_NAME_TO_ID: ReadonlyMap<string, number> = new Map(
+  Array.from(MOVES.entries()).map(([id, name]) => [name, id])
+);

@@ -727,3 +727,8 @@ export const ITEMS: ReadonlyMap<number, string> = new Map([
   [723, "Galarica Cuff"],
   [724, "Galarica Wreath"],
 ]);
+
+// Reverse lookup: item name -> numeric ID
+export const ITEM_NAME_TO_ID: ReadonlyMap<string, number> = new Map(
+  Array.from(ITEMS.entries()).map(([id, name]) => [name, id])
+);

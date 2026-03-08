@@ -61,6 +61,8 @@ export interface ParsedSave {
   player: SavePlayerInfo;
   party: SavePokemon[];
   partyCount: number;
+  money: number;
+  coins: number;
 }
 
 export class SaveParseError extends Error {
@@ -349,7 +351,20 @@ export function parseSaveFile(buffer: ArrayBuffer): ParsedSave {
     }
   }
 
-  return { player, party, partyCount };
+  // Money: section 1, offset +0x0290, u32
+  let money = 0;
+  try {
+    money = u32(sec1, 0x0290);
+  } catch { /* ignore if out of bounds */ }
+
+  // Coins: section 13, offset +0x07CC, u16
+  let coins = 0;
+  try {
+    const sec13 = getSectionData(buffer, sectionMap, 13);
+    coins = u16(sec13, 0x07CC);
+  } catch { /* ignore if section not found */ }
+
+  return { player, party, partyCount, money, coins };
 }
 
 // ── Species name -> app ID mapping ──────────────────────
