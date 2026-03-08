@@ -13,11 +13,11 @@ import { ITEMS } from "./save-data/items";
 
 // CFRU signature (differs from vanilla GBA's 0x08012025)
 const CFRU_SIGNATURE = 0x08012025;
-const SECTION_SIZE = 0x1000; // 4096 bytes per section
+export const SECTION_SIZE = 0x1000; // 4096 bytes per section
 const SECTION_COUNT = 14;
 const BLOCK_SIZE = SECTION_SIZE * SECTION_COUNT; // 57344 bytes per save block
 
-const NATURE_NAMES = [
+export const NATURE_NAMES = [
   "Hardy", "Lonely", "Brave", "Adamant", "Naughty",
   "Bold", "Docile", "Relaxed", "Impish", "Lax",
   "Timid", "Hasty", "Serious", "Jolly", "Naive",
@@ -33,6 +33,7 @@ export interface SavePlayerInfo {
   trainerId: number;
   secretId: number;
   playTime: { hours: number; minutes: number; seconds: number };
+  badgeCount: number;
 }
 
 export interface SavePokemon {
@@ -87,7 +88,7 @@ function getBytes(buf: ArrayBuffer, offset: number, length: number): Uint8Array 
 
 // ── Section map builder ─────────────────────────────────
 
-interface SectionInfo {
+export interface SectionInfo {
   offset: number; // absolute byte offset in file
   sectionId: number;
   checksum: number;
@@ -95,7 +96,7 @@ interface SectionInfo {
   saveIndex: number;
 }
 
-function buildSectionMap(buf: ArrayBuffer): Map<number, SectionInfo> {
+export function buildSectionMap(buf: ArrayBuffer): Map<number, SectionInfo> {
   const dv = new DataView(buf);
 
   // Each block (A/B) has 14 sections of 0x1000 bytes each
@@ -148,6 +149,38 @@ function getSectionData(buf: ArrayBuffer, sectionMap: Map<number, SectionInfo>, 
 
 // ── Player info parser (Section 0) ─────────────────────
 
+function countBits(n: number): number {
+  let count = 0;
+  let v = n >>> 0;
+  while (v) {
+    count += v & 1;
+    v >>>= 1;
+  }
+  return count;
+}
+
+/**
+ * Read badge count from event flags in section 1.
+ * pokefirered: FLAG_BADGE01_GET = 0x820 through FLAG_BADGE08_GET = 0x827.
+ * Flags array starts at offset 0xEE0 within gSaveBlock1 (section 1 data).
+ * Flag 0x820 = byte offset 0xEE0 + (0x820 / 8) = 0xFE4, bit 0.
+ */
+function readBadgesFromEventFlags(buf: ArrayBuffer, sectionMap: Map<number, SectionInfo>): number {
+  const sec1 = sectionMap.get(1);
+  if (!sec1) return 0;
+  const dv = new DataView(buf, sec1.offset, SECTION_SIZE);
+  let badges = 0;
+  for (let i = 0; i < 8; i++) {
+    const flagId = 0x820 + i;
+    const byteOffset = 0xEE0 + Math.floor(flagId / 8);
+    const bitIndex = flagId % 8;
+    if (byteOffset < SECTION_SIZE && (u8(dv, byteOffset) & (1 << bitIndex)) !== 0) {
+      badges++;
+    }
+  }
+  return badges;
+}
+
 function parsePlayerInfo(buf: ArrayBuffer, sectionMap: Map<number, SectionInfo>): SavePlayerInfo {
   const sec0 = sectionMap.get(0);
   if (!sec0) throw new SaveParseError("Section 0 (Trainer Info) not found");
@@ -164,20 +197,31 @@ function parsePlayerInfo(buf: ArrayBuffer, sectionMap: Map<number, SectionInfo>)
   const minutes = u8(dv, 0x10);
   const seconds = u8(dv, 0x11);
 
+  // CFRU stores badge flags as a u32 at offset 0xAC in section 0
+  // (vanilla Gen3 uses u16 at 0x1D -- not valid for CFRU)
+  const badgeFlags = u32(dv, 0xAC);
+  let badgeCount = countBits(badgeFlags);
+
+  // Fallback: if direct offset reads 0, try event flags in section 1
+  if (badgeCount === 0) {
+    badgeCount = readBadgesFromEventFlags(buf, sectionMap);
+  }
+
   return {
     name,
     gender,
     trainerId,
     secretId,
     playTime: { hours, minutes, seconds },
+    badgeCount,
   };
 }
 
 // ── Party Pokemon parser (Section 1) ───────────────────
 
-const PARTY_OFFSET = 0x38; // offset within section 1 data
-const PARTY_COUNT_OFFSET = 0x34;
-const PARTY_MON_SIZE = 100; // 0x64 bytes per party mon
+export const PARTY_OFFSET = 0x38; // offset within section 1 data
+export const PARTY_COUNT_OFFSET = 0x34;
+export const PARTY_MON_SIZE = 100; // 0x64 bytes per party mon
 
 function parsePartyPokemon(dv: DataView, offset: number): SavePokemon {
   const pid = u32(dv, offset + 0x00);

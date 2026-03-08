@@ -4,6 +4,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { PageShell } from "@/components/layout/PageShell";
 import { GbaPanel } from "@/components/ui/GbaPanel";
 import { SaveImport } from "@/components/settings/SaveImport";
+import { SaveEditor } from "@/components/settings/SaveEditor";
 import type { Difficulty, Milestone } from "@/lib/types";
 import { DIFFICULTY_LABELS } from "@/lib/constants";
 import progressionData from "../../../data/progression.json";
@@ -52,6 +53,14 @@ export default function SettingsPage() {
         headerColor="bg-gba-cyan/20 text-gba-cyan"
       >
         <SaveImport />
+      </GbaPanel>
+
+      {/* Save File Editor */}
+      <GbaPanel
+        title="SAVE FILE EDITOR"
+        headerColor="bg-gba-yellow/20 text-gba-yellow"
+      >
+        <SaveEditor />
       </GbaPanel>
 
       {/* Difficulty */}
