@@ -3,6 +3,7 @@
 import { useProgress } from "@/hooks/useProgress";
 import { PageShell } from "@/components/layout/PageShell";
 import { GbaPanel } from "@/components/ui/GbaPanel";
+import { SaveImport } from "@/components/settings/SaveImport";
 import type { Difficulty, Milestone } from "@/lib/types";
 import { DIFFICULTY_LABELS } from "@/lib/constants";
 import progressionData from "../../../data/progression.json";
@@ -45,6 +46,14 @@ export default function SettingsPage() {
 
   return (
     <PageShell>
+      {/* Save File Import */}
+      <GbaPanel
+        title="SAVE FILE IMPORT"
+        headerColor="bg-gba-cyan/20 text-gba-cyan"
+      >
+        <SaveImport />
+      </GbaPanel>
+
       {/* Difficulty */}
       <GbaPanel
         title="DIFFICULTY"
