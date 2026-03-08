@@ -41,3 +41,6 @@ next-env.d.ts
 
 # scraped data can be rebuilt from scrapers, but is committed for deployment
 # /data/*.json
+
+# Worktrees
+.worktrees/
