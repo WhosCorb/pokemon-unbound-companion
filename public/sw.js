@@ -1,4 +1,4 @@
-const CACHE_NAME = "pkm-unbound-v2";
+const CACHE_NAME = "pkm-unbound-v3";
 
 const PRECACHE_URLS = [
   "/",
@@ -9,6 +9,7 @@ const PRECACHE_URLS = [
   "/items",
   "/missions",
   "/settings",
+  "/save-editor",
   "/more",
   "/icons/icon.svg",
 ];
@@ -52,10 +53,29 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // For assets, use stale-while-revalidate
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
+  // For hashed assets (_next/static/chunks), use cache-first (hash guarantees uniqueness)
+  // For other assets, use network-first to avoid serving stale content
+  const url = new URL(event.request.url);
+  const isHashedAsset = url.pathname.includes("/_next/static/");
+
+  if (isHashedAsset) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, clone);
+            });
+          }
+          return response;
+        });
+      })
+    );
+  } else {
+    event.respondWith(
+      fetch(event.request)
         .then((response) => {
           if (response.ok) {
             const clone = response.clone();
@@ -65,9 +85,7 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         })
-        .catch(() => cached);
-
-      return cached || fetchPromise;
-    })
-  );
+        .catch(() => caches.match(event.request))
+    );
+  }
 });
