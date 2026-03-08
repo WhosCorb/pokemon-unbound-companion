@@ -337,7 +337,7 @@ function CoverageTab({ teamTypes }: { teamTypes: PokemonType[][] }) {
 
       // Find best accessible catch location
       const accessibleLocations = best.catchLocations
-        .filter((loc) => isUnlocked(loc.milestoneRequired))
+        .filter((loc) => isUnlocked(loc.milestoneRequired) && loc.locationId !== "unknown")
         .sort((a, b) => b.rate - a.rate);
       const bestLocation = accessibleLocations[0]
         ? {

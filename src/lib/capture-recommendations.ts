@@ -3,7 +3,7 @@ import { ALL_TYPES } from "./constants";
 import { getTeamOffensiveCoverage, getTypeEffectiveness } from "./type-calc";
 import { recommendNature, recommendMoveset } from "./recommendations";
 import type { NatureRecommendation, MoveRecommendation } from "./recommendations";
-import { computeProximityMap } from "./proximity";
+import { computeProximityMap, normalizeLocationId } from "./proximity";
 import type { ProximityEntry } from "./proximity";
 
 export type CatchMode = "balanced" | "gym-prep" | "best";
@@ -146,12 +146,12 @@ export function computeCaptureRecommendations(
 
     // Find accessible catch locations with proximity
     const accessibleLocations = pokemon.catchLocations
-      .filter((loc) => isUnlocked(loc.milestoneRequired))
+      .filter((loc) => isUnlocked(loc.milestoneRequired) && loc.locationId !== "unknown")
       .map((loc) => {
-        const prox = proximityMap.get(loc.locationId) ?? {
+        const prox = proximityMap.get(normalizeLocationId(loc.locationId)) ?? {
           hops: Infinity,
           label: "ACCESSIBLE",
-          score: 10,
+          score: 0,
         };
         return {
           locationName: loc.locationName,
