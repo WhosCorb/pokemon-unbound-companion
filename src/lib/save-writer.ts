@@ -15,6 +15,8 @@ import {
   NATURE_NAMES,
 } from "./save-parser";
 import { NATURES } from "./constants";
+import { getExpForLevel } from "./save-data/growth-rates";
+import { SPECIES_DATA } from "./save-data/species-data";
 
 // ── Types ───────────────────────────────────────────────
 
@@ -30,6 +32,7 @@ export interface StatValues {
 export interface PokemonEdits {
   level?: number;
   nature?: number; // 0-24 index into NATURE_NAMES
+  gender?: "male" | "female";
   ivs?: StatValues;
   evs?: StatValues;
 }
@@ -86,28 +89,66 @@ function writeSectionChecksum(dv: DataView, sectionOffset: number) {
   dv.setUint16(sectionOffset + 0xFF6, checksum, true);
 }
 
-// ── PID / Nature ────────────────────────────────────────
+// ── PID / Nature / Gender ───────────────────────────────
+
+interface PidConstraints {
+  targetNature?: number;          // 0-24
+  targetGender?: "male" | "female";
+  genderThreshold?: number;       // species-specific 0-254 (255 = genderless)
+}
 
 /**
- * Find a new PID with the desired nature (pid % 25 == targetNature).
- * Tries to stay close to the original PID to minimize side-effects
- * on gender/ability. Searches forward first, then backward.
+ * Check if a PID satisfies the given gender constraint for a species.
+ * Gender is determined by: (PID & 0xFF) >= threshold -> male, else female.
+ * For threshold 0 (always male), 254 (always female), 255 (genderless),
+ * gender cannot be changed.
  */
-export function adjustPidForNature(currentPid: number, targetNature: number): number {
-  const cur = currentPid >>> 0;
-  if (cur % 25 === targetNature) return cur;
+function pidMatchesGender(
+  pid: number,
+  gender: "male" | "female",
+  threshold: number,
+): boolean {
+  if (threshold === 0 || threshold === 254 || threshold === 255) return true;
+  const lowByte = pid & 0xFF;
+  if (gender === "male") return lowByte >= threshold;
+  return lowByte < threshold;
+}
 
-  // Search forward
-  for (let delta = 1; delta < 10000; delta++) {
-    const candidate = (cur + delta) >>> 0;
-    if (candidate % 25 === targetNature) return candidate;
+/**
+ * Find a PID satisfying both nature and gender constraints.
+ * Searches outward from the current PID to minimize side-effects
+ * on shininess/ability.
+ */
+export function adjustPid(currentPid: number, constraints: PidConstraints): number {
+  const cur = currentPid >>> 0;
+  const { targetNature, targetGender, genderThreshold } = constraints;
+
+  const matchesNature = (pid: number) =>
+    targetNature === undefined || (pid >>> 0) % 25 === targetNature;
+
+  const matchesGender = (pid: number) =>
+    !targetGender || genderThreshold === undefined
+      ? true
+      : pidMatchesGender(pid, targetGender, genderThreshold);
+
+  // Check if current PID already satisfies all constraints
+  if (matchesNature(cur) && matchesGender(cur)) return cur;
+
+  // Search outward from current PID
+  for (let delta = 1; delta < 100000; delta++) {
+    const forward = (cur + delta) >>> 0;
+    if (matchesNature(forward) && matchesGender(forward)) return forward;
+
+    const backward = (cur - delta) >>> 0;
+    if (matchesNature(backward) && matchesGender(backward)) return backward;
   }
-  // Search backward (shouldn't be needed, but just in case)
-  for (let delta = 1; delta < 10000; delta++) {
-    const candidate = (cur - delta) >>> 0;
-    if (candidate % 25 === targetNature) return candidate;
-  }
+
   return cur; // fallback: no change
+}
+
+/** @deprecated Use adjustPid() instead */
+export function adjustPidForNature(currentPid: number, targetNature: number): number {
+  return adjustPid(currentPid, { targetNature });
 }
 
 // ── Battle stat recalculation ───────────────────────────
@@ -179,16 +220,32 @@ export function applySaveModifications(
     // Read current values we might need
     let pid = u32(dv, monOff + 0x00);
     const speciesId = u16(dv, monOff + 0x20);
+    const speciesInfo = SPECIES_DATA.get(speciesId);
 
-    // -- Nature (must come first since it changes PID) --
-    if (changes.nature !== undefined && changes.nature >= 0 && changes.nature < 25) {
-      pid = adjustPidForNature(pid, changes.nature);
+    // -- Nature + Gender (combined since both modify PID) --
+    const wantsNature = changes.nature !== undefined && changes.nature >= 0 && changes.nature < 25;
+    const wantsGender = changes.gender !== undefined;
+    if (wantsNature || wantsGender) {
+      const genderThreshold = speciesInfo?.[1] ?? 127;
+      pid = adjustPid(pid, {
+        targetNature: wantsNature ? changes.nature : undefined,
+        targetGender: wantsGender ? changes.gender : undefined,
+        genderThreshold,
+      });
       w32(dv, monOff + 0x00, pid);
     }
 
-    // -- Level --
+    // -- Level + Experience --
     if (changes.level !== undefined && changes.level >= 1 && changes.level <= 100) {
+      // Write level cache byte
       w8(dv, monOff + 0x54, changes.level);
+
+      // Write experience (authoritative source -- game derives level from exp)
+      if (speciesInfo) {
+        const [growthRate] = speciesInfo;
+        const exp = getExpForLevel(growthRate, changes.level);
+        w32(dv, monOff + 0x24, exp);
+      }
     }
 
     // -- EVs (6 bytes at +0x38) --

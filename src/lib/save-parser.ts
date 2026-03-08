@@ -10,6 +10,7 @@ import { decodeGen3String } from "./save-data/characters";
 import { SPECIES } from "./save-data/species";
 import { MOVES } from "./save-data/moves";
 import { ITEMS } from "./save-data/items";
+import { SPECIES_DATA } from "./save-data/species-data";
 
 // CFRU signature (differs from vanilla GBA's 0x08012025)
 const CFRU_SIGNATURE = 0x08012025;
@@ -42,6 +43,7 @@ export interface SavePokemon {
   otName: string;
   level: number;
   nature: (typeof NATURE_NAMES)[number];
+  gender: "male" | "female" | "genderless";
   heldItem: { id: number; name: string } | null;
   moves: { id: number; name: string; pp: number }[];
   evs: { hp: number; atk: number; def: number; spd: number; spAtk: number; spDef: number };
@@ -230,6 +232,20 @@ function parsePartyPokemon(dv: DataView, offset: number): SavePokemon {
   const speciesId = u16(dv, offset + 0x20);
   const speciesName = SPECIES.get(speciesId) ?? `Unknown (${speciesId})`;
 
+  // Derive gender from PID and species gender threshold
+  const speciesInfo = SPECIES_DATA.get(speciesId);
+  const genderThreshold = speciesInfo?.[1] ?? 127;
+  let gender: "male" | "female" | "genderless";
+  if (genderThreshold === 255) {
+    gender = "genderless";
+  } else if (genderThreshold === 0) {
+    gender = "male";
+  } else if (genderThreshold === 254) {
+    gender = "female";
+  } else {
+    gender = (pid & 0xFF) >= genderThreshold ? "male" : "female";
+  }
+
   const heldItemId = u16(dv, offset + 0x22);
   const heldItem = heldItemId > 0
     ? { id: heldItemId, name: ITEMS.get(heldItemId) ?? `Unknown (${heldItemId})` }
@@ -289,6 +305,7 @@ function parsePartyPokemon(dv: DataView, offset: number): SavePokemon {
     otName,
     level,
     nature,
+    gender,
     heldItem,
     moves,
     evs: { hp: evHp, atk: evAtk, def: evDef, spd: evSpd, spAtk: evSpAtk, spDef: evSpDef },

@@ -11,6 +11,7 @@ import {
   downloadSaveFile,
 } from "@/lib/save-writer";
 import type { PokemonEdits, SaveModification, StatValues } from "@/lib/save-writer";
+import { SPECIES_DATA } from "@/lib/save-data/species-data";
 
 // ── Types ───────────────────────────────────────────────
 
@@ -93,6 +94,7 @@ export function SaveEditor() {
     edits.forEach((changes, slotIndex) => {
       const hasChanges = changes.level !== undefined ||
         changes.nature !== undefined ||
+        changes.gender !== undefined ||
         changes.ivs !== undefined ||
         changes.evs !== undefined;
       if (hasChanges) {
@@ -123,7 +125,8 @@ export function SaveEditor() {
   }, [status, edits]);
 
   const editCount = Array.from(edits.values()).filter(e =>
-    e.level !== undefined || e.nature !== undefined || e.ivs !== undefined || e.evs !== undefined
+    e.level !== undefined || e.nature !== undefined || e.gender !== undefined ||
+    e.ivs !== undefined || e.evs !== undefined
   ).length;
 
   // ── Render ──────────────────────────────────────────
@@ -215,6 +218,11 @@ export function SaveEditor() {
                     </div>
                     <div className="font-mono text-[8px] text-gba-text-dim">
                       Lv.{mon.level} {mon.nature}
+                      {mon.gender !== "genderless" && (
+                        <span className={mon.gender === "male" ? "text-blue-400 ml-1" : "text-pink-400 ml-1"}>
+                          {mon.gender === "male" ? "M" : "F"}
+                        </span>
+                      )}
                     </div>
                   </div>
                   {hasEdits && (
@@ -251,7 +259,7 @@ export function SaveEditor() {
                   DOWNLOAD MODIFIED SAVE
                 </button>
                 <p className="font-mono text-[9px] text-gba-text-dim text-center">
-                  Changing nature modifies PID, which may affect shininess/gender/ability.
+                  Changing nature or gender modifies PID, which may affect shininess/ability.
                 </p>
               </div>
             </div>
@@ -277,8 +285,14 @@ function EditPanel({
 }) {
   const effectiveLevel = currentEdits.level ?? mon.level;
   const effectiveNatureIdx = currentEdits.nature ?? NATURE_NAMES.indexOf(mon.nature);
+  const effectiveGender = currentEdits.gender ?? (mon.gender === "genderless" ? undefined : mon.gender);
   const effectiveIvs = currentEdits.ivs ?? mon.ivs;
   const effectiveEvs = currentEdits.evs ?? mon.evs;
+
+  // Gender threshold for this species
+  const speciesInfo = SPECIES_DATA.get(mon.species.id);
+  const genderThreshold = speciesInfo?.[1] ?? 127;
+  const canChangeGender = genderThreshold > 0 && genderThreshold < 254;
 
   return (
     <div className="border-2 border-gba-cyan/30 rounded-sm p-2 space-y-3">
@@ -301,6 +315,44 @@ function EditPanel({
           className="w-20 bg-gba-bg border-2 border-gba-border text-gba-text font-mono text-xs
                      px-2 py-1 rounded-sm outline-none focus:border-gba-cyan"
         />
+      </div>
+
+      {/* Gender */}
+      <div>
+        <label className="font-mono text-[9px] text-gba-text-dim block mb-1">Gender</label>
+        {canChangeGender ? (
+          <div className="flex gap-1">
+            <button
+              onClick={() => onUpdate(slotIndex, { gender: "male" })}
+              className={`flex-1 font-pixel text-[8px] py-1 border-2 rounded-sm transition-colors
+                ${effectiveGender === "male"
+                  ? "border-blue-400/60 bg-blue-400/10 text-blue-400"
+                  : "border-gba-border text-gba-text-dim hover:border-gba-border-light"
+                }`}
+            >
+              MALE
+            </button>
+            <button
+              onClick={() => onUpdate(slotIndex, { gender: "female" })}
+              className={`flex-1 font-pixel text-[8px] py-1 border-2 rounded-sm transition-colors
+                ${effectiveGender === "female"
+                  ? "border-pink-400/60 bg-pink-400/10 text-pink-400"
+                  : "border-gba-border text-gba-text-dim hover:border-gba-border-light"
+                }`}
+            >
+              FEMALE
+            </button>
+          </div>
+        ) : (
+          <div className="font-mono text-[9px] text-gba-text-dim">
+            {mon.gender === "genderless" ? "Genderless" : mon.gender === "male" ? "Male (fixed)" : "Female (fixed)"}
+          </div>
+        )}
+        {currentEdits.gender !== undefined && currentEdits.gender !== mon.gender && (
+          <p className="font-mono text-[8px] text-gba-yellow mt-1">
+            PID will change -- may affect shininess/ability
+          </p>
+        )}
       </div>
 
       {/* Nature */}
@@ -432,7 +484,7 @@ function EditPanel({
       {/* Reset edits for this slot */}
       <button
         onClick={() => {
-          onUpdate(slotIndex, { level: undefined, nature: undefined, ivs: undefined, evs: undefined });
+          onUpdate(slotIndex, { level: undefined, nature: undefined, gender: undefined, ivs: undefined, evs: undefined });
         }}
         className="font-pixel text-[7px] py-1 px-2 border border-gba-border
                    text-gba-text-dim rounded-sm hover:border-gba-border-light transition-colors"
@@ -473,6 +525,9 @@ function ChangesSummary({
 
     if (e.level !== undefined && e.level !== mon.level) {
       changes.push(`Lv.${mon.level} -> ${e.level}`);
+    }
+    if (e.gender !== undefined && e.gender !== mon.gender) {
+      changes.push(`${mon.gender} -> ${e.gender}`);
     }
     if (e.nature !== undefined) {
       const oldNature = mon.nature;
